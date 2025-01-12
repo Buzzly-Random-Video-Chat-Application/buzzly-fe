@@ -1,6 +1,5 @@
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { useAppSelector } from '../app/store';
-import { PaletteMode } from '@mui/material';
+import { TypographyProps } from '@mui/material';
 import React from 'react';
 
 type Props = {
@@ -8,247 +7,315 @@ type Props = {
 };
 
 declare module '@mui/material/styles' {
-  // index signature typegradients
-
   interface TypeGradient {
     [key: string]: string;
   }
 
   interface Palette {
     gradient: TypeGradient;
-    text: TypeText2;
-  }
-  interface TypeColor {
-    Darkest?: string;
-    Darker?: string;
-    Dark?: string;
-    Base?: string;
-    Light?: string;
-    Lighter?: string;
-    Lightest?: string;
-    White?: string;
-  }
-  interface TypeText2 {
-    primary: string;
-    secondary: string;
-    disabled: string;
   }
   interface PaletteOptions {
-    gradient: TypeGradient;
-    Ink: TypeColor;
-    Sky: TypeColor;
-    Red: TypeColor;
-    Green: TypeColor;
+    gradient?: TypeGradient;
+    dark?: TypeColor;
+    light?: TypeColor;
+    black?: TypeColor;
+    white?: TypeColor;
+    gray?: TypeColor;
+    green?: TypeColor;
+    red?: TypeColor;
+    yellow?: TypeColor;
+    blue?: TypeColor;
   }
 
-  interface TypeBackground {
-    opposite: string;
+  interface TypeColor {
+    50?: string;
+    100?: string;
+    200?: string;
+    300?: string;
+    400?: string;
+    500?: string;
+    600?: string;
+    700?: string;
+    800?: string;
+    900?: string;
+    [key: string]: string | undefined;
   }
+
   interface TypographyVariants {
-    CTA1: React.CSSProperties;
-    CTA2: React.CSSProperties;
-    CTA3: React.CSSProperties;
-    body3: React.CSSProperties;
-    body4: React.CSSProperties;
-    Body1: React.CSSProperties;
-    Body2: React.CSSProperties;
-    Body3: React.CSSProperties;
-    Body1Medium: React.CSSProperties;
-    Body1SemiBold: React.CSSProperties;
+    h1: TypographyProps;
+    h2: TypographyProps;
+    h3: TypographyProps;
+    h4: TypographyProps;
+    h5: TypographyProps;
+    h6: TypographyProps;
+
+    body1: TypographyProps;
+    body2: TypographyProps;
+    body3: TypographyProps;
+    body4: TypographyProps;
+
+    caption: TypographyProps;
+
+    overline: TypographyProps;
   }
 
-  // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    CTA1?: React.CSSProperties;
-    CTA2?: React.CSSProperties;
-    CTA3?: React.CSSProperties;
-    body3?: React.CSSProperties;
-    body4?: React.CSSProperties;
-    Body1?: React.CSSProperties;
-    Body2?: React.CSSProperties;
-    Body3?: React.CSSProperties;
-    Body1Medium?: React.CSSProperties;
-    Body1SemiBold?: React.CSSProperties;
+    h1?: TypographyProps;
+    h2?: TypographyProps;
+    h3?: TypographyProps;
+    h4?: TypographyProps;
+    h5?: TypographyProps;
+    h6?: TypographyProps;
+
+    body1?: TypographyProps;
+    body2?: TypographyProps;
+    body3?: TypographyProps;
+    body4?: TypographyProps;
+
+    caption?: TypographyProps;
+
+    overline?: TypographyProps;
   }
 }
+
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    CTA1: true;
-    CTA2: true;
-    CTA3: true;
+    h1: true;
+    h2: true;
+    h3: true;
+    h4: true;
+    h5: true;
+    h6: true;
+
+    body1: true;
+    body2: true;
     body3: true;
     body4: true;
-    Body1: true;
-    Body2: true;
-    Body3: true;
-    Body1Medium: true;
-    Body1SemiBold: true;
+
+    caption: true;
+
+    overline: true;
   }
 }
 export const AppThemeProvider: React.FC<Props> = ({ children }) => {
-  const mode = useAppSelector((state) => state.user.mode);
   const theme = responsiveFontSizes(
     createTheme({
       palette: {
-        mode: mode as PaletteMode,
         primary: {
-          main: '#1c9c7c',
-        },
-        secondary: {
-          main: '#9DF3C4',
-        },
-        Ink: {
-          Darkest: '#000000',
-          Darker: '#222222',
-          Dark: '#303437',
-          Base: '#404446',
-          Light: '#6C7072',
-          Lighter: '#72777A',
-        },
-        Sky: {
-          Dark: '#979C9E',
-          Base: '#CDCFD0',
-          Light: '#E3E5E5',
-          Lighter: '#F2F4F5',
-          Lightest: '#F7F9FA',
-          White: '#FFFFFF',
+          50: '#F8FFF2',
+          100: '#EAFFD7',
+          200: '#DCFFBB',
+          300: '#CEFF9C',
+          400: '#C0FF7A',
+          500: '#B9FF66',
+          600: '#89BE4A',
+          700: '#5B802F',
+          800: '#314817',
+          900: '#020300',
         },
 
-        Red: {
-          Darkest: '#6B0206',
-          Base: '#E8282B',
-          Light: '#F94739',
-          Lighter: '#FF9898',
-          Lightest: '#FFE5E5',
+        dark: {
+          50: '#E5E5E6',
+          100: '#B2B3B6',
+          200: '#828389',
+          300: '#55565E',
+          400: '#2C2D36',
+          500: '#191A23',
+          600: '#14151D',
+          700: '#0B0C11',
+          800: '#040407',
+          900: '#000000',
         },
 
-        Green: {
-          Darkest: '#0A4C0A',
-          Base: '#0F8B0F',
-          Light: '#1EB01E',
-          Lighter: '#7FF77F',
-          Lightest: '#E5FFE5',
-        },
-        background: {
-          default: mode === 'dark' ? '#000000' : '#FCFBFA',
-          opposite: mode === 'dark' ? '#FCFBFA' : '#000000',
-          paper: mode === 'dark' ? '#131313' : '#FCFCFC',
-        },
-        text: {
-          primary: mode === 'dark' ? '#FFFFFF' : '#000000',
-          secondary: '#999999',
-          disabled: '#C3C1BD',
+        light: {
+          50: '#FEFEFE',
+          100: '#FCFCFC',
+          200: '#FAFAFA',
+          300: '#F8F8F8',
+          400: '#F6F6F6',
+          500: '#F5F5F5',
+          600: '#DDDDDD',
+          700: '#7B7B7B',
+          800: '#2B2B2B',
+          900: '#030303',
         },
 
-        grey: {
-          50: mode === 'dark' ? 'hsl(0, 0%, 10%)' : 'hsl(0, 5%, 95%)',
-          100: mode === 'dark' ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 90%)',
-          200: mode === 'dark' ? 'hsl(0, 0%, 30%)' : 'hsl(0, 0%, 80%)',
-          300: mode === 'dark' ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 70%)',
-          400: mode === 'dark' ? 'hsl(0, 0%, 50%)' : 'hsl(0, 0%, 60%)',
-          500: mode === 'dark' ? 'hsl(0, 0%, 60%)' : 'hsl(0, 0%, 50%)',
-          600: mode === 'dark' ? 'hsl(0, 0%, 70%)' : 'hsl(0, 0%, 40%)',
-          700: mode === 'dark' ? 'hsl(0, 0%, 80%)' : 'hsl(0, 0%, 30%)',
-          800: mode === 'dark' ? 'hsl(0, 0%, 90%)' : 'hsl(0, 0%, 20%)',
-          900: mode === 'dark' ? 'hsl(0, 5%, 95%)' : 'hsl(0, 0%, 10%)',
+        black: {
+          50: '#E6E6E6',
+          100: '#B0B0B0',
+          200: '#8A8A8A',
+          300: '#545454',
+          400: '#333333',
+          500: '#000000',
+          600: '#000000',
+          700: '#000000',
+          800: '#000000',
+          900: '#000000',
         },
+
+        white: {
+          50: '#FFFFFF',
+          100: '#FFFFFF',
+          200: '#FFFFFF',
+          300: '#FFFFFF',
+          400: '#FFFFFF',
+          500: '#FFFFFF',
+          600: '#E8E8E8',
+          700: '#B5B5B5',
+          800: '#8C8C8C',
+          900: '#6B6B6B',
+        },
+
+        gray: {
+          50: '#F0F1F2',
+          100: '#D2D3D7',
+          200: '#BCBEC4',
+          300: '#9DA0A9',
+          400: '#8A8D99',
+          500: '#6D717F',
+          600: '#636774',
+          700: '#4D505A',
+          800: '#3C3E46',
+          900: '#2E2F35',
+        },
+
+        green: {
+          50: '#ECF8EF',
+          100: '#C5E9CD',
+          200: '#A9DEB4',
+          300: '#81CF92',
+          400: '#69C57D',
+          500: '#43B75D',
+          600: '#3DA755',
+          700: '#308242',
+          800: '#256533',
+          900: '#1C4D27',
+        },
+
+        red: {
+          50: '#FDECEC',
+          100: '#FAC5C3',
+          200: '#F7A9A7',
+          300: '#F4827E',
+          400: '#F16965',
+          500: '#EE443F',
+          600: '#D93E39',
+          700: '#A9302D',
+          800: '#832523',
+          900: '#641D1A',
+        },
+
+        yellow: {
+          50: '#FFF7E6',
+          100: '#FFE5B0',
+          200: '#FFD88A',
+          300: '#FFC654',
+          400: '#FFBB33',
+          500: '#FFAA00',
+          600: '#E89B00',
+          700: '#B57900',
+          800: '#8C5E00',
+          900: '#6B4700',
+        },
+
+        blue: {
+          50: '#E6F4FF',
+          100: '#B0DEFF',
+          200: '#8ACEFF',
+          300: '#54B8FF',
+          400: '#33AAFF',
+          500: '#0095FF',
+          600: '#0088E8',
+          700: '#006AB5',
+          800: '#00528C',
+          900: '#003F6B',
+        },
+
         gradient: {
-          bronze: 'linear-gradient(180deg, #9C6D3E 0%, #E8C8A9 100%)',
-          silver: 'linear-gradient(180deg, #808080 0%, #DFDFDF 100%)',
-          gold: 'linear-gradient(180deg, #A3873C 0%, #E3D294 100%)',
+          1: 'radial-gradient(12158.65% 140.68% at 99.42% 0%, #b9ff66 0%, #b9ff66 48.44%, #b9ff66 100%), radial-gradient(12158.65% 140.68% at 99.42% 0%, #9cd94f 0%, #a7e356 48.44%, #a2e255 100%), radial-gradient(12158.65% 140.68% at 99.42% 0%, #9cd94f 0%, #a7e356 48.44%, #a2e255 100%)',
+          2: 'radial-gradient(1413.54% 103.95% at -3.95% 100%, #a7e356 0%, #a6e255 52.83%, #9cd94f 100%)',
+          3: 'radial-gradient(12158.65% 140.68% at 99.42% 0%, #9cd94f 0%, #a7e356 48.44%, #a2e255 100%), radial-gradient(12158.65% 140.68% at 99.42% 0%, #9cd94f 0%, #a7e356 48.44%, #a2e255 100%)',
         },
       },
 
       typography: {
-        fontFamily: 'Dosis, sans-serif',
+        fontFamily: 'Space Grotesk, sans-serif',
 
         h1: {
-          fontSize: '26px',
-          fontWeight: '600',
-          // lineHeight: '33px',
+          fontSize: '60px',
+          fontWeight: 600,
+          lineHeight: 1.25,
+          letterSpacing: '-0.02em',
         },
         h2: {
-          fontSize: '22px',
-          fontWeight: '600',
-          // lineHeight: '28px',
+          fontSize: '40px',
+          fontWeight: 600,
+          lineHeight: 1.3,
+          letterSpacing: '-0.02em',
         },
         h3: {
-          fontSize: '20px',
-          fontWeight: '600',
-          // lineHeight: '25px',
+          fontSize: '30px',
+          fontWeight: 600,
+          lineHeight: 1.35,
+          letterSpacing: '-0.01em',
         },
         h4: {
-          fontSize: '18px',
-          fontWeight: '600',
-          // lineHeight: '23px',
-        },
-        h5: {
-          fontSize: '16px',
-          fontWeight: '500',
-          // lineHeight: '20px',
+          fontSize: '24px',
+          fontWeight: 600,
+          lineHeight: 1.4,
+          letterSpacing: '0em',
         },
 
-        CTA1: {
-          fontSize: '28px',
-          fontWeight: '500',
-          // lineHeight: '35px',
-        },
-        CTA2: {
+        body1: {
           fontSize: '18px',
-          fontWeight: '500',
-          // lineHeight: '23px',
+          fontWeight: 400,
+          lineHeight: 1.5,
+          letterSpacing: '0em',
         },
-        CTA3: {
-          fontSize: '16px',
-          fontWeight: '400',
-          // lineHeight: '20px',
-        },
-        Body1: {
-          fontFamily: 'Lato, sans-serif',
+        body2: {
           fontSize: '14px',
-          fontWeight: '400',
-          // lineHeight: '18px',
-        },
-        Body2: {
-          fontFamily: 'Lato, sans-serif',
-          fontSize: '13px',
-          fontWeight: '400',
-          // lineHeight: '16px',
-        },
-        Body3: {
-          fontFamily: 'Lato, sans-serif',
-          fontSize: '12px',
-          fontWeight: '400',
-          // lineHeight: '14px',
-        },
-        Body1Medium: {
-          fontFamily: 'Lato, sans-serif',
-          fontSize: '14px',
-          fontWeight: '500',
-          // lineHeight: '17px',
-        },
-        Body1SemiBold: {
-          fontFamily: 'Lato, sans-serif',
-          fontSize: '14px',
-          fontWeight: '600',
-          // lineHeight: '17px',
+          fontWeight: 400,
+          lineHeight: 1.5,
+          letterSpacing: '0.01em',
         },
         body3: {
           fontSize: '12px',
-          // lineHeight: '16px',
-          display: 'block',
+          fontWeight: 400,
+          lineHeight: 1.6,
+          letterSpacing: '0.02em',
         },
         body4: {
           fontSize: '10px',
-          // lineHeight: '14px',
-          display: 'block',
+          fontWeight: 400,
+          lineHeight: 1.6,
+          letterSpacing: '0.03em',
+        },
+
+        caption: {
+          fontSize: '12px',
+          fontWeight: 400,
+          lineHeight: 1.6,
+          letterSpacing: '0.03em',
+        },
+
+        overline: {
+          fontSize: '10px',
+          fontWeight: 700,
+          lineHeight: 1.5,
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
         },
       },
+
       components: {
         MuiCssBaseline: {
           styleOverrides: {
             body: {
-              // ---CSS BODY--- \\
+              fontFamily: 'Space Grotesk, san serif',
+              fontSize: '16px',
+              fontWeight: 400,
+              lineHeight: 1.5,
+              color: '#333',
             },
           },
         },
