@@ -1,9 +1,9 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
 import Home from '../pages/home';
 import Register from '../pages/register';
 import Login from '../pages/login';
+import VideoChat from '../pages/video-chat';
 
 const Routing = () => {
   return (
@@ -11,6 +11,7 @@ const Routing = () => {
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.AUTH.REGISTER} element={<Register />} />
       <Route path={ROUTES.AUTH.LOGIN} element={<Login />} />
+      <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
     </Routes>
   );
 };

@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { icons } from '../assets';
-import NavbarItems from '../constants/navbarItems';
+import { NavbarItems } from '../constants/app';
 import { useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 
@@ -13,7 +13,7 @@ const Navbar = () => {
             position={'sticky'}
             sx={{ display: 'flex', justifyContent: 'space-between', py: { xs: '10px', sm: '20px' }, px: { xs: '10px', sm: '100px' } }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', userSelect: 'none' }} onClick={() => navigate('/')}>
                 <Box
                     sx={{
                         display: 'flex',
@@ -46,7 +46,7 @@ const Navbar = () => {
                     </Typography>
                 ))}
 
-                <Button sx={{ textTransform: 'none', padding: '8px 35px', borderRadius: '16px', backgroundColor: 'primary.500', boxShadow: '3px 3px 0px 0px #191A23', color: 'dark.500', fontWeight: 700, fontSize: '18px' }} onClick={() => navigate('/login')}>
+                <Button sx={{ textTransform: 'none', padding: '8px 35px', borderRadius: '16px', backgroundColor: 'primary.500', boxShadow: '3px 3px 0px 0px #191A23', color: 'dark.500', fontWeight: 700, fontSize: '18px', ":hover": { boxShadow: '5px 5px 0px 0px #191A23' } }} onClick={() => navigate('/login')}>
                     Login
                 </Button>
             </Box>
