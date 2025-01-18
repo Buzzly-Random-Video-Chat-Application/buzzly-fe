@@ -51,7 +51,32 @@ const LoginCard = () => {
                 />
 
             </Box>
-            <Button sx={{ bgcolor: 'dark.500', color: 'light.500', textTransform: 'none', fontWeight: 600, fontSize: 18, width: '100%', padding: 2, borderRadius: '6px', ":hover": { bgcolor: 'black.100', color: 'black.50' } }}>
+            <Button sx={{
+                bgcolor: 'white.50',
+                color: 'dark.500',
+                textTransform: 'none',
+                width: '100%',
+                padding: '10px',
+                borderRadius: '6px',
+                border: '1px solid #191A23',
+                boxShadow: '2px 2px 0px #191A23',
+                fontWeight: 600,
+                fontSize: 20,
+                transition: 'all 0.3s',
+                mt: 1,
+                ":hover": {
+                    boxShadow: '4px 4px 0px #191A23',
+                    transform: 'translateY(-5px)',
+                },
+                ":disabled": {
+                    bgcolor: 'black.50',
+                    color: 'black.200',
+                    cursor: 'not-allowed',
+                    borderColor: 'black.50',
+                    boxShadow: '2px 2px 0px #191A23',
+                    transform: 'none',
+                }
+            }} disableTouchRipple>
                 Login
             </Button>
             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={1}>

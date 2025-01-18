@@ -3,7 +3,7 @@ import { icons } from '../../../assets'
 
 const ExperienceCard = () => {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row', paddingX: '60px', paddingY: '40px', borderRadius: '45px', bgcolor: '#F3F3F3', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', paddingX: '60px', paddingY: '40px', borderRadius: '45px', bgcolor: '#F3F3F3', width: '100%', alignItems: 'center', justifyContent: 'space-between', border: '1px solid', borderColor: 'dark.500', boxShadow: '5px 5px 0px 0px #191A23' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', width: '50%', alignItems: 'flex-start' }}>
                 <Typography variant='h3'>Let's make your video chat</Typography>
                 <Typography variant='body1'>

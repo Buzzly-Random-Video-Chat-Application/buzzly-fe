@@ -1,0 +1,18 @@
+import { Box } from '@mui/material'
+import React from 'react'
+
+const UserOneBox = () => {
+    return (
+        <Box sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            backgroundColor: 'dark.500',
+            borderRadius: '10px',
+        }}></Box>
+    )
+}
+
+export default UserOneBox

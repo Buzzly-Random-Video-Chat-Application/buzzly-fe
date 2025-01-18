@@ -73,7 +73,7 @@ const Footer = () => {
     const isSpecialPage = [ROUTES.ABOUT, ROUTES.HOME].includes(location.pathname);
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingX: isSpecialPage ? '100px' : '0px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingX: isSpecialPage ? '100px' : '0px', width: '100%' }}>
             <Box
                 sx={{
                     flex: 1,

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import WaitingConnectionCard from './components/WaitingConnectionCard'
+// import ConnectingCard from './components/ConnectingCard'
 
 const VideoChat = () => {
     return (
@@ -8,10 +9,12 @@ const VideoChat = () => {
             justifyContent: 'center',
             alignItems: 'center',
             height: '90vh',
+            width: '100%',
             paddingX: '10px',
-            paddingY: '100px',
+            paddingY: '50px',
         }}>
-
+            <WaitingConnectionCard />
+            {/* <ConnectingCard /> */}
         </Box>
     )
 }

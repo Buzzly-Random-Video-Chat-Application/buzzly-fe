@@ -20,3 +20,16 @@ export interface ReviewProps {
     rating: number;
     review: string;
 }
+
+export interface CountryProps {
+    name: string;
+    code?: string;
+    flag?: string;
+}
+
+export interface BlogProps {
+    label: string;
+    title: string;
+    description: string;
+    image: string;
+}

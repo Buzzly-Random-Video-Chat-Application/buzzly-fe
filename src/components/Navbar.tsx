@@ -11,7 +11,7 @@ const Navbar = () => {
     return (
         <Box
             position={'sticky'}
-            sx={{ display: 'flex', justifyContent: 'space-between', py: { xs: '10px', sm: '20px' }, px: { xs: '10px', sm: '100px' } }}
+            sx={{ display: 'flex', justifyContent: 'space-between', py: { xs: '10px', sm: '20px' }, px: { xs: '10px', sm: '100px' }, width: '100%' }}
         >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', userSelect: 'none' }} onClick={() => navigate('/')}>
                 <Box

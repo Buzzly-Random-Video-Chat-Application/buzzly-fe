@@ -74,6 +74,9 @@ const ContactCard = () => {
             paddingX: '100px',
             paddingY: '50px',
             justifyContent: 'space-between',
+            border: '1px solid',
+            borderColor: 'dark.500',
+            boxShadow: '5px 5px 0px 0px #191A23'
         }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '60%' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>

@@ -4,6 +4,9 @@ import Home from '../pages/home';
 import Register from '../pages/register';
 import Login from '../pages/login';
 import VideoChat from '../pages/video-chat';
+import Live from '../pages/live';
+import Blogs from '../pages/blogs';
+import About from '../pages/about';
 
 const Routing = () => {
   return (
@@ -12,6 +15,9 @@ const Routing = () => {
       <Route path={ROUTES.AUTH.REGISTER} element={<Register />} />
       <Route path={ROUTES.AUTH.LOGIN} element={<Login />} />
       <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
+      <Route path={ROUTES.LIVE} element={<Live />} />
+      <Route path={ROUTES.BLOGS} element={<Blogs />} />
+      <Route path={ROUTES.ABOUT} element={<About />} />
     </Routes>
   );
 };
