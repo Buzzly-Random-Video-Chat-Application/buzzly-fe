@@ -7,6 +7,7 @@ import VideoChat from '../pages/video-chat';
 import Live from '../pages/live';
 import Blogs from '../pages/blogs';
 import About from '../pages/about';
+import Reviews from '../pages/reviews';
 
 const Routing = () => {
   return (
@@ -18,6 +19,7 @@ const Routing = () => {
       <Route path={ROUTES.LIVE} element={<Live />} />
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
+      <Route path={ROUTES.REVIEWS} element={<Reviews />} />
     </Routes>
   );
 };

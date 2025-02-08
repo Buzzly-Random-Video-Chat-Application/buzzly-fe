@@ -29,6 +29,7 @@ import about3 from './icons/about-3.svg';
 import aboutstartlight from './icons/about-start-light.svg';
 import aboutstartdark from './icons/about-start-dark.svg';
 import illusabout from './icons/illustration-about.svg';
+import chatbot from './icons/chatbot.svg';
 
 export const icons = {
     auth,
@@ -61,7 +62,8 @@ export const icons = {
     about3,
     aboutstartlight,
     aboutstartdark,
-    illusabout
+    illusabout,
+    chatbot
 };
 
 import vid1 from './images/video-chat-1.png';

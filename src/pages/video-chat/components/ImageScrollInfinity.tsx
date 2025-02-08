@@ -87,7 +87,7 @@ const ImageScrollInfinity = () => {
                 zIndex: 1,
                 position: 'absolute',
                 right: '10px',
-                bottom: '10px',
+                top: '10px',
                 padding: '5px 10px',
                 fontSize: '10px !important',
                 color: 'light.500',

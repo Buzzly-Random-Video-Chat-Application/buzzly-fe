@@ -70,7 +70,7 @@ const SubscriptionForm = () => (
 const Footer = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const isSpecialPage = [ROUTES.ABOUT, ROUTES.HOME].includes(location.pathname);
+    const isSpecialPage = [ROUTES.ABOUT, ROUTES.HOME, ROUTES.REVIEWS].includes(location.pathname);
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingX: isSpecialPage ? '100px' : '0px', width: '100%' }}>

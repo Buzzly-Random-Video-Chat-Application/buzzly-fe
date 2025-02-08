@@ -71,15 +71,17 @@ const ContactCard = () => {
             marginY: '50px',
             bgcolor: 'light.500',
             borderRadius: '45px',
-            paddingX: '100px',
-            paddingY: '50px',
+            paddingY: '2%',
             justifyContent: 'space-between',
             border: '1px solid',
             borderColor: 'dark.500',
-            boxShadow: '5px 5px 0px 0px #191A23'
-        }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '60%' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+            boxShadow: '5px 5px 0px 0px #191A23',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: 'center'
+        }
+        } >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '40px', width: { xs: '100%', md: '60%' }, marginLeft: '5%' }}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '20px' }}>
                     <ContactInput
                         label="Name"
                         type="text"
@@ -129,12 +131,13 @@ const ContactCard = () => {
                     Send Message
                 </Button>
             </Box>
-            <Box
-                component={'img'}
-                src={icons.contact}
-                alt='contact'
-                sx={{ width: '500px', height: '500px', objectFit: 'contain', marginRight: '-330px' }}
-            />
+            <Box sx={{
+                width: { xs: '0%', md: '40%' },
+                maxWidth: '500px',
+                display: { xs: 'block', md: 'block' },
+            }}>
+                <img src={icons.contact} alt="contact" width="100%" />
+            </Box>
         </Box >
     )
 }

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import OurJourneyCard from './OurJourneyCard'
-import { icons } from '../../../assets'
+// import { icons } from '../../../assets'
 
 interface OurJourneyCardProps {
     title: string
@@ -67,9 +67,9 @@ const OurJourneySection = () => {
                 <OurJourneyCard title={OurJourneyData[3].title} description={OurJourneyData[3].description} />
             </Box>
 
-            <Box component={'img'} src={icons.illusabout} sx={{
+            {/* <Box component={'img'} src={icons.illusabout} sx={{
                 position: 'absolute',
-                right: -300,
+                left: 1000,
                 bottom: 300,
                 width: '350px',
                 height: '150px',
@@ -85,7 +85,7 @@ const OurJourneySection = () => {
                 height: '150px',
                 objectFit: 'contain',
                 zIndex: -1,
-            }} />
+            }} /> */}
         </Box>
     )
 }
