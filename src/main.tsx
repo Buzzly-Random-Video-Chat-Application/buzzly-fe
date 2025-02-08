@@ -4,20 +4,25 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 import store from './stores/store';
-import React from 'react';
+import React, { Suspense } from 'react';
 import App from './App';
 import './main.css';
+import Loader from './components/Loader';
+import { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <AppThemeProvider>
-        <BrowserRouter>
-          <CssBaseline >
-            <App />
-          </CssBaseline>
-        </BrowserRouter>
-      </AppThemeProvider>
+      <Suspense fallback={<Loader />}>
+        <AppThemeProvider>
+          <BrowserRouter>
+            <CssBaseline >
+              <App />
+            </CssBaseline>
+          </BrowserRouter>
+        </AppThemeProvider>
+      </Suspense>
+      <Toaster />
     </Provider>
   </React.StrictMode>,
 );

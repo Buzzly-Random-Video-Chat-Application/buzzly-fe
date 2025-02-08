@@ -1,12 +1,42 @@
 import React from 'react'
-import { Box, Button, Card, Typography } from '@mui/material'
+import { Box, Button, Card, CircularProgress, Typography } from '@mui/material'
 import CustomFormInput from '../../../components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { LOGIN_ERROR_MESSAGE, LOGIN_SUCCESS_MESSAGE } from '../../../constants/messages'
+import { useLoginMutation } from '../../../apis/authApi'
 
 const LoginCard = () => {
     const navigate = useNavigate()
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+
+    const [login, { isLoading }] = useLoginMutation()
+
+    const validate = () => {
+        if (!email || !password) {
+            toast.error(LOGIN_ERROR_MESSAGE.PLEASE_FILL_ALL_FIELDS)
+            return false
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            toast.error(LOGIN_ERROR_MESSAGE.INVALID_CREDENTIALS)
+            return false
+        }
+        return true
+    }
+
+    const handleLogin = async () => {
+        if (!validate()) return
+        try {
+            const result = login({ email, password }).unwrap()
+            console.log('Login successful: ', result)
+            toast.success(LOGIN_SUCCESS_MESSAGE)
+            navigate('/video-chat')
+        } catch (error) {
+            toast.error(LOGIN_ERROR_MESSAGE.DEFAULT)
+            console.error('Error during login:', error)
+        }
+    }
 
     return (
         <Card
@@ -76,8 +106,8 @@ const LoginCard = () => {
                     boxShadow: '2px 2px 0px #191A23',
                     transform: 'none',
                 }
-            }} disableTouchRipple>
-                Login
+            }} disableTouchRipple disabled={isLoading} onClick={handleLogin}>
+                {isLoading ? <CircularProgress sx={{ color: 'dark.500' }} size={35} /> : 'Login'}
             </Button>
             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={1}>
                 <Typography variant='body1' sx={{ color: 'black.200' }}>

@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAccount } from '../../types/user';
+import { IUser } from '../../types/user';
 import Cookies from 'js-cookie';
 
 interface UserState {
     isAuthenticated: boolean;
-    user: IAccount | null;
+    user: IUser | null;
     mode: string | null;
 }
 
 const accessToken = Cookies.get('accessToken');
-const user: IAccount | null = Cookies.get('user') ? (JSON.parse(Cookies.get('user') as string) as IAccount) : null;
+const user: IUser | null = Cookies.get('user') ? (JSON.parse(Cookies.get('user') as string) as IUser) : null;
 
 const initialState: UserState = {
     isAuthenticated: !!accessToken,
@@ -25,7 +25,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        loginSuccess(state, action: PayloadAction<IAccount>) {
+        loginSuccess(state, action: PayloadAction<IUser>) {
             state.isAuthenticated = true;
             state.user = action.payload;
         },

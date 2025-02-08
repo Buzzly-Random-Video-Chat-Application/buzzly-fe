@@ -1,17 +1,19 @@
 export const LOGIN_SUCCESS_MESSAGE = 'Login successful.';
 export const LOGIN_ERROR_MESSAGE = {
+  DEFAULT: 'Failed to login.',
   INVALID_CREDENTIALS: 'Invalid email or password.',
   ACCOUNT_NOT_VERIFIED: 'Account not verified.',
   ACCOUNT_DISABLED: 'Account disabled.',
+  PLEASE_FILL_ALL_FIELDS: 'Please fill all fields.',
 };
 
 export const REGISTER_SUCCESS_MESSAGE = 'Registration successful.';
 export const REGISTER_ERROR_MESSAGE = {
+  DEFAULT: 'Failed to register.',
   EMAIL_TAKEN: 'Email already taken.',
   INVALID_CREDENTIALS: 'Invalid email or password.',
   PLEASE_FILL_ALL_FIELDS: 'Please fill all fields.',
   PASSWORD_DOES_NOT_MATCH: 'Passwords do not match.',
-  PHONE_NUMBER_ERROR: 'Invalid phone number.',
 };
 
 export const LOGOUT_SUCCESS_MESSAGE = 'Logout successful.';

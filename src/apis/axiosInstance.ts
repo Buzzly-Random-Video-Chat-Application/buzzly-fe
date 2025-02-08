@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_BASE_URL } from '../constants/endpoints';
 import Cookies from 'js-cookie';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
-import { getUserIdFromRefreshToken } from '../utils/tokenUtils';
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
@@ -42,11 +41,10 @@ axiosInstance.interceptors.response.use(
             if (!refreshTokenPromise) {
                 const refreshToken = Cookies.get('refreshToken');
 
-                const userId = getUserIdFromRefreshToken();
                 refreshTokenPromise = axiosInstance
-                    .post('/auth/refresh-token', { refreshToken, userId })
+                    .post('/auth/refresh-tokens', refreshToken)
                     .then((response) => {
-                        const newAccessToken = response.data.accessToken;
+                        const newAccessToken = response.data.access.token;
 
                         Cookies.set('accessToken', newAccessToken);
 

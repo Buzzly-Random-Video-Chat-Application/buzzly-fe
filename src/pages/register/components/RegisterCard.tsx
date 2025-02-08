@@ -1,7 +1,10 @@
-import { Box, Button, Card, Typography } from '@mui/material'
+import { Box, Button, Card, CircularProgress, Typography } from '@mui/material'
 import React from 'react'
 import CustomFormInput from '../../../components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
+import { useRegisterMutation } from '../../../apis/authApi'
+import toast from "react-hot-toast";
+import { REGISTER_ERROR_MESSAGE, REGISTER_SUCCESS_MESSAGE } from '../../../constants/messages'
 
 const RegisterCard = () => {
     const navigate = useNavigate()
@@ -9,6 +12,36 @@ const RegisterCard = () => {
     const [name, setName] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [confirmPassword, setConfirmPassword] = React.useState('')
+
+    const [register, { isLoading }] = useRegisterMutation()
+
+    const validate = () => {
+        if (!email || !name || !password || !confirmPassword) {
+            toast.error(REGISTER_ERROR_MESSAGE.PLEASE_FILL_ALL_FIELDS)
+            return false
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            toast.error(REGISTER_ERROR_MESSAGE.INVALID_CREDENTIALS)
+            return false
+        }
+        if (password !== confirmPassword) {
+            toast.error(REGISTER_ERROR_MESSAGE.PASSWORD_DOES_NOT_MATCH)
+            return false
+        }
+        return true
+    }
+
+    const handleConfirm = () => {
+        if (validate()) {
+            try {
+                register({ email, name, password })
+                toast.success(REGISTER_SUCCESS_MESSAGE)
+                navigate('/login')
+            } catch (error) {
+                toast.error(REGISTER_ERROR_MESSAGE.DEFAULT)
+            }
+        }
+    }
 
     return (
         <Card
@@ -93,8 +126,8 @@ const RegisterCard = () => {
                     boxShadow: '2px 2px 0px #191A23',
                     transform: 'none',
                 }
-            }} disableTouchRipple>
-                Register
+            }} disableTouchRipple disabled={isLoading} onClick={handleConfirm}>
+                {isLoading ? <CircularProgress sx={{ color: 'dark.500' }} size={35} /> : 'Register'}
             </Button>
             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={1}>
                 <Typography variant='body1' sx={{ color: 'black.200' }}>
