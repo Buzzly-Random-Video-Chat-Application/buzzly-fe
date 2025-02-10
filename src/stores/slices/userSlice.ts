@@ -42,8 +42,11 @@ const userSlice = createSlice({
                 localStorage.setItem('mode', 'light');
             }
         },
+        updateSuccess(state, action: PayloadAction<IUser>) {
+            state.user = action.payload;
+        }
     },
 });
 
-export const { loginSuccess, logoutSuccess } = userSlice.actions;
+export const { loginSuccess, logoutSuccess, updateSuccess } = userSlice.actions;
 export default userSlice.reducer;

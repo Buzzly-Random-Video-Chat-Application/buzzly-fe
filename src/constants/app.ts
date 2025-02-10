@@ -1,14 +1,14 @@
-import { flags, icons, images } from "../assets";
-import { NavbarProps, ServiceProps, GuideProps, ReviewProps, CountryProps, BlogProps } from "../types/app";
+import { icons, images } from "../assets";
+import { INavbar, IService, IGuide, IReview, IBlog } from "../types/app";
 
-export const NavbarItems: NavbarProps[] = [
+export const Navbars: INavbar[] = [
     { name: 'Video Chat', href: '/video-chat' },
     { name: 'Live', href: '/live' },
     { name: 'Blogs', href: '/blogs' },
     { name: 'About', href: '/about' }
 ];
 
-export const ServiceData: ServiceProps[] = [
+export const Services: IService[] = [
     { label: 'Random Video Chat', icon: icons.service1, href: '/video-chat', type: 1 },
     { label: 'Live Streaming', icon: icons.service2, href: '/live', type: 2 },
     { label: 'Safe and Secure Conversations', icon: icons.service3, href: '/', type: 3 },
@@ -17,7 +17,7 @@ export const ServiceData: ServiceProps[] = [
     { label: 'Text Chat Option', icon: icons.service6, href: '/', type: 3 }
 ]
 
-export const GuideCardData: GuideProps[] = [
+export const Guides: IGuide[] = [
     { title: "Sign Up or Log In", description: "To get started, you'll need to create an account or log in to our platform. This allows you to easily connect and join random video chat sessions with others." },
     { title: "Set Up and Test Your Equipment", description: "Before you start your video chat, make sure your camera and microphone are set up correctly. We provide a tool to test your devices and ensure the call quality is optimal." },
     { title: "Choose the Random Chat Mode", description: "After logging in and testing your equipment, select the random chat mode. You will be connected with another user, and your chat will begin instantly." },
@@ -26,7 +26,7 @@ export const GuideCardData: GuideProps[] = [
     { title: "Enjoy and Explore", description: "Enjoy new experiences and meet new people through random video chats!" }
 ]
 
-export const ReviewData: ReviewProps[] = [
+export const Reviews: IReview[] = [
     { name: 'John Doe', rating: 5, review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
     { name: 'Jane Smith', rating: 4.5, review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
     { name: 'Alice Johnson', rating: 5, review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
@@ -35,19 +35,7 @@ export const ReviewData: ReviewProps[] = [
     { name: 'David Martinez', rating: 5, review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
 ]
 
-export const CountryData: CountryProps[] = [
-    { name: 'United States', code: 'US', flag: flags.us },
-    { name: 'Vietnam', code: 'VN', flag: flags.vn },
-    { name: 'Thailand', code: 'TH', flag: flags.th },
-    { name: 'Japan', code: 'JP', flag: flags.jp },
-    { name: 'South Korea', code: 'KR', flag: flags.kr },
-    { name: 'China', code: 'CN', flag: flags.cn },
-    { name: 'India', code: 'IN', flag: flags.ind },
-    { name: 'United Kingdom', code: 'UK', flag: flags.uk },
-    { name: 'Germany', code: 'DE', flag: flags.de },
-]
-
-export const BlogData: BlogProps[] = [
+export const Blogs: IBlog[] = [
     { label: 'Making Friends', title: 'Online Chat, Live Conversations: How To Find the Best Platforms', description: 'Explore live chat and start creating online connections with Azar Live. Learn more here!Online live chat platforms are gaining traction fast. They allow us to meet people worldwide, making social connections all the more accessible. Azar is a leader in the online live chat space, setting itself apart from many similar platforms by encouraging healthy, positive, platonic relationships. Let\'s explore the benefits of forming digital friendships and highlight features to check for in a video chat platform.', image: images.blog },
     { label: 'Making Friends', title: 'Online Friendships: How to Make Friends Online', description: 'Making friends online is a great way to connect with people from all over the world. With Azar Live, you can easily make new friends and build lasting relationships. Learn more about the benefits of online friendships and how to get started today!', image: images.blog },
     { label: 'Safety', title: "Tips for Safe Online Chatting: How to Stay Secure", description: 'Online chatting is a fun way to meet new people and make friends. However, it\'s important to stay safe while chatting online. With Azar Live, you can enjoy secure online chatting and make connections with confidence. Here are some tips to help you stay safe while chatting online.', image: images.blog },

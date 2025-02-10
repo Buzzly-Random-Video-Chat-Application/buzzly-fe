@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import { ReviewData } from '../../../constants/app'
+import { Reviews as Data } from '../../../constants/app'
 import ReviewCard from './ReviewCard'
 
 const Reviews = () => {
@@ -14,7 +14,7 @@ const Reviews = () => {
                 </Typography>
             </Box>
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', marginTop: '50px', gap: '20px' }}>
-                {ReviewData.map((item, index) => (
+                {Data.map((item, index) => (
                     <ReviewCard key={index} name={item.name} rating={item.rating} review={item.review} />
                 ))}
             </Box>

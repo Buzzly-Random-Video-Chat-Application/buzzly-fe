@@ -27,16 +27,18 @@ const LoginCard = () => {
 
     const handleLogin = async () => {
         if (!validate()) return
-        try {
-            const result = login({ email, password }).unwrap()
-            console.log('Login successful: ', result)
-            toast.success(LOGIN_SUCCESS_MESSAGE)
-            navigate('/video-chat')
-        } catch (error) {
-            toast.error(LOGIN_ERROR_MESSAGE.DEFAULT)
-            console.error('Error during login:', error)
-        }
+        login({ email, password })
+            .unwrap()
+            .then(() => {
+                toast.success(LOGIN_SUCCESS_MESSAGE)
+                navigate('/video-chat')
+            })
+            .catch(() => {
+                toast.error(LOGIN_ERROR_MESSAGE.INVALID_CREDENTIALS)
+            })
     }
+
+
 
     return (
         <Card

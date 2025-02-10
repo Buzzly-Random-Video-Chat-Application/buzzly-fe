@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { AddRounded, RemoveRounded } from '@mui/icons-material';
 import { Box, Collapse, Divider, IconButton, Typography } from '@mui/material';
 
-interface GuideProps {
+interface IGuide {
     index: number;
     title: string;
     description: string;
 }
 
-const GuideCard = ({ index, title, description }: GuideProps) => {
+const GuideCard = ({ index, title, description }: IGuide) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleCard = () => {

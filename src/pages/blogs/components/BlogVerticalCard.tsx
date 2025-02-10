@@ -1,9 +1,9 @@
 import React from 'react'
-import { BlogProps } from '../../../types/app'
+import { IBlog } from '../../../types/app'
 import { Box, Typography } from '@mui/material'
 
 interface BlogVerticalCardProps {
-    blog: BlogProps
+    blog: IBlog
 }
 
 const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {

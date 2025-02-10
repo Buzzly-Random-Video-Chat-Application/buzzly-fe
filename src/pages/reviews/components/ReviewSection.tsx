@@ -1,12 +1,12 @@
 import { Box, Button } from '@mui/material'
-import { ReviewData } from '../../../constants/app'
+import { Reviews } from '../../../constants/app'
 import ReviewCard from './ReviewCard'
 
 const ReviewSection = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-                {ReviewData.map((item, index) => (
+                {Reviews.map((item, index) => (
                     <ReviewCard key={index} name={item.name} rating={item.rating} review={item.review} />
                 ))}
             </Box>

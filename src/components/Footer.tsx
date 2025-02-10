@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
 import { Box, Button, Divider, IconButton, TextField, Typography } from '@mui/material';
 import { icons } from '../assets';
-import { NavbarItems } from '../constants/app';
+import { Navbars } from '../constants/app';
 import { Facebook, GitHub, Instagram } from '@mui/icons-material';
 
 const SocialIcons = () => (
@@ -111,7 +111,7 @@ const Footer = () => {
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '20px', alignItems: 'center' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-                            {NavbarItems.map((item) => (
+                            {Navbars.map((item) => (
                                 <Typography
                                     key={item.name}
                                     variant="h6"

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import BlogVerticalCard from './BlogVerticalCard'
-import { BlogData } from '../../../constants/app'
+import { Blogs } from '../../../constants/app'
 
 const BlogContent = () => {
     return (
@@ -20,7 +20,7 @@ const BlogContent = () => {
                 gap: '20px',
                 width: '100%',
             }}>
-                {BlogData.map((blog, index) => (
+                {Blogs.map((blog, index) => (
                     <BlogVerticalCard key={index} blog={blog} />
                 ))}
             </Box>

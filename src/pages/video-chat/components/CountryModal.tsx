@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import CustomDialog from '../../../components/CustomDialog';
 import RadioButton from './RadioButton';
-import { CountryData } from '../../../constants/app';
+import { Countries } from '../../../constants/country';
 
 interface CountryModalProps {
     open: boolean;
@@ -11,7 +11,7 @@ interface CountryModalProps {
 
 const CountryModal = ({ open, onClose }: CountryModalProps) => {
     const user_country_code = 'VN';
-    const user_country = CountryData.find((country) => country.code === user_country_code);
+    const user_country = Countries.find((country) => country.code === user_country_code);
 
     // Biến trạng thái để lưu country đã chọn
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
@@ -35,7 +35,7 @@ const CountryModal = ({ open, onClose }: CountryModalProps) => {
             <Typography variant="body1" sx={{ marginY: '20px', fontWeight: 500 }}>
                 Select the country you want to pair with
             </Typography>
-            {CountryData.map(
+            {Countries.map(
                 (country, index) =>
                     country.code !== user_country_code && (
                         <RadioButton

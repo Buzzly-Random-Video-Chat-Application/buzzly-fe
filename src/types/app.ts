@@ -1,33 +1,33 @@
-export interface NavbarProps {
+export interface INavbar {
     name: string;
     href: string;
 }
 
-export interface ServiceProps {
+export interface IService {
     label: string;
     icon: string;
     href: string;
     type: number;
 }
 
-export interface GuideProps {
+export interface IGuide {
     title: string;
     description: string;
 }
 
-export interface ReviewProps {
+export interface IReview {
     name: string;
     rating: number;
     review: string;
 }
 
-export interface CountryProps {
+export interface ICountry {
     name: string;
     code?: string;
     flag?: string;
 }
 
-export interface BlogProps {
+export interface IBlog {
     label: string;
     title: string;
     description: string;

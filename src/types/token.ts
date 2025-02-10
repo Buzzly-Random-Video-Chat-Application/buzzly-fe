@@ -8,7 +8,7 @@ export interface RefreshToken {
     expires: Date;
 }
 
-export interface Token {
+export interface IToken {
     access: AccessToken;
     refresh: RefreshToken;
 }

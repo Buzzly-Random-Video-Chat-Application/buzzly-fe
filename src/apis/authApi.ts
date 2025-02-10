@@ -9,7 +9,6 @@ export const authApi = createApi({
     baseQuery: axiosBaseQuery({
         baseUrl: AUTH_ENDPOINT,
     }),
-
     endpoints: (builder) => ({
         register: builder.mutation({
             query: ({ email, password, name }) => ({
@@ -32,19 +31,18 @@ export const authApi = createApi({
                 },
             }),
             async onQueryStarted(_, { queryFulfilled, dispatch }) {
-                try {
-                    const { data } = await queryFulfilled;
-
-                    const { accessToken, refreshToken } = data;
+                await queryFulfilled.then(({ data }) => {
+                    const accessToken = data.tokens.access.token;
+                    const refreshToken = data.tokens.refresh.token;
 
                     Cookies.set('accessToken', accessToken);
                     Cookies.set('refreshToken', refreshToken);
-                    const result = await dispatch(authApi.endpoints.me.initiate(undefined, { forceRefetch: true }));
-                    Cookies.set('user', JSON.stringify(result.data));
-                    dispatch(loginSuccess(result.data));
-                } catch (error) {
+
+                    Cookies.set('user', JSON.stringify(data.user));
+                    dispatch(loginSuccess(data.user));
+                }).catch((error) => {
                     console.error('Error during login:', error);
-                }
+                });
             },
         }),
         me: builder.query({
