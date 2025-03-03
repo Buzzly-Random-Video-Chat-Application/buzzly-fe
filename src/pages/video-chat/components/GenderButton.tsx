@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
 interface GenderButtonProps {
@@ -27,7 +26,7 @@ const GenderButton = ({ label, icon, isSelected, onClick }: GenderButtonProps) =
                 borderColor: isSelected ? 'primary.500' : 'light.500',
                 transition: 'all 0.3s ease',
                 textTransform: 'none',
-                ":hover": {
+                ':hover': {
                     backgroundColor: isSelected ? 'primary.200' : 'primary.100',
                     borderColor: isSelected ? 'primary.500' : 'primary.100',
                 },

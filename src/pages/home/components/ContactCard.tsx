@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button } from '@mui/material'
 import React from 'react'
 import { icons } from '../../../assets';
+import toast from 'react-hot-toast';
 
 interface ContactInputProps {
     label: string;
@@ -65,6 +66,24 @@ const ContactCard = () => {
     const [email, setEmail] = React.useState('')
     const [message, setMessage] = React.useState('')
 
+    const validate = () => {
+        if (!name || !title || !email || !message) {
+            toast.error('Please fill in all fields')
+            return false
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            toast.error('Invalid email address')
+            return false
+        }
+        return true
+    }
+
+    const handleSubmit = () => {
+        if (validate()) {
+            toast.success('Message sent successfully')
+        }
+    }
+
     return (
         <Box sx={{
             display: 'flex',
@@ -126,8 +145,16 @@ const ContactCard = () => {
                     ":hover": {
                         boxShadow: '5px 5px 0px 0px #191A23',
                         transform: 'translateY(-5px)',
+                    },
+                    ":disabled": {
+                        bgcolor: 'black.50',
+                        color: 'black.200',
+                        cursor: 'not-allowed',
+                        borderColor: 'black.50',
+                        boxShadow: '2px 2px 0px #191A23',
+                        transform: 'none',
                     }
-                }}>
+                }} onClick={handleSubmit}>
                     Send Message
                 </Button>
             </Box>

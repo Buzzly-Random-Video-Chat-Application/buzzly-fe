@@ -1,1 +1,1 @@
-export const stage = ['warning', 'info', 'success', 'error', 'confirm', 'delete'];
+export const stage = ['warning', 'info', 'success', 'error', 'confirm', 'delete', 'permission'];

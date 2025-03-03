@@ -26,16 +26,11 @@ const ImageScrollInfinity = () => {
                     animationTimingFunction: 'linear',
                     animationName: 'scrollUpAnimation',
                     '@keyframes scrollUpAnimation': {
-                        '0%': {
-                            backgroundPositionY: '0%',
-                        },
-                        '100%': {
-                            backgroundPositionY: '-100%',
-                        },
+                        '0%': { backgroundPositionY: '0%' },
+                        '100%': { backgroundPositionY: '-100%' },
                     },
                 }}
             />
-
             <Box
                 sx={{
                     flexGrow: 1,
@@ -49,16 +44,11 @@ const ImageScrollInfinity = () => {
                     animationTimingFunction: 'linear',
                     animationName: 'scrollDownAnimation',
                     '@keyframes scrollDownAnimation': {
-                        '0%': {
-                            backgroundPositionY: '-100%',
-                        },
-                        '100%': {
-                            backgroundPositionY: '0%',
-                        },
+                        '0%': { backgroundPositionY: '-100%' },
+                        '100%': { backgroundPositionY: '0%' },
                     },
                 }}
             />
-
             <Box
                 sx={{
                     flexGrow: 1,
@@ -72,17 +62,11 @@ const ImageScrollInfinity = () => {
                     animationTimingFunction: 'linear',
                     animationName: 'scrollUpAnimation',
                     '@keyframes scrollUpAnimation': {
-                        '0%': {
-                            backgroundPositionY: '0%',
-                        },
-                        '100%': {
-                            backgroundPositionY: '-100%',
-                        },
+                        '0%': { backgroundPositionY: '0%' },
+                        '100%': { backgroundPositionY: '-100%' },
                     },
                 }}
             />
-
-            {/* Text nằm góc dưới bên phải */}
             <Typography sx={{
                 zIndex: 1,
                 position: 'absolute',

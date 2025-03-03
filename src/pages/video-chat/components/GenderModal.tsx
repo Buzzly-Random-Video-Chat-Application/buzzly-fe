@@ -7,10 +7,17 @@ import GenderButton from './GenderButton';
 interface GenderModalProps {
     open: boolean;
     onClose: () => void;
+    onGenderSelect: (selectedGender: string) => void;
+    onStartVideoChat: () => void;
 }
 
-const GenderModal = ({ open, onClose }: GenderModalProps) => {
+const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: GenderModalProps) => {
     const [selectedGender, setSelectedGender] = React.useState('both');
+
+    const handleGenderChange = (gender: string) => {
+        setSelectedGender(gender);
+        onGenderSelect(gender);
+    };
 
     return (
         <CustomDialog open={open} onClose={onClose}>
@@ -33,19 +40,19 @@ const GenderModal = ({ open, onClose }: GenderModalProps) => {
                     label="Both"
                     icon={icons.both}
                     isSelected={selectedGender === 'both'}
-                    onClick={() => setSelectedGender('both')}
+                    onClick={() => handleGenderChange('both')}
                 />
                 <GenderButton
                     label="Male"
                     icon={icons.male}
                     isSelected={selectedGender === 'male'}
-                    onClick={() => setSelectedGender('male')}
+                    onClick={() => handleGenderChange('male')}
                 />
                 <GenderButton
                     label="Female"
                     icon={icons.female}
                     isSelected={selectedGender === 'female'}
-                    onClick={() => setSelectedGender('female')}
+                    onClick={() => handleGenderChange('female')}
                 />
             </Box>
             <Box sx={{
@@ -54,22 +61,28 @@ const GenderModal = ({ open, onClose }: GenderModalProps) => {
                 gap: '20px',
                 mt: '40px',
             }}>
-                <Button sx={{
-                    flex: 1,
-                    bgcolor: 'primary.500',
-                    color: 'dark.500',
-                    borderRadius: '30px',
-                    padding: '10px',
-                    boxShadow: '3px 3px 0px 0px #191A23',
-                    transition: 'all 0.3s',
-                    textTransform: 'none',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    ":hover": {
-                        boxShadow: '5px 5px 0px 0px #191A23',
-                        transform: 'translateY(-5px)',
-                    },
-                }}>
+                <Button
+                    sx={{
+                        flex: 1,
+                        bgcolor: 'primary.500',
+                        color: 'dark.500',
+                        borderRadius: '30px',
+                        padding: '10px',
+                        boxShadow: '3px 3px 0px 0px #191A23',
+                        transition: 'all 0.3s',
+                        textTransform: 'none',
+                        fontSize: '16px',
+                        fontWeight: 500,
+                        ':hover': {
+                            boxShadow: '5px 5px 0px 0px #191A23',
+                            transform: 'translateY(-5px)',
+                        },
+                    }}
+                    onClick={() => {
+                        onStartVideoChat();
+                        onClose();
+                    }}
+                >
                     Start Video Chat
                 </Button>
                 <Button
@@ -87,7 +100,7 @@ const GenderModal = ({ open, onClose }: GenderModalProps) => {
                         textTransform: 'none',
                         fontSize: '16px',
                         fontWeight: 500,
-                        ":hover": {
+                        ':hover': {
                             boxShadow: '5px 5px 0px 0px #191A23',
                             transform: 'translateY(-5px)',
                         },

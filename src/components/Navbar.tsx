@@ -108,7 +108,7 @@ const Navbar = ({ user }: INavbar) => {
                         onClick={handleClick}
                     />
                 ) : (
-                    <Button sx={{ textTransform: 'none', padding: '8px 35px', borderRadius: '16px', backgroundColor: 'primary.500', boxShadow: '3px 3px 0px 0px #191A23', color: 'dark.500', fontWeight: 700, fontSize: '18px', ":hover": { boxShadow: '5px 5px 0px 0px #191A23' } }} onClick={() => location.pathname === '/register' ? navigate('/login') : navigate('/register')}>
+                    <Button sx={{ textTransform: 'none', padding: '8px 35px', borderRadius: '16px', backgroundColor: 'primary.500', boxShadow: '3px 3px 0px 0px #191A23', color: 'dark.500', fontWeight: 700, fontSize: '18px', ":hover": { boxShadow: '5px 5px 0px 0px #191A23' } }} onClick={() => location.pathname === '/register' ? navigate('/login') : location.pathname === '/login' ? navigate('/register') : navigate('/login')}>
                         {location.pathname === '/login' ? 'Register' : 'Login'}
                     </Button>
                 )}

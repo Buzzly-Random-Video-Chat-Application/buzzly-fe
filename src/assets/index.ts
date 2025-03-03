@@ -76,6 +76,7 @@ import live3 from './images/live-image-3.jpg';
 import live4 from './images/live-image-4.jpg';
 import live5 from './images/live-image-5.jpg';
 import blog from './images/blog-img.jpg';
+import earth_gif from './images/earth_gif.gif';
 
 export const images = {
     vid1,
@@ -87,7 +88,8 @@ export const images = {
     live3,
     live4,
     live5,
-    blog
+    blog,
+    earth_gif
 };
 
 import cn from './flags/China.svg';

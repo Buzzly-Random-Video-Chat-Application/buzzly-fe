@@ -1,10 +1,16 @@
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
-import UserOneBox from './UserOneBox'
-import UserTwoBox from './UserTwoBox'
-import { ArrowForwardRounded } from '@mui/icons-material'
+import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import UserOneBox from './UserOneBox';
+import UserTwoBox from './UserTwoBox';
+import { ArrowForwardRounded } from '@mui/icons-material';
 
-const ConnectingContainer = () => {
+interface ConnectingContainerProps {
+    onEndVideoChat: () => void;
+    strangerVideoRef: React.RefObject<HTMLVideoElement>;
+    myVideoRef: React.RefObject<HTMLVideoElement>;
+}
+
+const ConnectingContainer = ({ onEndVideoChat, myVideoRef, strangerVideoRef }: ConnectingContainerProps) => {
     return (
         <Box sx={{
             flex: 1,
@@ -25,10 +31,9 @@ const ConnectingContainer = () => {
                 width: '100%',
                 gap: '10px',
             }}>
-                <UserOneBox />
-                <UserTwoBox />
+                <UserOneBox myVideoRef={myVideoRef} />
+                <UserTwoBox strangerVideoRef={strangerVideoRef} />
             </Box>
-            {/* Footer */}
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -43,29 +48,28 @@ const ConnectingContainer = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <Button sx={{
-                        backgroundColor: 'dark.500',
-                        borderRadius: '10px',
-                        width: '50px',
-                        height: '50px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: '20px',
-                        fontWeight: 'bold',
-                        color: 'light.500',
-                    }}>
+                    <Button
+                        sx={{
+                            backgroundColor: 'dark.500',
+                            borderRadius: '10px',
+                            width: '50px',
+                            height: '50px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'light.500',
+                        }}
+                        onClick={onEndVideoChat}
+                    >
                         ESC
                     </Button>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                    }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography fontWeight={700}>End Video Chat</Typography>
-                        <Typography>Press esc key end video chat</Typography>
+                        <Typography>Press esc key to end video chat</Typography>
                     </Box>
                 </Box>
-
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -94,12 +98,12 @@ const ConnectingContainer = () => {
                         fontWeight: 'bold',
                         color: 'light.500',
                     }}>
-                        <ArrowForwardRounded fontSize='large' />
+                        <ArrowForwardRounded fontSize="large" />
                     </Button>
                 </Box>
             </Box>
         </Box>
-    )
-}
+    );
+};
 
-export default ConnectingContainer
+export default ConnectingContainer;

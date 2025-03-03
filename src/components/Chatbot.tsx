@@ -1,11 +1,16 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useRef, useEffect } from 'react';
 import { icons } from '../assets';
+import { generateAnswer } from '../apis/aiAgentApi';
+import BouncingDotsLoader from './BouncingDotsLoader';
 
 const Chatbot = () => {
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const [messages, setMessages] = React.useState<{ sender: string; text: string }[]>([]);
+    const [loading, setLoading] = React.useState(false);
     const chatBoxRef = useRef<HTMLDivElement>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const popularQuestions = [
         "What is Buzzly?",
@@ -18,9 +23,30 @@ const Chatbot = () => {
         setOpen(!open);
     };
 
-    const sendMessage = () => {
-        console.log("Sending message:", message);
+    const sendMessage = async () => {
+        if (!message.trim()) return;
+
+        setMessages(prev => [...prev, { sender: 'user', text: message }]);
         setMessage('');
+        setLoading(true);
+
+        let accumulatedText = "";
+
+        await generateAnswer(message, (chunk) => {
+            setLoading(false);
+
+            accumulatedText += chunk;
+            setMessages(prev => {
+                if (prev.length > 0 && prev[prev.length - 1].sender === 'agent') {
+                    return [
+                        ...prev.slice(0, -1),
+                        { sender: 'agent', text: accumulatedText }
+                    ];
+                } else {
+                    return [...prev, { sender: 'agent', text: accumulatedText }];
+                }
+            });
+        });
     };
 
     const handlePopularQuestionClick = (question: string) => {
@@ -42,6 +68,10 @@ const Chatbot = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [open]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, loading]);
 
     return (
         <>
@@ -82,23 +112,20 @@ const Chatbot = () => {
                     />
                 </Box>
             ) : (
-                <Box
-                    ref={chatBoxRef}
-                    sx={{
-                        position: 'fixed',
-                        bottom: '20px',
-                        right: '20px',
-                        width: '350px',
-                        height: '450px',
-                        backgroundColor: 'white.50',
-                        boxShadow: '3px 3px 0px 0px #191A23',
-                        borderRadius: '10px',
-                        border: '1px solid #191A23',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        overflow: 'hidden'
-                    }}
-                >
+                <Box sx={{
+                    position: 'fixed',
+                    bottom: '20px',
+                    right: '20px',
+                    width: '350px',
+                    height: '450px',
+                    backgroundColor: 'white.50',
+                    boxShadow: '3px 3px 0px 0px #191A23',
+                    borderRadius: '10px',
+                    border: '1px solid #191A23',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'hidden'
+                }} ref={chatBoxRef}>
                     {/* Header of ChatBox */}
                     <Box sx={{
                         backgroundColor: 'primary.500',
@@ -107,39 +134,70 @@ const Chatbot = () => {
                         textAlign: 'center',
                         fontWeight: 'bold',
                         borderBottom: '1px solid #191A23',
-                    }}>
-                        BuzzlAI Assistant
-                    </Box>
-                    {/* Popular Questions Area */}
+                        userSelect: 'none',
+                    }}>BuzzlAI Assistant</Box>
+
+                    {/* Chat Messages Area */}
                     <Box sx={{
+                        flexGrow: 1,
                         padding: '10px',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '5px',
-                        overflowY: 'auto', //Make scrollable
-                        flexGrow: 1
+                        overflowY: 'auto',
+                        scrollbarWidth: 'none',
+                        gap: '10px',
                     }}>
-                        {popularQuestions.map((question, index) => (
-                            <Button
-                                key={index}
-                                variant="outlined"
-                                onClick={() => handlePopularQuestionClick(question)}
-                                sx={{
-                                    textTransform: 'none',
-                                    fontSize: '14px',
-                                    borderRadius: '5px',
-                                    borderColor: '#191A23',
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '5px',
+                        }}>
+                            {popularQuestions.map((question, index) => (
+                                <Button
+                                    key={index}
+                                    variant="outlined"
+                                    onClick={() => handlePopularQuestionClick(question)}
+                                    sx={{
+                                        textTransform: 'none',
+                                        fontSize: '14px',
+                                        borderRadius: '5px',
+                                        bgcolor: 'light.500',
+                                        color: 'dark.500',
+                                        borderColor: 'light.500',
+                                        border: '1px solid',
+                                        '&:hover': {
+                                            bgcolor: 'dark.500',
+                                            color: 'light.500',
+                                            borderColor: 'light.500',
+                                        },
+                                    }}
+                                    disableTouchRipple
+                                >
+                                    {question}
+                                </Button>
+                            ))}
+                        </Box>
+
+                        {messages.map((msg, index) => (
+                            <Box key={index} sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: msg.sender === "user" ? 'flex-end' : 'flex-start',
+                            }}>
+                                <Box sx={{
+                                    borderRadius: '10px',
+                                    padding: '5px 10px',
+                                    backgroundColor: msg.sender === "user" ? 'primary.500' : 'gray.50',
                                     color: 'dark.500',
-                                    '&:hover': {
-                                        backgroundColor: 'light.500',
-                                        borderColor: '#191A23',
-                                    },
-                                }}
-                                disableTouchRipple
-                            >
-                                {question}
-                            </Button>
+                                    maxWidth: '75%',
+                                    marginBottom: '5px',
+                                }}>
+                                    {msg.text}
+                                </Box>
+                            </Box>
                         ))}
+                        {loading && <BouncingDotsLoader loading={true} />}
+                        <div ref={messagesEndRef}></div>
                     </Box>
 
                     {/* Input area */}
@@ -153,6 +211,12 @@ const Chatbot = () => {
                             placeholder="Type your message..."
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    sendMessage();
+                                }
+                            }}
                             variant="outlined"
                             sx={{
                                 '& .MuiInputBase-root': {

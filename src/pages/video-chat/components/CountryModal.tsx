@@ -7,54 +7,55 @@ import { Countries } from '../../../constants/country';
 interface CountryModalProps {
     open: boolean;
     onClose: () => void;
+    onCountrySelect: (selectedCountry: string) => void;
+    onStartVideoChat: () => void;
 }
 
-const CountryModal = ({ open, onClose }: CountryModalProps) => {
+const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: CountryModalProps) => {
     const user_country_code = 'VN';
     const user_country = Countries.find((country) => country.code === user_country_code);
 
-    // Biến trạng thái để lưu country đã chọn
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
+
+    const handleCountryChange = (country: string) => {
+        setCountrySelected(country);
+        onCountrySelect(country.toLowerCase());
+    };
 
     return (
         <CustomDialog open={open} onClose={onClose}>
             <Typography variant="h3" sx={{ fontWeight: 700, marginBottom: '20px' }}>
                 Regional Priority
             </Typography>
-            {/* Radio buttons */}
             <RadioButton
                 name="Balanced"
                 isSelected={countrySelected === 'Balanced'}
-                onClick={() => setCountrySelected('Balanced')}
+                onClick={() => handleCountryChange('Balanced')}
             />
             <RadioButton
                 name={user_country?.name || 'Unknown'}
                 isSelected={countrySelected === user_country?.name}
-                onClick={() => setCountrySelected(user_country?.name || 'Unknown')}
+                onClick={() => handleCountryChange(user_country?.name || 'Unknown')}
             />
             <Typography variant="body1" sx={{ marginY: '20px', fontWeight: 500 }}>
                 Select the country you want to pair with
             </Typography>
-            {Countries.map(
-                (country, index) =>
-                    country.code !== user_country_code && (
-                        <RadioButton
-                            key={index}
-                            name={country.name}
-                            isSelected={countrySelected === country.name}
-                            onClick={() => setCountrySelected(country.name)}
-                        />
-                    )
+            {Countries.map((country, index) =>
+                country.code !== user_country_code && (
+                    <RadioButton
+                        key={index}
+                        name={country.name}
+                        isSelected={countrySelected === country.name}
+                        onClick={() => handleCountryChange(country.name)}
+                    />
+                )
             )}
-            {/* Buttons */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '20px',
-                    mt: '40px',
-                }}
-            >
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '20px',
+                mt: '40px',
+            }}>
                 <Button
                     sx={{
                         flex: 1,
@@ -71,6 +72,10 @@ const CountryModal = ({ open, onClose }: CountryModalProps) => {
                             boxShadow: '5px 5px 0px 0px #191A23',
                             transform: 'translateY(-5px)',
                         },
+                    }}
+                    onClick={() => {
+                        onStartVideoChat();
+                        onClose();
                     }}
                 >
                     Start Video Chat
