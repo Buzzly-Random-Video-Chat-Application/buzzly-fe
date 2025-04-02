@@ -1,44 +1,49 @@
 import { Box, TextField, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useAppSelector } from '../../../stores/store';
+import { IMessage } from '../../../types/app';
 
 interface ChatBoxProps {
     sendMessage: (message: string) => void;
-    messages: { sender: string; text: string }[];
+    messages: IMessage[];
 }
 
 const ChatBox = ({ sendMessage, messages }: ChatBoxProps) => {
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { user } = useAppSelector((state) => state.user);
 
     const handleSendMessage = () => {
-        if (message.trim() !== "") {
+        if (message.trim() !== '') {
             sendMessage(message);
-            setMessage("");
+            setMessage('');
         }
     };
 
     return (
-        <Box sx={{
-            width: '20vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            height: '100%',
-            borderRadius: '10px',
-            paddingX: '10px',
-            paddingY: '20px',
-            backgroundColor: 'dark.500',
-        }}>
-            <Box sx={{
-                width: '100%',
-                borderRadius: '10px',
+        <Box
+            sx={{
+                width: '20vw',
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-            }}>
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: '100%',
+                borderRadius: '10px',
+                paddingX: '10px',
+                paddingY: '20px',
+                backgroundColor: 'dark.500',
+            }}
+        >
+            <Box
+                sx={{
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                }}
+            >
                 <Box
                     sx={{
                         width: '40px',
@@ -53,23 +58,29 @@ const ChatBox = ({ sendMessage, messages }: ChatBoxProps) => {
                     src={user?.avatar}
                     alt={user?.name}
                 />
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    paddingX: '10px',
-                }}>
-                    <Typography sx={{
-                        fontWeight: 'bold',
-                        fontSize: '14px !important',
-                        color: 'light.500',
-                    }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        paddingX: '10px',
+                    }}
+                >
+                    <Typography
+                        sx={{
+                            fontWeight: 'bold',
+                            fontSize: '14px !important',
+                            color: 'light.500',
+                        }}
+                    >
                         {user?.name || 'Not provided'}
                     </Typography>
-                    <Typography sx={{
-                        fontSize: '12px !important',
-                        color: 'light.500',
-                    }}>
+                    <Typography
+                        sx={{
+                            fontSize: '12px !important',
+                            color: 'light.500',
+                        }}
+                    >
                         {user?.nationality || 'No information'}
                     </Typography>
                 </Box>
@@ -79,7 +90,7 @@ const ChatBox = ({ sendMessage, messages }: ChatBoxProps) => {
                     if (chatContainerRef.current) {
                         const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
                         if (scrollTop + clientHeight === scrollHeight) {
-                            console.log("Scrolled to bottom");
+                            console.log('Scrolled to bottom');
                         }
                     }
                 }}
@@ -102,15 +113,17 @@ const ChatBox = ({ sendMessage, messages }: ChatBoxProps) => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: msg.sender === "You" ? 'flex-end' : 'flex-start',
+                            justifyContent: msg.sender === 'You' ? 'flex-end' : 'flex-start', // Tin nhắn của bạn bên phải, người kia bên trái
                         }}
                     >
-                        <Box sx={{
-                            borderRadius: '10px',
-                            padding: '10px',
-                            backgroundColor: msg.sender === "You" ? 'primary.500' : 'light.500',
-                            color: 'dark.500',
-                        }}>
+                        <Box
+                            sx={{
+                                borderRadius: '10px',
+                                padding: '10px',
+                                backgroundColor: msg.sender === 'You' ? 'primary.500' : 'light.500', // Nền xanh cho bạn, trắng cho người kia
+                                color: 'dark.500',
+                            }}
+                        >
                             {msg.text}
                         </Box>
                     </Box>
@@ -124,7 +137,7 @@ const ChatBox = ({ sendMessage, messages }: ChatBoxProps) => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === 'Enter') {
                             e.preventDefault();
                             handleSendMessage();
                         }

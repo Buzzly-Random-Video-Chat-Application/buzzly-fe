@@ -33,3 +33,8 @@ export interface IBlog {
     description: string;
     image: string;
 }
+
+export interface IMessage {
+    sender: string;
+    text: string;
+}

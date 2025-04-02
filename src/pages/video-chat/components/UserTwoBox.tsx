@@ -1,12 +1,11 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
 import { images } from '../../../assets';
 
 interface UserTwoBoxProps {
-    strangerVideoRef: React.RefObject<HTMLVideoElement>;
+    strangerStream: MediaStream | null;
 }
 
-const UserTwoBox = ({ strangerVideoRef }: UserTwoBoxProps) => {
+const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
     return (
         <Box sx={{
             flex: 1,
@@ -16,11 +15,14 @@ const UserTwoBox = ({ strangerVideoRef }: UserTwoBoxProps) => {
             height: '100%',
             position: 'relative',
         }}>
-            {strangerVideoRef.current ? (
+            {strangerStream ? (
                 <video
-                    ref={strangerVideoRef}
+                    ref={(video) => {
+                        if (video) {
+                            video.srcObject = strangerStream;
+                        }
+                    }}
                     autoPlay
-                    muted
                     playsInline
                     style={{
                         width: '100%',

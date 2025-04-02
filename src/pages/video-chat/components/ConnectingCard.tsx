@@ -1,50 +1,45 @@
 import { Box, Collapse } from '@mui/material';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useState } from 'react';
 import ChatBox from './ChatBox';
 import ConnectingContainer from './ConnectingContainer';
 
+interface IMessage {
+    text: string;
+    sender: string;
+}
+
 interface ConnectingCardProps {
-    selectedCountry: string;
-    selectedGender: string;
     handleEndVideoChat: () => void;
     stream: MediaStream | null;
+    strangerStream: MediaStream | null;
+    messages: IMessage[];
+    sendMessage: (message: string) => void;
 }
 
-interface Message {
-    sender: string;
-    text: string;
-}
-
-const ConnectingCard = ({ handleEndVideoChat, stream }: ConnectingCardProps) => {
+const ConnectingCard = ({
+    handleEndVideoChat,
+    stream,
+    strangerStream,
+    messages,
+    sendMessage,
+}: ConnectingCardProps) => {
     const [openCollapse] = useState(true);
-    const myVideoRef = useRef<HTMLVideoElement>(null);
-    const strangerVideoRef = useRef<HTMLVideoElement>(null);
-    const [messages, setMessages] = useState<Message[]>([]);
-
-    useEffect(() => {
-        if (myVideoRef.current && stream) {
-            myVideoRef.current.srcObject = stream;
-        }
-    }, [stream]);
-
-    const sendMessage = useCallback((message: string) => {
-        console.log("Sending message:", message);
-        setMessages((prev) => [...prev, { sender: "You", text: message }]);
-    }, []);
 
     return (
-        <Box sx={{
-            flex: 1,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-            gap: '10px',
-        }}>
+        <Box
+            sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                gap: '10px',
+            }}
+        >
             <ConnectingContainer
-                onEndVideoChat={handleEndVideoChat}
-                myVideoRef={myVideoRef}
-                strangerVideoRef={strangerVideoRef}
+                handleEndVideoChat={handleEndVideoChat}
+                myStream={stream}
+                strangerStream={strangerStream}
             />
             <Collapse
                 in={openCollapse}

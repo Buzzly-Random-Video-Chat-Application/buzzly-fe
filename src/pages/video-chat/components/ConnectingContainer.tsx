@@ -1,16 +1,15 @@
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
 import UserOneBox from './UserOneBox';
 import UserTwoBox from './UserTwoBox';
 import { ArrowForwardRounded } from '@mui/icons-material';
 
 interface ConnectingContainerProps {
-    onEndVideoChat: () => void;
-    strangerVideoRef: React.RefObject<HTMLVideoElement>;
-    myVideoRef: React.RefObject<HTMLVideoElement>;
+    handleEndVideoChat: () => void;
+    myStream: MediaStream | null;
+    strangerStream: MediaStream | null;
 }
 
-const ConnectingContainer = ({ onEndVideoChat, myVideoRef, strangerVideoRef }: ConnectingContainerProps) => {
+const ConnectingContainer = ({ handleEndVideoChat, myStream, strangerStream }: ConnectingContainerProps) => {
     return (
         <Box sx={{
             flex: 1,
@@ -31,8 +30,8 @@ const ConnectingContainer = ({ onEndVideoChat, myVideoRef, strangerVideoRef }: C
                 width: '100%',
                 gap: '10px',
             }}>
-                <UserOneBox myVideoRef={myVideoRef} />
-                <UserTwoBox strangerVideoRef={strangerVideoRef} />
+                <UserOneBox myStream={myStream} />
+                <UserTwoBox strangerStream={strangerStream} />
             </Box>
             <Box sx={{
                 display: 'flex',
@@ -61,7 +60,7 @@ const ConnectingContainer = ({ onEndVideoChat, myVideoRef, strangerVideoRef }: C
                             fontWeight: 'bold',
                             color: 'light.500',
                         }}
-                        onClick={onEndVideoChat}
+                        onClick={handleEndVideoChat}
                     >
                         ESC
                     </Button>

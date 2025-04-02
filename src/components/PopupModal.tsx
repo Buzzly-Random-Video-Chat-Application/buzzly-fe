@@ -1,4 +1,3 @@
-import React from 'react'
 import CustomDialog from './CustomDialog'
 import { Box, Typography, Button } from '@mui/material';
 import { stage } from '../constants/modal';
@@ -24,7 +23,7 @@ const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupMo
             }}>
                 <Box sx={{
                     flexShrink: 0,
-                    bgcolor: stage === 'warning' ? 'yellow.50' : stage === 'success' || 'permission' ? 'primary.100' : 'red.50',
+                    bgcolor: stage === 'warning' ? 'yellow.50' : (stage === 'success' || stage === 'permission') ? 'primary.100' : 'red.50',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -39,7 +38,7 @@ const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupMo
                         borderRadius: '50%',
                         height: '60px',
                         width: '60px',
-                        bgcolor: stage === 'warning' ? 'yellow.100' : stage === 'success' || 'permission' ? 'primary.300' : 'red.100',
+                        bgcolor: stage === 'warning' ? 'yellow.100' : (stage === 'success' || stage === 'permission') ? 'primary.300' : 'red.100',
                     }}>
                         {stage === 'warning' && <ReportGmailerrorredRounded sx={{ color: 'yellow.500', fontSize: '50px' }} />}
                         {stage === 'success' && <CheckCircleOutlineRounded sx={{ color: 'primary.600', fontSize: '50px' }} />}

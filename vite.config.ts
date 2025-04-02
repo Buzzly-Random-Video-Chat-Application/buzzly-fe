@@ -24,18 +24,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@apis': '/src/apis',
-      '@/app': '/src/app',
       '@/assets': '/src/assets',
       '@/components': '/src/components',
       '@/constants': '/src/constants',
-      '@/features': '/src/features',
       '@/hooks': '/src/hooks',
       '@/pages': '/src/pages',
+      '@/providers': '/src/providers',
       '@/routes': '/src/routes',
       '@stores': '/src/stores',
       '@/themes': '/src/themes',
-      '@/utils': '/src/utils',
       '@/types': '/src/types',
+      '@/utils': '/src/utils',
     },
   },
 });
