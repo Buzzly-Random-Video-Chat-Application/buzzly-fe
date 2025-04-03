@@ -14,7 +14,6 @@ interface CountryModalProps {
 const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: CountryModalProps) => {
     const user_country_code = 'VN';
     const user_country = Countries.find((country) => country.code === user_country_code);
-
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
 
     const handleCountryChange = (country: string) => {
@@ -24,7 +23,11 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
 
     return (
         <CustomDialog open={open} onClose={onClose}>
-            <Typography variant="h3" sx={{ fontWeight: 700, marginBottom: '20px' }}>
+            <Typography sx={{
+                fontWeight: 700,
+                marginBottom: '20px',
+                fontSize: { xs: '24px', md: '32px' }
+            }}>
                 Regional Priority
             </Typography>
             <RadioButton
@@ -37,7 +40,11 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 isSelected={countrySelected === user_country?.name}
                 onClick={() => handleCountryChange(user_country?.name || 'Unknown')}
             />
-            <Typography variant="body1" sx={{ marginY: '20px', fontWeight: 500 }}>
+            <Typography sx={{
+                marginY: { xs: '10px', md: '20px' },
+                fontWeight: 500,
+                fontSize: { xs: '14px', md: '18px' }
+            }}>
                 Select the country you want to pair with
             </Typography>
             {Countries.map((country, index) =>
@@ -53,8 +60,9 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                gap: '20px',
-                mt: '40px',
+                gap: '10px',
+                mt: '20px',
+                flexDirection: { xs: 'column', md: 'row' },
             }}>
                 <Button
                     sx={{
@@ -62,11 +70,11 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                         bgcolor: 'primary.500',
                         color: 'dark.500',
                         borderRadius: '30px',
-                        padding: '10px',
+                        padding: { xs: '8px', md: '10px' },
                         boxShadow: '3px 3px 0px 0px #191A23',
                         transition: 'all 0.3s',
                         textTransform: 'none',
-                        fontSize: '16px',
+                        fontSize: { xs: '14px', md: '16px' },
                         fontWeight: 500,
                         ':hover': {
                             boxShadow: '5px 5px 0px 0px #191A23',
@@ -83,17 +91,17 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 <Button
                     onClick={onClose}
                     sx={{
-                        bgcolor: 'light.500',
+                        bgcolor: 'white.50',
                         color: 'dark.500',
                         borderRadius: '30px',
                         border: '1px solid',
                         borderColor: 'dark.500',
-                        paddingX: '20px',
-                        paddingY: '10px',
+                        paddingX: { xs: '15px', md: '20px' },
+                        paddingY: '8px',
                         boxShadow: '3px 3px 0px 0px #191A23',
                         transition: 'all 0.3s',
                         textTransform: 'none',
-                        fontSize: '16px',
+                        fontSize: { xs: '14px', md: '16px' },
                         fontWeight: 500,
                         ':hover': {
                             boxShadow: '5px 5px 0px 0px #191A23',

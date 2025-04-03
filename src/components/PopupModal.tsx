@@ -1,7 +1,8 @@
 import CustomDialog from './CustomDialog'
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { stage } from '../constants/modal';
 import { ReportGmailerrorredRounded, CheckCircleOutlineRounded, DeleteOutlineRounded, LockOpenRounded } from '@mui/icons-material';
+import Button from './ui/Button';
 
 interface PopupModalProps {
     open: boolean;
@@ -18,7 +19,7 @@ const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupMo
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
-                textAlign: 'left',
+                justifyContent: { xs: 'center', md: 'flex-start' },
                 gap: '20px',
             }}>
                 <Box sx={{
@@ -51,59 +52,36 @@ const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupMo
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                textAlign: 'left',
+                textAlign: { xs: 'center', md: 'left' },
                 marginTop: '20px',
+                gap: '10px',
             }}>
-                <Typography variant="h3" sx={{ fontWeight: 700, marginBottom: 1 }}>{title}</Typography>
+                <Typography variant="h3">{title}</Typography>
                 <Typography variant="body1">{message}</Typography>
             </Box>
 
-            {/* BUTTONS */}
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                gap: '20px',
-                mt: '40px',
+                gap: { xs: '10px', md: '20px' },
+                mt: { xs: '20px', md: '40px' },
+                flexDirection: { xs: 'column', md: 'row' },
             }}>
-                <Button sx={{
-                    flex: 1,
-                    bgcolor: 'primary.500',
-                    color: 'dark.500',
-                    borderRadius: '30px',
-                    padding: '10px',
-                    boxShadow: '3px 3px 0px 0px #191A23',
-                    transition: 'all 0.3s',
-                    textTransform: 'none',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    ":hover": {
-                        boxShadow: '5px 5px 0px 0px #191A23',
-                        transform: 'translateY(-5px)',
-                    },
-                }} onClick={onClose}>
+                <Button
+                    category='contained'
+                    size='small'
+                    shape='pill'
+                    width='100%'
+                    onClick={onClose}
+                >
                     Cancel
                 </Button>
                 <Button
+                    category='default'
+                    size='small'
+                    shape='pill'
+                    width='100%'
                     onClick={onConfirm}
-                    sx={{
-                        flex: 1,
-                        bgcolor: 'light.500',
-                        color: 'dark.500',
-                        borderRadius: '30px',
-                        border: '1px solid',
-                        borderColor: 'dark.500',
-                        paddingX: '20px',
-                        paddingY: '10px',
-                        boxShadow: '3px 3px 0px 0px #191A23',
-                        transition: 'all 0.3s',
-                        textTransform: 'none',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                        ":hover": {
-                            boxShadow: '5px 5px 0px 0px #191A23',
-                            transform: 'translateY(-5px)',
-                        },
-                    }}
                 >
                     Confirm
                 </Button>

@@ -1,10 +1,12 @@
 import React from 'react'
-import { Box, Button, Card, CircularProgress, Typography } from '@mui/material'
+import { Box, Card, CircularProgress, Typography } from '@mui/material'
 import CustomFormInput from '../../../components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { LOGIN_ERROR_MESSAGE, LOGIN_SUCCESS_MESSAGE } from '../../../constants/messages'
 import { useLoginMutation } from '../../../apis/authApi'
+import Button from '../../../components/ui/Button'
+import { isBrowser } from 'react-device-detect'
 
 const LoginCard = () => {
     const navigate = useNavigate()
@@ -38,23 +40,18 @@ const LoginCard = () => {
             })
     }
 
-
-
     return (
-        <Card
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                padding: '30px',
-                width: { xs: '95%', sm: '40%' },
-                boxShadow: '4px 4px 0px 0px #191A23',
-                border: '1px solid #191A23',
-                borderRadius: '20px',
-                gap: '30px',
-                marginLeft: '100px',
-            }}
-        >
+        <Card sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            padding: '30px',
+            width: { xs: '100%', md: '40%' },
+            boxShadow: '4px 4px 0px 0px #191A23',
+            border: '1px solid #191A23',
+            borderRadius: '20px',
+            gap: '30px',
+        }}>
             <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} gap={'30px'} width={'100%'}>
                 <Typography variant="h3">
                     Welcome to Buzzly!
@@ -83,32 +80,14 @@ const LoginCard = () => {
                 />
 
             </Box>
-            <Button sx={{
-                bgcolor: 'white.50',
-                color: 'dark.500',
-                textTransform: 'none',
-                width: '100%',
-                padding: '10px',
-                borderRadius: '6px',
-                border: '1px solid #191A23',
-                boxShadow: '2px 2px 0px #191A23',
-                fontWeight: 600,
-                fontSize: 20,
-                transition: 'all 0.3s',
-                mt: 1,
-                ":hover": {
-                    boxShadow: '4px 4px 0px #191A23',
-                    transform: 'translateY(-5px)',
-                },
-                ":disabled": {
-                    bgcolor: 'black.50',
-                    color: 'black.200',
-                    cursor: 'not-allowed',
-                    borderColor: 'black.50',
-                    boxShadow: '2px 2px 0px #191A23',
-                    transform: 'none',
-                }
-            }} disableTouchRipple disabled={isLoading} onClick={handleLogin}>
+            <Button
+                category='default'
+                shape='square'
+                size={isBrowser ? 'medium' : 'small'}
+                disableTouchRipple
+                disabled={isLoading}
+                onClick={handleLogin}
+            >
                 {isLoading ? <CircularProgress sx={{ color: 'dark.500' }} size={35} /> : 'Login'}
             </Button>
             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={1}>

@@ -21,7 +21,7 @@ const AboutCardHeader = () => {
                 gap: '30px',
             }}>
                 <Typography sx={{ color: 'primary.500', fontSize: '50px !important', fontWeight: 700 }}>Having Fun Together</Typography>
-                <Typography sx={{ color: 'light.500', fontSize: '24px', fontWeight: 400 }}>Buzzly is the ultimate platform for online video chats, making it easy to fulfill your social needs with just one click. Discover and connect with new people nearby or across the world effortlessly!</Typography>
+                <Typography sx={{ color: 'white.50', fontSize: '24px', fontWeight: 400 }}>Buzzly is the ultimate platform for online video chats, making it easy to fulfill your social needs with just one click. Discover and connect with new people nearby or across the world effortlessly!</Typography>
             </Box>
         </Box>
     )

@@ -1,21 +1,10 @@
-import { Box } from '@mui/material'
-import LiveBanner from './components/LiveBanner'
-import LiveContent from './components/LiveContent'
-import Trending from './components/Trending'
+import { isBrowser } from "react-device-detect"
+import LiveDesktop from "./desktop"
+import LiveMobile from "./mobile"
 
 const Live = () => {
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 'fit-content',
-        }}>
-            <LiveBanner />
-            <Trending />
-            <LiveContent />
-        </Box>
+        isBrowser ? <LiveDesktop /> : <LiveMobile />
     )
 }
 

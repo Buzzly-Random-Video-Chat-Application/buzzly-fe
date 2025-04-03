@@ -8,10 +8,11 @@ const ImageScrollInfinity = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100%',
             borderRadius: '10px',
             gap: '10px',
             position: 'relative',
+            width: '100%',
+            height: '100%',
         }}>
             <Box
                 sx={{
@@ -74,7 +75,7 @@ const ImageScrollInfinity = () => {
                 top: '10px',
                 padding: '5px 10px',
                 fontSize: '10px !important',
-                color: 'light.500',
+                color: 'white.50',
             }}>
                 All images are of the model and are used for illustration purposes only.
             </Typography>

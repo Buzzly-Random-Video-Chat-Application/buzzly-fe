@@ -3,7 +3,7 @@ import { VisibilityOutlined, VisibilityOffOutlined } from '@mui/icons-material';
 import React, { useState } from 'react';
 
 interface CustomFormInputProps {
-    label: string;
+    label?: string;
     type: string;
     placeholder: string;
     value: string;
@@ -11,9 +11,10 @@ interface CustomFormInputProps {
     error?: boolean;
     helperText?: string;
     disabled?: boolean;
+    required?: boolean;
 }
 
-const CustomFormInput = ({ label, type, placeholder, value, onChange, error, helperText, disabled }: CustomFormInputProps) => {
+const CustomFormInput = ({ label, type, placeholder, value, onChange, error, helperText, disabled, required }: CustomFormInputProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -22,9 +23,7 @@ const CustomFormInput = ({ label, type, placeholder, value, onChange, error, hel
 
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} width={'100%'} gap={'10px'}>
-            <Typography variant="body1">
-                {label}
-            </Typography>
+            {label && <Typography variant="body1"> {label}{required && <Typography component={'span'} sx={{ color: 'red.500' }}> *</Typography>}</Typography>}
             <TextField
                 variant="outlined"
                 fullWidth
@@ -36,11 +35,13 @@ const CustomFormInput = ({ label, type, placeholder, value, onChange, error, hel
                 helperText={helperText}
                 disabled={disabled}
                 autoComplete={type === 'password' ? 'new-password' : 'off'}
+                multiline={type === 'textarea'}
+                rows={type === 'textarea' ? 4 : 1}
                 InputProps={{
                     endAdornment: type === 'password' ? (
                         <InputAdornment position="end">
                             <IconButton onClick={handleTogglePassword} edge="end" disableTouchRipple>
-                                {showPassword ? <VisibilityOutlined sx={{ fontSize: 30, color: 'dark.500' }} /> : <VisibilityOffOutlined sx={{ fontSize: 30, color: 'dark.500' }} />}
+                                {showPassword ? <VisibilityOutlined sx={{ fontSize: { xs: 25, md: 30 }, color: 'dark.500' }} /> : <VisibilityOffOutlined sx={{ fontSize: { xs: 25, md: 30 }, color: 'dark.500' }} />}
                             </IconButton>
                         </InputAdornment>
                     ) : null,
@@ -59,8 +60,12 @@ const CustomFormInput = ({ label, type, placeholder, value, onChange, error, hel
                             borderWidth: 1,
                         },
                         '& .MuiInputBase-input': {
-                            fontSize: 18,
+                            fontSize: { xs: 16, md: 18 },
+                            padding: { xs: '14px 12px', md: '16px 12px' },
                         },
+                    },
+                    '& .MuiOutlinedInput-root': {
+                        padding: 0,
                     },
                     '& input[type=number]': {
                         MozAppearance: 'textfield',

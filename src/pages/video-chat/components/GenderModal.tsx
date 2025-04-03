@@ -26,8 +26,12 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
                 flexDirection: 'column',
                 textAlign: 'flex-start',
             }}>
-                <Typography variant="h3" sx={{ fontWeight: 700 }}>Connect to</Typography>
-                <Typography variant="body1">Choose your preferred gender</Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: { xs: '24px', md: '32px' } }}>
+                    Connect to
+                </Typography>
+                <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>
+                    Choose your preferred gender
+                </Typography>
             </Box>
             <Box sx={{
                 display: 'flex',
@@ -35,6 +39,7 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 mt: '20px',
+                gap: { xs: '5px', md: '10px' },
             }}>
                 <GenderButton
                     label="Both"
@@ -58,8 +63,9 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                gap: '20px',
-                mt: '40px',
+                gap: '10px',
+                mt: '20px',
+                flexDirection: { xs: 'column', md: 'row' },
             }}>
                 <Button
                     sx={{
@@ -67,11 +73,11 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
                         bgcolor: 'primary.500',
                         color: 'dark.500',
                         borderRadius: '30px',
-                        padding: '10px',
+                        padding: { xs: '8px', md: '10px' },
                         boxShadow: '3px 3px 0px 0px #191A23',
                         transition: 'all 0.3s',
                         textTransform: 'none',
-                        fontSize: '16px',
+                        fontSize: { xs: '14px', md: '16px' },
                         fontWeight: 500,
                         ':hover': {
                             boxShadow: '5px 5px 0px 0px #191A23',
@@ -88,17 +94,17 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
                 <Button
                     onClick={onClose}
                     sx={{
-                        bgcolor: 'light.500',
+                        bgcolor: 'white.50',
                         color: 'dark.500',
                         borderRadius: '30px',
                         border: '1px solid',
                         borderColor: 'dark.500',
-                        paddingX: '20px',
-                        paddingY: '10px',
+                        paddingX: { xs: '15px', md: '20px' },
+                        paddingY: '8px',
                         boxShadow: '3px 3px 0px 0px #191A23',
                         transition: 'all 0.3s',
                         textTransform: 'none',
-                        fontSize: '16px',
+                        fontSize: { xs: '14px', md: '16px' },
                         fontWeight: 500,
                         ':hover': {
                             boxShadow: '5px 5px 0px 0px #191A23',

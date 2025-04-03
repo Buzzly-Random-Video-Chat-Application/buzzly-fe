@@ -26,7 +26,7 @@ const OurJourneyCard = ({ title, description }: OurJourneyCardProps) => {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 gap: '20px',
-                color: 'light.500'
+                color: 'white.50'
             }}>
                 <Typography variant='h3'>{title}</Typography>
                 <Typography variant='body1'>{description}</Typography>

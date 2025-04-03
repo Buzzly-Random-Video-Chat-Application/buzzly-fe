@@ -13,14 +13,13 @@ const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
             justifyContent: 'center',
             alignItems: 'center',
             height: '100%',
+            width: '100%',
             position: 'relative',
         }}>
             {strangerStream ? (
                 <video
                     ref={(video) => {
-                        if (video) {
-                            video.srcObject = strangerStream;
-                        }
+                        if (video) video.srcObject = strangerStream;
                     }}
                     autoPlay
                     playsInline
@@ -40,7 +39,7 @@ const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
                         alignItems: 'center',
                         height: '100%',
                         borderRadius: '10px',
-                        gap: '10px',
+                        gap: '5px',
                         position: 'relative',
                         overflow: 'hidden',
                     }}>
@@ -100,12 +99,11 @@ const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
                         top: '10%',
                         left: '50%',
                         transform: 'translateX(-50%)',
-                        color: 'light.500',
+                        color: 'white.50',
                         fontWeight: 700,
-                        fontSize: '28px !important',
+                        fontSize: { xs: '20px !important', md: '28px !important' },
                         userSelect: 'none',
                         width: '100%',
-                        height: 'auto',
                         textAlign: 'center',
                     }}>
                         Finding your next match...

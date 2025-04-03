@@ -97,9 +97,20 @@ declare module '@mui/material/Typography' {
     overline: true;
   }
 }
+
 export const AppThemeProvider: React.FC<Props> = ({ children }) => {
   const theme = responsiveFontSizes(
     createTheme({
+      breakpoints: {
+        values: {
+          xs: 0,
+          sm: 600,
+          md: 900,
+          lg: 1200,
+          xl: 1536,
+        },
+      },
+
       palette: {
         primary: {
           50: '#F8FFF2',
@@ -144,7 +155,7 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           50: '#E6E6E6',
           100: '#B0B0B0',
           200: '#8A8A8A',
-          300: '#545454',
+          300: '#5545454',
           400: '#333333',
           500: '#000000',
           600: '#000000',
@@ -311,7 +322,7 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
         MuiCssBaseline: {
           styleOverrides: {
             body: {
-              fontFamily: 'Space Grotesk, san serif',
+              fontFamily: 'Space Grotesk, sans-serif',
               fontSize: '16px',
               fontWeight: 400,
               lineHeight: 1.5,

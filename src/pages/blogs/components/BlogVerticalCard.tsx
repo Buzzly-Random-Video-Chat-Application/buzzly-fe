@@ -33,7 +33,7 @@ const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
                 height: '300px',
             }}>
                 {/* Tag */}
-                <Typography variant='body1' color='light.500'>{blog.label}</Typography>
+                <Typography variant='body1' color='white.50'>{blog.label}</Typography>
                 {/* Label */}
                 <Typography variant='h4' color='primary.500'>{blog.title}</Typography>
                 {/* Content */}
@@ -45,7 +45,7 @@ const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
                     whiteSpace: 'normal',
                     fontSize: '18px',
                     fontWeight: 400,
-                    color: 'light.500',
+                    color: 'white.50',
                     WebkitLineClamp: 3,
                 }}>
                     {blog.description}

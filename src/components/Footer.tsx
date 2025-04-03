@@ -1,17 +1,33 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
-import { Box, Button, Divider, IconButton, TextField, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    Divider,
+    IconButton,
+    TextField,
+    Typography,
+} from '@mui/material';
 import { icons } from '../assets';
-import { Navbars } from '../constants/app';
+import { Headers } from '../constants/app';
 import { Facebook, GitHub, Instagram } from '@mui/icons-material';
 
 const SocialIcons = () => (
-    <Box sx={{ display: 'flex' }}>
-        {[{ icon: <Facebook />, link: 'https://www.facebook.com' },
-        { icon: <Instagram />, link: 'https://www.instagram.com' },
-        { icon: <GitHub />, link: 'https://www.github.com' }].map((item, index) => (
-            <IconButton key={index} sx={{ color: 'light.500' }} onClick={() => window.open(item.link)}>
+    <Box sx={{
+        display: 'flex',
+        justifyContent: { xs: 'center', md: 'flex-end' },
+        gap: '10px'
+    }}>
+        {[
+            { icon: <Facebook />, link: 'https://www.facebook.com' },
+            { icon: <Instagram />, link: 'https://www.instagram.com' },
+            { icon: <GitHub />, link: 'https://www.github.com' }
+        ].map((item, index) => (
+            <IconButton
+                key={index}
+                sx={{ color: 'white.50' }}
+                onClick={() => window.open(item.link)}
+            >
                 {item.icon}
             </IconButton>
         ))}
@@ -19,16 +35,40 @@ const SocialIcons = () => (
 );
 
 const ContactInfo = () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-start' }}>
-        <Typography sx={{ backgroundColor: 'primary.500', padding: '2px 8px', borderRadius: '8px', fontWeight: 600 }}>Contact us:</Typography>
-        <Typography sx={{ color: 'light.500' }}>Email: info@buzzly.com</Typography>
-        <Typography sx={{ color: 'light.500' }}>Phone: 555-567-8901</Typography>
-        <Typography sx={{ color: 'light.500' }}>Address: 1234 Main St Moonstone<br />City, Stardust State 12345</Typography>
+    <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+        alignItems: { xs: 'center', md: 'flex-start' }
+    }}>
+        <Typography sx={{
+            backgroundColor: 'primary.500',
+            padding: '2px 8px',
+            borderRadius: '8px',
+            fontWeight: 600
+        }}>
+            Contact us:
+        </Typography>
+        <Typography sx={{ color: 'white.50', textAlign: { xs: 'center', md: 'left' } }}>
+            Email: info@buzzly.com
+        </Typography>
+        <Typography sx={{ color: 'white.50', textAlign: { xs: 'center', md: 'left' } }}>
+            Phone: 555-567-8901
+        </Typography>
+        <Typography sx={{ color: 'white.50', textAlign: { xs: 'center', md: 'left' } }}>
+            Address: 1234 Main St Moonstone<br />City, Stardust State 12345
+        </Typography>
     </Box>
 );
 
 const SubscriptionForm = () => (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center' }}>
+    <Box sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' },
+        gap: '15px',
+        alignItems: 'center',
+        width: { xs: '100%', md: 'auto' }
+    }}>
         <TextField
             variant="outlined"
             fullWidth
@@ -37,10 +77,10 @@ const SubscriptionForm = () => (
             sx={{
                 '& .MuiInputBase-root': {
                     borderRadius: '6px',
-                    '& fieldset': { borderColor: 'light.500' },
-                    '&:hover fieldset': { borderColor: 'light.500' },
-                    '&.Mui-focused fieldset': { borderColor: 'light.500', borderWidth: 1 },
-                    '& .MuiInputBase-input': { fontSize: 18, color: 'light.500' },
+                    '& fieldset': { borderColor: 'white.50' },
+                    '&:hover fieldset': { borderColor: 'white.50' },
+                    '&.Mui-focused fieldset': { borderColor: 'white.50', borderWidth: 1 },
+                    '& .MuiInputBase-input': { fontSize: { xs: 16, md: 18 }, color: 'white.50' },
                 },
                 '& input[type=number]': { MozAppearance: 'textfield' },
                 '& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button': {
@@ -64,7 +104,7 @@ const SubscriptionForm = () => (
         >
             Subscribe to news
         </Button>
-    </Box>
+    </Box >
 );
 
 const Footer = () => {
@@ -73,7 +113,13 @@ const Footer = () => {
     const isSpecialPage = [ROUTES.ABOUT, ROUTES.HOME, ROUTES.REVIEWS].includes(location.pathname);
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingX: isSpecialPage ? '100px' : '0px', width: '100%' }}>
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingX: isSpecialPage ? { xs: '20px', md: '100px' } : '0px',
+            width: '100%'
+        }}>
             <Box
                 sx={{
                     flex: 1,
@@ -81,16 +127,31 @@ const Footer = () => {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    borderRadius: isSpecialPage ? '30px 30px 0px 0px' : '0px',
+                    borderRadius: isSpecialPage ? { xs: '20px 20px 0 0', md: '30px 30px 0 0' } : '0px',
                     backgroundColor: 'dark.500',
-                    paddingX: '100px',
-                    paddingY: '50px',
-                    gap: '50px',
+                    paddingX: { xs: '20px', md: '100px' },
+                    paddingY: { xs: '30px', md: '50px' },
+                    gap: { xs: '30px', md: '50px' },
+                    width: '100%'
                 }}
             >
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                {/* Top Section */}
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    alignItems: 'center',
+                    gap: { xs: '20px', md: '0' }
+                }}>
                     <Box
-                        sx={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', userSelect: 'none' }}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                            cursor: 'pointer',
+                            userSelect: 'none'
+                        }}
                         onClick={() => navigate(ROUTES.HOME)}
                     >
                         <Box
@@ -98,49 +159,104 @@ const Footer = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                width: '50px',
-                                height: '50px',
+                                width: { xs: '40px', md: '50px' },
+                                height: { xs: '40px', md: '50px' },
                             }}
                             component="img"
                             src={icons.logoL}
                             alt="logo"
                         />
-                        <Typography variant="h2" color="light.500">
+                        <Typography variant="h2" color="white.50" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
                             Buzzly
                         </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '20px', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-                            {Navbars.map((item) => (
-                                <Typography
-                                    key={item.name}
-                                    variant="h6"
-                                    component="a"
-                                    href={item.href}
-                                    sx={{
-                                        textDecoration: 'none',
-                                        color: 'light.500',
-                                        fontWeight: location.pathname === item.href ? 700 : 400,
-                                        '&:hover': { fontWeight: 700 },
-                                    }}
-                                >
-                                    {item.name}
-                                </Typography>
-                            ))}
-                        </Box>
+
+                    {/* Desktop Navigation */}
+                    <Box sx={{
+                        display: { xs: 'none', md: 'flex' },
+                        alignItems: 'center',
+                        gap: '30px'
+                    }}>
+                        {Headers.map((item) => (
+                            <Typography
+                                key={item.name}
+                                variant="h6"
+                                component="a"
+                                href={item.href}
+                                sx={{
+                                    textDecoration: 'none',
+                                    color: 'white.50',
+                                    fontWeight: location.pathname === item.href ? 700 : 400,
+                                    '&:hover': { fontWeight: 700 },
+                                }}
+                            >
+                                {item.name}
+                            </Typography>
+                        ))}
                         <SocialIcons />
                     </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                {/* Mobile Navigation */}
+                <Box sx={{
+                    display: { xs: 'flex', md: 'none' },
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '15px',
+                    width: '100%'
+                }}>
+                    {Headers.map((item) => (
+                        <Typography
+                            key={item.name}
+                            variant="body1"
+                            component="a"
+                            href={item.href}
+                            sx={{
+                                textDecoration: 'none',
+                                color: 'white.50',
+                                fontWeight: location.pathname === item.href ? 700 : 400,
+                                '&:hover': { fontWeight: 700 },
+                                textAlign: 'center'
+                            }}
+                        >
+                            {item.name}
+                        </Typography>
+                    ))}
+                    <SocialIcons />
+                </Box>
+
+                {/* Contact and Subscription */}
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    alignItems: 'center',
+                    gap: { xs: '30px', md: '0' }
+                }}>
                     <ContactInfo />
                     <SubscriptionForm />
                 </Box>
 
-                <Divider sx={{ width: '100%', backgroundColor: 'light.500' }} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', width: '100%', alignItems: 'center', gap: '20px' }}>
-                    <Typography sx={{ color: 'light.500' }}>© 2025 Buzzly. All Rights Reserved.</Typography>
-                    <Typography sx={{ color: 'light.500', textDecoration: 'underline', cursor: 'pointer' }}>
+                {/* Bottom Section */}
+                <Divider sx={{ width: '100%', backgroundColor: 'white.50' }} />
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    justifyContent: 'flex-start',
+                    width: '100%',
+                    alignItems: 'center',
+                    gap: '15px',
+                    textAlign: { xs: 'center', md: 'left' }
+                }}>
+                    <Typography sx={{ color: 'white.50' }}>
+                        © 2025 Buzzly. All Rights Reserved.
+                    </Typography>
+                    <Typography sx={{
+                        color: 'white.50',
+                        textDecoration: 'underline',
+                        cursor: 'pointer'
+                    }}>
                         Privacy Policy
                     </Typography>
                 </Box>

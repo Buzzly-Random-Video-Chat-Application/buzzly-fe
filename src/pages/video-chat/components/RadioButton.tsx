@@ -15,7 +15,7 @@ const RadioButton = ({ name, isSelected, onClick }: RadioButtonProps) => {
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                gap: '20px',
+                gap: '10px',
                 marginY: '10px',
                 cursor: 'pointer',
                 userSelect: 'none',
@@ -23,11 +23,14 @@ const RadioButton = ({ name, isSelected, onClick }: RadioButtonProps) => {
             onClick={onClick}
         >
             {isSelected ? (
-                <RadioButtonCheckedOutlined sx={{ color: 'primary.600', fontSize: '24px' }} />
+                <RadioButtonCheckedOutlined sx={{ color: 'primary.600', fontSize: { xs: 20, md: 24 } }} />
             ) : (
-                <RadioButtonUncheckedOutlined sx={{ color: 'dark.500', fontSize: '24px' }} />
+                <RadioButtonUncheckedOutlined sx={{ color: 'dark.500', fontSize: { xs: 20, md: 24 } }} />
             )}
-            <Typography variant="body1">{name}</Typography>
+            <Typography sx={{
+                fontWeight: 400,
+                fontSize: { xs: '14px', md: '18px' }
+            }}>{name}</Typography>
         </Box>
     );
 };

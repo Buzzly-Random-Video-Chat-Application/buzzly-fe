@@ -12,13 +12,12 @@ const UserOneBox = ({ myStream }: UserOneBoxProps) => {
             justifyContent: 'center',
             alignItems: 'center',
             height: '100%',
+            width: '100%',
         }}>
             {myStream ? (
                 <video
                     ref={(video) => {
-                        if (video) {
-                            video.srcObject = myStream;
-                        }
+                        if (video) video.srcObject = myStream;
                     }}
                     autoPlay
                     playsInline

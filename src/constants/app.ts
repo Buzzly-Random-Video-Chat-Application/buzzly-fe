@@ -1,7 +1,7 @@
 import { icons, images } from "../assets";
-import { INavbar, IService, IGuide, IReview, IBlog } from "../types/app";
+import { IHeader, IService, IGuide, IReview, IBlog } from "../types/app";
 
-export const Navbars: INavbar[] = [
+export const Headers: IHeader[] = [
     { name: 'Video Chat', href: '/video-chat' },
     { name: 'Live', href: '/live' },
     { name: 'Blogs', href: '/blogs' },

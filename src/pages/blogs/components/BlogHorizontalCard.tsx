@@ -26,7 +26,7 @@ const BlogHorizontalCard = () => {
                 height: '300px',
             }}>
                 {/* Tag */}
-                <Typography variant='body1' color='light.500'>Making Friends</Typography>
+                <Typography variant='body1' color='white.50'>Making Friends</Typography>
                 {/* Label */}
                 <Typography variant='h4' color='primary.500'>Online Chat, Live Conversations: How To Find the Best Platforms</Typography>
                 {/* Content */}
@@ -38,7 +38,7 @@ const BlogHorizontalCard = () => {
                     whiteSpace: 'normal',
                     fontSize: '18px',
                     fontWeight: 400,
-                    color: 'light.500',
+                    color: 'white.50',
                     WebkitLineClamp: 4,
                 }}>
                     Explore live chat and start creating online connections with Azar Live.

@@ -52,6 +52,7 @@
     "jwt-decode": "^4.0.0",
     "langbase": "^1.1.29",
     "react": "^18.3.1",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.5.1",
     "react-redux": "^9.1.2",

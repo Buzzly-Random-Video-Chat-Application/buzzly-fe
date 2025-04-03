@@ -68,7 +68,7 @@ const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
                 position: 'relative',
                 width: '50%',
                 height: '200px',
-                backgroundColor: 'light.500',
+                backgroundColor: 'white.50',
                 borderRadius: '10px',
                 cursor: 'pointer',
                 overflow: 'hidden',
