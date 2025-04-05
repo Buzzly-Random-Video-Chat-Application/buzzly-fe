@@ -1,4 +1,3 @@
-import React from 'react'
 import { IUser } from '../types/user';
 import CustomDialog from './CustomDialog';
 import { Box, styled, Switch, Typography } from '@mui/material';

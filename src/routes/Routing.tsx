@@ -8,6 +8,7 @@ import Live from '../pages/live';
 import Blogs from '../pages/blogs';
 import About from '../pages/about';
 import Reviews from '../pages/reviews';
+import BlogDetail from '../pages/blog';
 
 const Routing = () => {
   return (
@@ -20,6 +21,7 @@ const Routing = () => {
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
       <Route path={ROUTES.REVIEWS} element={<Reviews />} />
+      <Route path={ROUTES.BLOG_DETAILS} element={<BlogDetail />} />
     </Routes>
   );
 };

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { Services as Data } from '../../../constants/app';
+import { services } from '../../../constants/app';
 import ServiceCard from './ServiceCard';
 
 const Services = () => {
@@ -15,7 +15,7 @@ const Services = () => {
             </Box>
 
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '40px', marginTop: '50px' }}>
-                {Data.map((item, index) => (
+                {services.map((item, index) => (
                     <ServiceCard
                         key={index}
                         label={item.label}

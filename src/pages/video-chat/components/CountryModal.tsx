@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import CustomDialog from '../../../components/CustomDialog';
 import RadioButton from './RadioButton';
-import { Countries } from '../../../constants/country';
+import { countries } from '../../../constants/country';
 
 interface CountryModalProps {
     open: boolean;
@@ -13,7 +13,7 @@ interface CountryModalProps {
 
 const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: CountryModalProps) => {
     const user_country_code = 'VN';
-    const user_country = Countries.find((country) => country.code === user_country_code);
+    const user_country = countries.find((country) => country.code === user_country_code);
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
 
     const handleCountryChange = (country: string) => {
@@ -47,7 +47,7 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
             }}>
                 Select the country you want to pair with
             </Typography>
-            {Countries.map((country, index) =>
+            {countries.map((country, index) =>
                 country.code !== user_country_code && (
                     <RadioButton
                         key={index}

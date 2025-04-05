@@ -4,6 +4,7 @@ import ConnectingCard from './mobile/ConnectingCard';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import PopupModal from '../../components/PopupModal';
 import { io, Socket } from 'socket.io-client';
+import { useReview } from '../../hooks/review.hook';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -23,6 +24,8 @@ const VideoChatMobile = () => {
     const [roomId, setRoomId] = useState<string | null>(null);
     const [userType, setUserType] = useState<'p1' | 'p2' | null>(null);
     const [messages, setMessages] = useState<IMessage[]>([]);
+
+    const { openReviewDialog } = useReview();
 
     const socketRef = useRef<Socket | null>(null);
     const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
@@ -253,6 +256,7 @@ const VideoChatMobile = () => {
         setUserType(null);
         setRoomId(null);
         setMessages([]);
+        openReviewDialog();
 
         peerConnectionRef.current?.close();
         peerConnectionRef.current = null;
@@ -261,7 +265,7 @@ const VideoChatMobile = () => {
             setStream(null);
         }
         socketRef.current?.emit('disconnect');
-    }, [stream]);
+    }, [stream, openReviewDialog]);
 
     const requestPermissions = useCallback(() => {
         setOpenModal(false);

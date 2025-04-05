@@ -6,7 +6,7 @@ export interface ICountry {
     flag: string;
 }
 
-export const Countries: ICountry[] = [
+export const countries: ICountry[] = [
     { name: 'United States', code: 'US', flag: flags.us },
     { name: 'Vietnam', code: 'VN', flag: flags.vn },
     { name: 'Thailand', code: 'TH', flag: flags.th },

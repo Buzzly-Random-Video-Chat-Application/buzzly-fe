@@ -25,7 +25,7 @@ const ExperienceCard = () => {
             </Typography>
             <Button
                 shape="round"
-                category="contained"
+                category="primary"
                 width='auto'
                 size='small'
                 onClick={() => navigate('/video-chat')}

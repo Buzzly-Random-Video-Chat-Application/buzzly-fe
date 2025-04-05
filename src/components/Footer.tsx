@@ -9,7 +9,7 @@ import {
     Typography,
 } from '@mui/material';
 import { icons } from '../assets';
-import { Headers } from '../constants/app';
+import { headers } from '../constants/app';
 import { Facebook, GitHub, Instagram } from '@mui/icons-material';
 
 const SocialIcons = () => (
@@ -117,7 +117,7 @@ const Footer = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            paddingX: isSpecialPage ? { xs: '20px', md: '100px' } : '0px',
+            paddingX: isSpecialPage ? { xs: '10px', md: '100px' } : '0px',
             width: '100%'
         }}>
             <Box
@@ -177,7 +177,7 @@ const Footer = () => {
                         alignItems: 'center',
                         gap: '30px'
                     }}>
-                        {Headers.map((item) => (
+                        {headers.map((item) => (
                             <Typography
                                 key={item.name}
                                 variant="h6"
@@ -205,7 +205,7 @@ const Footer = () => {
                     gap: '15px',
                     width: '100%'
                 }}>
-                    {Headers.map((item) => (
+                    {headers.map((item) => (
                         <Typography
                             key={item.name}
                             variant="body1"

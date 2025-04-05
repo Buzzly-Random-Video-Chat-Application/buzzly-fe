@@ -112,7 +112,7 @@ const ContactCard = () => {
                     <ContactInput
                         label="Title"
                         type="text"
-                        placeholder="Enter your title"
+                        placeholder="Enter title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
@@ -134,7 +134,7 @@ const ContactCard = () => {
 
                 <Button
                     shape="round"
-                    category="contained"
+                    category="primary"
                     width='auto'
                     size='medium'
                     onClick={handleSubmit}

@@ -1,6 +1,7 @@
 import auth from './icons/auth-icon.svg';
 import logoD from './icons/logo-dark.svg';
 import logoL from './icons/logo-light.svg';
+import logo from './icons/logo.svg';
 import illustration from './icons/illustration.svg';
 import amazon from './icons/amazon.svg';
 import dribbble from './icons/dribbble.svg';
@@ -35,6 +36,7 @@ export const icons = {
     auth,
     logoD,
     logoL,
+    logo,
     illustration,
     amazon,
     dribbble,
@@ -75,7 +77,15 @@ import live2 from './images/live-image-2.jpg';
 import live3 from './images/live-image-3.jpg';
 import live4 from './images/live-image-4.jpg';
 import live5 from './images/live-image-5.jpg';
-import blog from './images/blog-img.jpg';
+import blog1 from './images/blog-img-1.jpg';
+import blog2 from './images/blog-img-2.jpg';
+import blog3 from './images/blog-img-3.jpg';
+import blog4 from './images/blog-img-4.jpg';
+import blog5 from './images/blog-img-5.jpg';
+import blog6 from './images/blog-img-6.jpg';
+import blog7 from './images/blog-img-7.jpg';
+import blog8 from './images/blog-img-8.jpg';
+import blog9 from './images/blog-img-9.jpg';
 import earth_gif from './images/earth_gif.gif';
 
 export const images = {
@@ -88,7 +98,15 @@ export const images = {
     live3,
     live4,
     live5,
-    blog,
+    blog1,
+    blog2,
+    blog3,
+    blog4,
+    blog5,
+    blog6,
+    blog7,
+    blog8,
+    blog9,
     earth_gif
 };
 

@@ -32,6 +32,7 @@ export interface IBlog {
     title: string;
     description: string;
     image: string;
+    date: string;
 }
 
 export interface IMessage {

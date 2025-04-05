@@ -10,4 +10,5 @@ export const ROUTES = {
   BLOGS: '/blogs',
   ABOUT: '/about',
   REVIEWS: '/reviews',
+  BLOG_DETAILS: '/blog/:label/:title',
 };

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { Guides } from '../../../constants/app';
+import { guides } from '../../../constants/app';
 import GuideCard from './GuideCard';
 
 const Guide = () => {
@@ -14,7 +14,7 @@ const Guide = () => {
                 Your First Video Chat
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                {Guides.map((item, index) => (
+                {guides.map((item, index) => (
                     <GuideCard
                         key={index}
                         index={index + 1}

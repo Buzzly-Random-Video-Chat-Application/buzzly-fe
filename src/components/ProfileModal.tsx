@@ -4,8 +4,8 @@ import CustomDialog from './CustomDialog';
 import { Box, Button, CircularProgress, IconButton, Typography } from '@mui/material';
 import { AutoFixHighRounded } from '@mui/icons-material';
 import CustomProfileInput from './CustomProfileInput';
-import { Countries } from '../constants/country';
-import { Genders } from '../constants/gender';
+import { countries } from '../constants/country';
+import { genders } from '../constants/gender';
 import { useUpdateUserMutation } from '../apis/userApi';
 import toast from 'react-hot-toast';
 import { UPDATE_PROFILE_ERROR_MESSAGE, UPDATE_PROFILE_SUCCESS_MESSAGE } from '../constants/messages';
@@ -140,14 +140,14 @@ const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
                         placeholder='Select your gender'
                         value={gender}
                         onChange={(e) => setGender(e.target.value)}
-                        options={Genders.map((gender) => gender.name)}
+                        options={genders.map((gender) => gender.name)}
                     />
                     <CustomProfileInput
                         label="country"
                         placeholder="Select your country"
                         value={nationality}
                         onChange={(e) => setNationality(e.target.value)}
-                        options={Countries.map((country) => country.name)}
+                        options={countries.map((country) => country.name)}
                     />
                 </Box>
             </Box>

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import React from 'react'
 import AboutCardHeader from './components/AboutCardHeader'
 import AboutUsCard from './components/AboutUsCard'
 import JoinNow from './components/JoinNow'
@@ -14,8 +13,8 @@ const About = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
-            padding: '100px',
-            gap: '100px',
+            padding: { xs: '50px 10px', md: '100px' },
+            gap: { xs: '50px', md: '100px' },
         }}>
             <AboutCardHeader />
             <AboutUsCard />

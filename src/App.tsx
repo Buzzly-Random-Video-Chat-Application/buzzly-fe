@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import { useAppSelector } from './stores/store';
+import ReviewDialog from './components/ReviewDialog';
 
 const App = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -14,6 +15,7 @@ const App = () => {
       <Routing />
       <Footer />
       <Chatbot />
+      <ReviewDialog />
     </Box>
   );
 };

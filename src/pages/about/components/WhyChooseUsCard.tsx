@@ -11,19 +11,24 @@ const WhyChooseUsCard = ({ index, title, description }: WhyChooseUsCardProps) =>
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
-            padding: '30px 50px',
-            gap: '50px',
+            flexDirection: { xs: 'column', md: 'row' },
+            padding: { xs: '20px', sm: '30px 40px', md: '30px 50px' },
+            gap: { xs: '20px', sm: '30px', md: '50px' },
             borderRadius: '45px',
             border: '1px solid',
             borderColor: 'dark.500',
             boxShadow: '4px 4px 0px 0px #191A23',
-            height: '200px',
+            height: { xs: 'auto', md: '200px' },
             width: '100%',
             alignItems: 'center',
+            textAlign: { xs: 'center', md: 'left' },
         }}>
             <Box sx={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Box component={'img'} src={icons.aboutstartdark} alt={title} sx={{ width: '100px', height: '100px', objectFit: 'contain' }} />
+                <Box component={'img'} src={icons.aboutstartdark} alt={title} sx={{
+                    width: { xs: '80px', sm: '90px', md: '100px' },
+                    height: { xs: '80px', sm: '90px', md: '100px' },
+                    objectFit: 'contain'
+                }} />
                 <Typography sx={{
                     position: 'absolute',
                     top: '0',
@@ -33,20 +38,26 @@ const WhyChooseUsCard = ({ index, title, description }: WhyChooseUsCardProps) =>
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    fontSize: '40px !important',
+                    fontSize: { xs: '30px', sm: '35px', md: '40px' },
                     color: 'primary.500',
                     fontWeight: 700,
-                }}>{index}</Typography>
+                }}>
+                    {index}
+                </Typography>
             </Box>
 
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
-                alignItems: 'flex-start',
+                gap: '15px',
+                alignItems: { xs: 'center', md: 'flex-start' },
             }}>
-                <Typography variant='h3' fontWeight={700}>{title}</Typography>
-                <Typography variant='body1'>{description}</Typography>
+                <Typography variant='h4' fontWeight={700} sx={{ fontSize: { xs: '18px', sm: '22px', md: '24px' } }}>
+                    {title}
+                </Typography>
+                <Typography variant='body2' sx={{ fontSize: { xs: '12px', sm: '14px', md: '16px' } }}>
+                    {description}
+                </Typography>
             </Box>
         </Box>
     )

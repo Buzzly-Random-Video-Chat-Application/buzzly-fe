@@ -1,8 +1,18 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
-import { images } from '../../../assets'
+import { Box, Typography } from '@mui/material';
+import { IBlog } from '../../../types/app';
+import { useNavigate } from 'react-router-dom';
 
-const BlogHorizontalCard = () => {
+interface BlogHorizontalCardProps {
+    blog: IBlog;
+}
+
+const BlogHorizontalCard = ({ blog }: BlogHorizontalCardProps) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/blog/${blog.label.toLowerCase().replace(/\s+/g, '-')}/${blog.title.toLowerCase().replace(/\s+/g, '-')}`);
+    };
+
     return (
         <Box sx={{
             display: 'flex',
@@ -11,48 +21,64 @@ const BlogHorizontalCard = () => {
             alignItems: 'flex-start',
             gap: '10px',
             width: '100%',
-            maxWidth: '1500px',
+            transition: 'all 0.5s ease',
+            ":hover": {
+                transform: 'scale(1.02)',
+            }
+        }} onClick={handleClick} role="button" tabIndex={0} onKeyDown={(e) => {
+            if (e.key === 'Enter') handleClick();
         }}>
-            <Box component={'img'} src={images.blog} alt='blog-img' sx={{ width: '500px', height: '300px', borderRadius: '20px' }} />
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-                bgcolor: 'dark.500',
-                padding: '30px',
-                gap: '10px',
-                borderRadius: '20px',
-                height: '300px',
-            }}>
+            <Box
+                component={'img'}
+                src={blog.image}
+                alt="blog-img"
+                sx={{
+                    width: '40%',
+                    height: '300px',
+                    borderRadius: '20px',
+                }}
+            />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    bgcolor: 'dark.500',
+                    padding: '30px',
+                    gap: '10px',
+                    borderRadius: '20px',
+                    height: '300px',
+                    width: '60%',
+                }}
+            >
                 {/* Tag */}
-                <Typography variant='body1' color='white.50'>Making Friends</Typography>
+                <Typography variant="body1" color="white.50">
+                    {blog.title}
+                </Typography>
                 {/* Label */}
-                <Typography variant='h4' color='primary.500'>Online Chat, Live Conversations: How To Find the Best Platforms</Typography>
+                <Typography variant="h4" color="primary.500">
+                    {blog.label}
+                </Typography>
                 {/* Content */}
-                <Typography sx={{
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'normal',
-                    fontSize: '18px',
-                    fontWeight: 400,
-                    color: 'white.50',
-                    WebkitLineClamp: 4,
-                }}>
-                    Explore live chat and start creating online connections with Azar Live.
-                    Learn more here!Online live chat platforms are gaining traction fast.
-                    They allow us to meet people worldwide, making social connections all
-                    the more accessible. Azar is a leader in the online live chat space,
-                    setting itself apart from many similar platforms by encouraging healthy,
-                    positive, platonic relationships. Let's explore the benefits of forming
-                    digital friendships and highlight features to check for in a
-                    video chat platform.
+                <Typography
+                    sx={{
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'normal',
+                        fontSize: '18px',
+                        fontWeight: 400,
+                        color: 'white.50',
+                        WebkitLineClamp: 6,
+                    }}
+                >
+                    {blog.description}
                 </Typography>
             </Box>
         </Box>
-    )
-}
+    );
+};
 
-export default BlogHorizontalCard
+export default BlogHorizontalCard;

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import GuideCard from './GuideCard'
-import { Guides } from '../../../constants/app'
+import { guides } from '../../../constants/app'
 
 const Guide = () => {
     return (
@@ -15,7 +15,7 @@ const Guide = () => {
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '50px' }}>
-                {Guides.map((item, index) => (
+                {guides.map((item, index) => (
                     <GuideCard key={index} index={index + 1} title={item.title} description={item.description} />
                 ))}
             </Box>

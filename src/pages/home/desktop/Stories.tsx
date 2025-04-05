@@ -67,7 +67,7 @@ const Stories = () => {
                                     bgcolor: 'white.50',
                                     height: 'auto',
                                     minHeight: '100px',
-                                    marginX: '20px',
+                                    marginX: '10px',
                                     alignSelf: 'stretch',
                                 }}
                             />

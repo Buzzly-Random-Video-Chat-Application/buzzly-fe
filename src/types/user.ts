@@ -5,5 +5,6 @@ export interface IUser {
     avatar: string;
     gender: string;
     nationality: string;
-    role?: string;
+    role: string;
+    isShowReview: boolean;
 }

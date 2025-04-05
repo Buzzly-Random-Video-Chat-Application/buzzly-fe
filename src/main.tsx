@@ -9,6 +9,7 @@ import App from './App';
 import './main.css';
 import Loader from './components/Loader';
 import { Toaster } from 'react-hot-toast';
+import { ReviewProvider } from './providers/review.provider';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <AppThemeProvider>
           <BrowserRouter>
             <CssBaseline >
-              <App />
+              <ReviewProvider>
+                <App />
+              </ReviewProvider>
             </CssBaseline>
           </BrowserRouter>
         </AppThemeProvider>

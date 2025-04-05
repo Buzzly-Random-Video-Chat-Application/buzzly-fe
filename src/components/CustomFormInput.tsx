@@ -77,6 +77,9 @@ const CustomFormInput = ({ label, type, placeholder, value, onChange, error, hel
                     '& input[type="password"]::-ms-reveal, & input[type="password"]::-ms-clear, & input[type="password"]::-webkit-credentials-auto-fill-button': {
                         display: 'none',
                     },
+                    '& .MuiInputAdornment-root': {
+                        marginRight: '12px',
+                    }
                 }}
             />
         </Box>

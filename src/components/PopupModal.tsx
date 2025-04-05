@@ -68,7 +68,7 @@ const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupMo
                 flexDirection: { xs: 'column', md: 'row' },
             }}>
                 <Button
-                    category='contained'
+                    category='primary'
                     size='small'
                     shape='pill'
                     width='100%'

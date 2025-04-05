@@ -1,23 +1,12 @@
-import React from 'react'
-import SumaryCard from './components/SumaryCard'
-import ReviewSection from './components/ReviewSection'
-import { Box } from '@mui/material'
+import { isBrowser } from 'react-device-detect'
+import ReviewsDesktop from './desktop'
+import ReviewsMobile from './mobile'
 
-const Reviews = () => {
+const Review = () => {
+    window.scrollTo(0, 0)
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            padding: '100px',
-            gap: '100px',
-        }}>
-            <SumaryCard />
-            <ReviewSection />
-        </Box>
+        isBrowser ? <ReviewsDesktop /> : <ReviewsMobile />
     )
 }
 
-export default Reviews
+export default Review

@@ -69,14 +69,16 @@ const LoginCard = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     error={!!email && !/^\S+@\S+\.\S+$/.test(email)}
                     helperText={email && !/^\S+@\S+\.\S+$/.test(email) ? 'Invalid email address' : ''}
+                    required
                 />
 
                 <CustomFormInput
                     label="Password"
                     type="password"
-                    placeholder="Create a new password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
 
             </Box>

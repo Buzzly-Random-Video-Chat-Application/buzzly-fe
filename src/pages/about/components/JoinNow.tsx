@@ -1,12 +1,25 @@
-import React from 'react'
-import { Box, Button, Divider, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import { icons } from '../../../assets'
-
+import Button from '../../../components/ui/Button'
+import { isBrowser } from 'react-device-detect'
 const JoinNow = () => {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row', paddingX: '40px', paddingY: '20px', borderRadius: '45px', bgcolor: '#F3F3F3', width: '100%', alignItems: 'center', justifyContent: 'space-between', border: '1px solid', borderColor: 'dark.500', boxShadow: '4px 4px 0px 0px #191A23' }}>
-            <Box component={'img'} src={icons.about3} alt={'about'} />
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', width: '50%', alignItems: 'flex-start' }}>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            padding: { xs: '20px', md: '40px' },
+            borderRadius: '30px',
+            bgcolor: '#F3F3F3',
+            width: '100%',
+            alignItems: 'center',
+            border: '1px solid',
+            borderColor: 'dark.500',
+            boxShadow: '3px 3px 0px 0px #191A23',
+            textAlign: { xs: 'center', md: 'left' },
+            justifyContent: { xs: 'none', sm: 'space-between' }
+        }}>
+            <Box component={'img'} src={icons.about3} alt={'about'} sx={{ width: { xs: '200px', md: 'auto' }, height: 'auto' }} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', width: { xs: '100%', md: '50%' }, alignItems: { xs: 'center', md: 'flex-start' } }}>
                 <Typography variant='h3'>Join Our Growing Community Right Now</Typography>
                 <Divider sx={{ width: '100%', bgcolor: 'dark.500', height: 1.5 }} />
                 <Typography variant='body1'>
@@ -22,22 +35,12 @@ const JoinNow = () => {
                 <Typography variant='body1' fontWeight={700}>
                     Download the app today and start your journey!
                 </Typography>
-                <Button sx={{
-                    backgroundColor: 'primary.500',
-                    color: 'dark.500',
-                    paddingX: '30px',
-                    paddingY: '15px',
-                    borderRadius: '10px',
-                    boxShadow: '2px 2px 0px 0px #191A23',
-                    border: '1px solid #191A23',
-                    textTransform: 'none',
-                    transition: 'all 0.3s',
-                    fontSize: '18px',
-                    ":hover": {
-                        boxShadow: '5px 5px 0px 0px #191A23',
-                        transform: 'translateY(-5px)',
-                    }
-                }}>
+                <Button
+                    category='primary'
+                    size={isBrowser ? 'medium' : 'small'}
+                    shape='square'
+                    width='auto'
+                >
                     Download Now
                 </Button>
             </Box>

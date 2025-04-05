@@ -1,13 +1,16 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
+import { IReview } from '../../../types/review';
+import { useGetUserByIdQuery } from '../../../apis/userApi';
 
 interface ReviewCardProps {
-    name: string;
-    rating: number;
-    review: string;
+    review: IReview;
 }
 
-const ReviewCard = ({ name, rating, review }: ReviewCardProps) => {
+const ReviewCard = ({ review }: ReviewCardProps) => {
+    const { data: userData } = useGetUserByIdQuery(review.userId, {
+        skip: !review.userId,
+    });
     return (
         <Box
             sx={{
@@ -21,38 +24,45 @@ const ReviewCard = ({ name, rating, review }: ReviewCardProps) => {
                 boxShadow: '5px 5px 0px 0px #191A23',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                ":hover": {
+                '&:hover': {
                     boxShadow: '10px 10px 0px 0px #191A23',
-                    transform: 'translateY(-5px)'
-                }
+                    transform: 'translateY(-5px)',
+                },
             }}
         >
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' }}>
-                <Box sx={{
-                    height: '50px',
-                    width: '50px',
-                    borderRadius: '50%',
-                    backgroundColor: 'primary.500',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '3px 3px 0px 0px #191A23'
-                }} />
+                <Avatar
+                    src={userData?.avatar}
+                    alt={userData?.name}
+                    sx={{
+                        width: '50px',
+                        height: '50px',
+                        boxShadow: '3px 3px 0px 0px #191A23',
+                    }}
+                />
                 <Box>
-                    <Typography variant='body1' sx={{ fontWeight: 700 }}>{name}</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 700 }}>
+                        {userData?.name}
+                    </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
                         {[1, 2, 3, 4, 5].map((item, index) => (
                             <Box key={index}>
-                                {rating >= item ? <StarRateRounded sx={{ color: 'yellow.500' }} /> : rating >= item - 0.5 ? <StarHalfRounded sx={{ color: 'yellow.500' }} /> : <StarOutlineRounded sx={{ color: 'yellow.500' }} />}
+                                {review && review.rating >= item ? (
+                                    <StarRateRounded sx={{ color: 'yellow.500' }} />
+                                ) : item && review.rating >= item - 0.5 ? (
+                                    <StarHalfRounded sx={{ color: 'yellow.500' }} />
+                                ) : (
+                                    <StarOutlineRounded sx={{ color: 'yellow.500' }} />
+                                )}
                             </Box>
                         ))}
                     </Box>
                 </Box>
             </Box>
             <Divider sx={{ marginY: '20px', backgroundColor: 'dark.500' }} />
-            <Typography variant='body2'>{review}</Typography>
+            <Typography variant="body2">{review.review}</Typography>
         </Box>
-    )
-}
+    );
+};
 
-export default ReviewCard
+export default ReviewCard;

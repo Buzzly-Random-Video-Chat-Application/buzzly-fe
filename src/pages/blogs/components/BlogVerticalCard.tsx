@@ -1,4 +1,4 @@
-import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { IBlog } from '../../../types/app'
 import { Box, Typography } from '@mui/material'
 
@@ -7,6 +7,12 @@ interface BlogVerticalCardProps {
 }
 
 const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/blog/${blog.label.toLowerCase().replace(/\s+/g, '-')}/${blog.title.toLowerCase().replace(/\s+/g, '-')}`);
+    };
+
     return (
         <Box sx={{
             display: 'flex',
@@ -14,6 +20,13 @@ const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
             justifyContent: 'center',
             alignItems: 'center',
             gap: '10px',
+            cursor: 'pointer',
+            transition: 'all 0.5s ease',
+            ":hover": {
+                transform: 'scale(1.02)',
+            }
+        }} onClick={handleClick} role="button" tabIndex={0} onKeyDown={(e) => {
+            if (e.key === 'Enter') handleClick();
         }}>
             <Box component={'img'} src={blog.image} sx={{
                 width: '100%',
@@ -46,7 +59,7 @@ const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
                     fontSize: '18px',
                     fontWeight: 400,
                     color: 'white.50',
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: { xs: 6, sm: 4 },
                 }}>
                     {blog.description}
                 </Typography>

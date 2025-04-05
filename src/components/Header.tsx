@@ -1,8 +1,8 @@
 import { Box, Popover, Typography, Avatar, Divider, IconButton } from '@mui/material';
-import { flags, icons } from '../assets';
-import { Headers } from '../constants/app';
+import { icons } from '../assets';
+import { headers } from '../constants/app';
 import { useLocation, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IUser } from '../types/user';
 import { ExitToAppRounded, PersonOutlineRounded, SettingsSuggestOutlined, Menu } from '@mui/icons-material';
 import useLogout from '../utils/useLogout';
@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import ProfileModal from './ProfileModal';
 import SettingModal from './SettingModal';
 import Button from './ui/Button';
+import { getUserFlag } from '../utils/userUtils';
 
 interface HeaderProps {
     user: IUser | null;
@@ -29,6 +30,9 @@ const Header = ({ user }: HeaderProps) => {
     const [openModal, setOpenModal] = useState(false);
     const [openProfileModal, setOpenProfileModal] = useState(false);
     const [openSettingModal, setOpenSettingModal] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
+    const [lastScrollY, setLastScrollY] = useState(0);
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setUserAnchorEl(event.currentTarget);
@@ -84,6 +88,29 @@ const Header = ({ user }: HeaderProps) => {
         setOpenSettingModal(false);
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const deviceHeight = window.innerHeight;
+            const scrollThreshold = deviceHeight * 0.1;
+
+            setIsScrolled(currentScrollY > 0);
+
+            if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+                setIsHidden(true);
+            } else if (currentScrollY < lastScrollY) {
+                setIsHidden(false);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [lastScrollY]);
+
     return (
         <Box
             sx={{
@@ -96,6 +123,9 @@ const Header = ({ user }: HeaderProps) => {
                 top: 0,
                 zIndex: 1100,
                 backgroundColor: 'white.50',
+                boxShadow: isScrolled ? '0px 4px 10px rgba(0, 0, 0, 0.1)' : 'none',
+                transform: isHidden ? 'translateY(-100%)' : 'translateY(0)',
+                transition: 'transform 0.3s ease-in-out',
             }}
         >
             <Box
@@ -116,7 +146,7 @@ const Header = ({ user }: HeaderProps) => {
                 alignItems: 'center',
                 gap: '40px',
             }}>
-                {Headers.map((item) => (
+                {headers.map((item) => (
                     <Typography
                         key={item.name}
                         variant="h6"
@@ -150,9 +180,9 @@ const Header = ({ user }: HeaderProps) => {
                 ) : (
                     <Button
                         shape="round"
-                        category="contained"
-                        width='auto'
-                        size='small'
+                        category="primary"
+                        width="auto"
+                        size="small"
                         onClick={() => {
                             if (location.pathname === '/login') {
                                 navigate('/register');
@@ -211,7 +241,7 @@ const Header = ({ user }: HeaderProps) => {
                         justifyContent: 'center',
                     }}
                 >
-                    {Headers.map((item) => (
+                    {headers.map((item) => (
                         <Typography
                             key={item.name}
                             variant="body1"
@@ -294,9 +324,9 @@ const Header = ({ user }: HeaderProps) => {
                     ) : (
                         <Button
                             shape="round"
-                            category="contained"
-                            width='100%'
-                            size='small'
+                            category="primary"
+                            width="100%"
+                            size="small"
                             onClick={() => {
                                 if (location.pathname === '/login') {
                                     navigate('/register');
@@ -340,8 +370,8 @@ const Header = ({ user }: HeaderProps) => {
                         display: 'flex',
                         flexDirection: 'column',
                         gap: '10px',
-                        padding: '10px',
-                        width: '150px',
+                        padding: '20px',
+                        width: '200px',
                         alignItems: 'flex-start',
                         justifyContent: 'center',
                     }}
@@ -377,7 +407,7 @@ const Header = ({ user }: HeaderProps) => {
                             >
                                 {user?.name}
                             </Typography>
-                            <img src={flags.vn} />
+                            <img src={getUserFlag(user)} />
                         </Box>
                     </Box>
                     <Divider sx={{ width: '100%', color: 'dark.500' }} />

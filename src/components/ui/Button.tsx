@@ -1,9 +1,9 @@
-import { Box, Button as MUIButton, ButtonProps } from '@mui/material';
+import { Button as MUIButton, ButtonProps } from '@mui/material';
 import React from 'react';
 
 interface CustomButtonProps extends ButtonProps {
     width?: string;
-    category?: 'default' | 'text' | 'outlined' | 'contained';
+    category?: 'default' | 'text' | 'outlined' | 'primary' | 'secondary';
     shape?: 'round' | 'square' | 'pill';
     icon?: React.ReactNode;
     size?: 'small' | 'medium' | 'large';
@@ -27,10 +27,6 @@ const Button: React.FC<CustomButtonProps> = ({
                     backgroundColor: 'transparent',
                     color: 'dark.500',
                     boxShadow: 'none',
-                    '&:hover': {
-                        backgroundColor: 'gray.100',
-                        boxShadow: 'none',
-                    },
                 };
             case 'outlined':
                 return {
@@ -44,7 +40,7 @@ const Button: React.FC<CustomButtonProps> = ({
                         boxShadow: 'none',
                     },
                 };
-            case 'contained':
+            case 'primary':
                 return {
                     backgroundColor: 'primary.500',
                     color: 'dark.500',
@@ -53,12 +49,23 @@ const Button: React.FC<CustomButtonProps> = ({
                         boxShadow: '5px 5px 0px 0px #191A23',
                     },
                 };
+            case 'secondary':
+                return {
+                    backgroundColor: 'black.500',
+                    color: 'white.50',
+                    boxShadow: '3px 3px 0px 0px #FFFFFF',
+                    border: '1px solid #191A23',
+                    '&:hover': {
+                        boxShadow: '5px 5px 0px 0px #FFFFFF',
+                    },
+                };
             case 'default':
             default:
                 return {
                     backgroundColor: 'white.50',
                     color: 'dark.500',
                     boxShadow: '3px 3px 0px 0px #191A23',
+                    border: '1px solid #191A23',
                     '&:hover': {
                         boxShadow: '5px 5px 0px 0px #191A23',
                     },
@@ -83,22 +90,22 @@ const Button: React.FC<CustomButtonProps> = ({
         switch (size) {
             case 'small':
                 return {
-                    padding: '8px 32px',
+                    padding: category === 'text' ? 0 : '8px 32px',
                     fontSize: '16px',
                 };
             case 'medium':
                 return {
-                    padding: '16px 32px',
+                    padding: category === 'text' ? 0 : '14px 32px',
                     fontSize: '20px',
                 };
             case 'large':
                 return {
-                    padding: '24px 32px',
+                    padding: category === 'text' ? 0 : '18px 32px',
                     fontSize: '24px',
                 };
             default:
                 return {
-                    padding: '16px 32px',
+                    padding: category === 'text' ? 0 : '16px 32px',
                     fontSize: '18px',
                 };
         }
@@ -106,6 +113,7 @@ const Button: React.FC<CustomButtonProps> = ({
 
     return (
         <MUIButton
+            disableTouchRipple
             sx={{
                 textTransform: 'none',
                 fontWeight: 500,
@@ -131,7 +139,7 @@ const Button: React.FC<CustomButtonProps> = ({
             disabled={disabled}
             {...props}
         >
-            {icon && <Box component="span">{icon}</Box>}
+            {icon}
             {children}
         </MUIButton>
     );

@@ -8,7 +8,7 @@ export const GENDER = {
     OTHER: 'other',
 };
 
-export const Genders: IGender[] = [
+export const genders: IGender[] = [
     { name: GENDER.FEMALE },
     { name: GENDER.MALE },
     { name: GENDER.OTHER },

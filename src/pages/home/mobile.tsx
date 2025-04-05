@@ -6,7 +6,7 @@ import ExperienceCard from './mobile/ExperienceCard';
 import Stories from './mobile/Stories';
 import Guide from './mobile/Guide';
 import Contact from './mobile/Contact';
-import Reviews from './mobile/Reviews';
+import Reviews from './components/Reviews';
 
 const HomeMobile = () => {
     return (
@@ -14,7 +14,7 @@ const HomeMobile = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginX: '20px',
+            marginX: '10px',
             marginY: '30px',
             gap: '40px'
         }}>
