@@ -1,27 +1,63 @@
 import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
-import Home from '../pages/home';
-import Register from '../pages/register';
-import Login from '../pages/login';
-import VideoChat from '../pages/video-chat';
-import Live from '../pages/live';
-import Blogs from '../pages/blogs';
-import About from '../pages/about';
-import Reviews from '../pages/reviews';
-import BlogDetail from '../pages/blog';
+import ProtectedRoute from './ProtectedRoute';
+
+import Home from '../pages/client/home';
+import VideoChat from '../pages/client/video-chat';
+import Live from '../pages/client/live';
+import Blogs from '../pages/client/blogs';
+import About from '../pages/client/about';
+import Reviews from '../pages/client/reviews';
+import BlogDetail from '../pages/client/blog';
+
+import Dashboard from '../pages/admin/dashboard';
+import BlogsManagement from '../pages/admin/blogs-management';
+import UserManagement from '../pages/admin/users-management';
+import ReviewsManagament from '../pages/admin/reviews-management';
+import AnnouncementsManagement from '../pages/admin/announcements-management';
+import Settings from '../pages/admin/settings';
+
+import Register from '../pages/auth/register';
+import Login from '../pages/auth/login';
+import NotFoundPage from './NotFoundPage';
 
 const Routing = () => {
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<Home />} />
+      {/* Auth */}
       <Route path={ROUTES.AUTH.REGISTER} element={<Register />} />
       <Route path={ROUTES.AUTH.LOGIN} element={<Login />} />
+
+      {/* Client */}
+      <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
       <Route path={ROUTES.LIVE} element={<Live />} />
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
       <Route path={ROUTES.REVIEWS} element={<Reviews />} />
       <Route path={ROUTES.BLOG_DETAILS} element={<BlogDetail />} />
+
+      {/* Admin */}
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.BLOGS_MANAGEMENT} element={<BlogsManagement />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.USERS_MANAGEMENT} element={<UserManagement />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.REVIEWS_MANAGEMENT} element={<ReviewsManagament />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.SETTINGS} element={<Settings />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.ANNOUNCEMENTS_MANAGEMENT} element={<AnnouncementsManagement />} />
+      </Route>
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

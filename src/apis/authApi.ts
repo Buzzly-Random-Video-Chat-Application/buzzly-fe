@@ -3,6 +3,7 @@ import { AUTH_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
 import Cookies from 'js-cookie';
 import { loginSuccess } from '../stores/slices/userSlice';
+import { IAuth } from '../types/auth';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -10,7 +11,7 @@ export const authApi = createApi({
         baseUrl: AUTH_ENDPOINT,
     }),
     endpoints: (builder) => ({
-        register: builder.mutation({
+        register: builder.mutation<IAuth, { email: string; password: string; name: string }>({
             query: ({ email, password, name }) => ({
                 url: '/register',
                 method: 'POST',
@@ -21,7 +22,7 @@ export const authApi = createApi({
                 },
             }),
         }),
-        login: builder.mutation({
+        login: builder.mutation<IAuth, { email: string, password: string}>({
             query: ({ email, password }) => ({
                 url: '/login',
                 method: 'POST',

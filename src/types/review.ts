@@ -1,6 +1,7 @@
 export interface IReview {
     id?: string;
     userId: string;
+    name: string;
     rating: number;
     review: string;
 }

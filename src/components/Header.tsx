@@ -3,7 +3,6 @@ import { icons } from '../assets';
 import { headers } from '../constants/app';
 import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { IUser } from '../types/user';
 import { ExitToAppRounded, PersonOutlineRounded, SettingsSuggestOutlined, Menu } from '@mui/icons-material';
 import useLogout from '../utils/useLogout';
 import PopupModal from './PopupModal';
@@ -12,12 +11,10 @@ import ProfileModal from './ProfileModal';
 import SettingModal from './SettingModal';
 import Button from './ui/Button';
 import { getUserFlag } from '../utils/userUtils';
+import { useAppSelector } from '../stores/store';
 
-interface HeaderProps {
-    user: IUser | null;
-}
-
-const Header = ({ user }: HeaderProps) => {
+const Header = () => {
+    const { user } = useAppSelector((state) => state.user);
     const location = useLocation();
     const navigate = useNavigate();
     const [userAnchorEl, setUserAnchorEl] = useState<HTMLDivElement | null>(null);

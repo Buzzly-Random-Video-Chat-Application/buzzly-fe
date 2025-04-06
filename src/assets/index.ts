@@ -31,6 +31,7 @@ import aboutstartlight from './icons/about-start-light.svg';
 import aboutstartdark from './icons/about-start-dark.svg';
 import illusabout from './icons/illustration-about.svg';
 import chatbot from './icons/chatbot.svg';
+import notfoundbg from './icons/notfound-background.svg';
 
 export const icons = {
     auth,
@@ -65,7 +66,8 @@ export const icons = {
     aboutstartlight,
     aboutstartdark,
     illusabout,
-    chatbot
+    chatbot,
+    notfoundbg
 };
 
 import vid1 from './images/video-chat-1.png';

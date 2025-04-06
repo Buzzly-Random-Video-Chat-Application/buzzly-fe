@@ -5,6 +5,7 @@ export const LOGIN_ERROR_MESSAGE = {
   ACCOUNT_NOT_VERIFIED: 'Account not verified.',
   ACCOUNT_DISABLED: 'Account disabled.',
   PLEASE_FILL_ALL_FIELDS: 'Please fill all fields.',
+  INVALID_ROLE: 'Invalid role.',
 };
 
 export const REGISTER_SUCCESS_MESSAGE = 'Registration successful.';
