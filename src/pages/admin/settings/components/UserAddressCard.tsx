@@ -13,6 +13,7 @@ const UserAddressCard = () => {
             width: '100%',
             padding: '20px 50px',
             borderRadius: '20px',
+            border: '1px solid #F0F1F2',
             mt: 2,
         }}>
             <Box sx={{

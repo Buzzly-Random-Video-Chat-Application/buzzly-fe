@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Box, Drawer, IconButton, List, Typography, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { EditNotificationsRounded, Feedback, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
+import { EditNotificationsRounded, Stars, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 import { ROUTES } from '../constants/routes';
 import {
     GridViewRounded,
@@ -13,6 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import PopupModal from './PopupModal';
 import useLogout from '../utils/useLogout';
 import toast from 'react-hot-toast';
+import { useAppSelector } from '../stores/store';
 
 type SidebarItemProps = {
     type: string;
@@ -66,6 +67,7 @@ const SidebarItem = ({ type, icon, title, selectedMenu, openSideBar, onClick }: 
 const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAppSelector((state) => state.user);
     const [openSideBar, setOpenSideBar] = useState(true);
     const [selectedMenu, setSelectedMenu] = useState('dashboard');
     const [openModal, setOpenModal] = useState(false);
@@ -79,12 +81,6 @@ const Sidebar = () => {
             href: ROUTES.DASHBOARD,
         },
         {
-            type: 'blogs-management',
-            icon: <Article />,
-            title: 'Blogs Management',
-            href: ROUTES.BLOGS_MANAGEMENT,
-        },
-        {
             type: 'users-management',
             icon: <AccountCircleRounded />,
             title: 'Users Management',
@@ -92,9 +88,15 @@ const Sidebar = () => {
         },
         {
             type: 'reviews-management',
-            icon: <Feedback />,
+            icon: <Stars />,
             title: 'Reviews Management',
             href: ROUTES.REVIEWS_MANAGEMENT,
+        },
+        {
+            type: 'blogs-management',
+            icon: <Article />,
+            title: 'Blogs Management',
+            href: ROUTES.BLOGS_MANAGEMENT,
         },
         {
             type: 'announcements-management',
@@ -152,19 +154,17 @@ const Sidebar = () => {
                 },
             }}
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100vh',
-                    backgroundColor: 'white.50',
-                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-                    border: '1px solid #F0F1F2',
-                    borderRadius: 4,
-                    width: '100%',
-                    p: 2,
-                }}
-            >
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+                backgroundColor: 'white.50',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #F0F1F2',
+                borderRadius: 4,
+                width: '100%',
+                p: 2,
+            }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, justifyContent: openSideBar ? 'flex-start' : 'center', px: 2, userSelect: 'none' }}>
                     {openSideBar && (
                         <Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center', gap: 2 }}>
@@ -204,9 +204,15 @@ const Sidebar = () => {
                 <Divider sx={{ my: 2 }} />
                 <List>
                     <SidebarItem
-                        icon={<AccountCircleRounded />}
+                        icon={
+                            user ? (
+                                <Box component={'img'} src={user.avatar} alt={user.name} sx={{ width: '30px', height: '30px', borderRadius: '50%', objectFit: 'cover' }} />
+                            ) : (
+                                <AccountCircleRounded />
+                            )
+                        }
                         type="settings"
-                        title="Profile"
+                        title={user ? user.name : "Profile"}
                         selectedMenu={selectedMenu}
                         openSideBar={openSideBar}
                         onClick={() => handleItemClick('settings', ROUTES.SETTINGS)}

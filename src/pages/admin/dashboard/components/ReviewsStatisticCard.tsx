@@ -1,10 +1,11 @@
-import { Box, Typography, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
 import { ZoomOutRounded } from '@mui/icons-material';
 import { IReview } from '../../../../types/review';
 import Button from '../../../../components/ui/Button';
 import { IUser } from '../../../../types/user';
 import { getUserById } from '../../../../utils';
 import DashboardSumaryReviewCard from '../../../../components/DashboardSumaryReviewCard';
+import { useNavigate } from 'react-router-dom';
 
 interface ReviewsStatisticCardProps {
     reviews: IReview[];
@@ -12,6 +13,7 @@ interface ReviewsStatisticCardProps {
 }
 
 const ReviewsStatisticCard = ({ reviews, users }: ReviewsStatisticCardProps) => {
+    const navigate = useNavigate();
     return (
         <Box sx={{
             bgcolor: '#fff',
@@ -20,15 +22,11 @@ const ReviewsStatisticCard = ({ reviews, users }: ReviewsStatisticCardProps) => 
             width: '100%',
             p: 3,
             border: '1px solid #F0F1F2',
+            mt: 2,
         }}>
             <Box sx={{ mb: 3, width: '50%' }}>
                 <DashboardSumaryReviewCard />
             </Box>
-            <Divider sx={{
-                my: 2,
-                opacity: 0.25,
-                backgroundImage: 'linear-gradient(to right, rgba(52, 71, 103, 0), rgba(52, 71, 103, 0.4), rgba(52, 71, 103, 0))',
-            }} />
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h6" sx={{ color: '#191A23', fontWeight: 600, mb: 2 }}>
                     Reviews List
@@ -39,6 +37,7 @@ const ReviewsStatisticCard = ({ reviews, users }: ReviewsStatisticCardProps) => 
                     shape="square"
                     width="auto"
                     icon={<ZoomOutRounded />}
+                    onClick={() => navigate('/reviews-management')}
                 >
                     See all
                 </Button>

@@ -54,7 +54,7 @@ const Reviews = () => {
                     marginTop: { xs: '0', md: '50px' },
                 }}
             >
-                {reviewData?.results.slice(0, window.innerWidth < 900 ? 2 : reviews.length).map((review, index) => (
+                {reviewData?.results?.slice(0, window.innerWidth < 900 ? 2 : reviews.length).map((review, index) => (
                     <ReviewCard key={index} review={review} />
                 ))}
             </Box>

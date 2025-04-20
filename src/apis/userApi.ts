@@ -81,6 +81,28 @@ export const userApi = createApi({
             }),
             invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }], 
         }),
+        updateUserAvatar: builder.mutation({
+            query: ({ userId, formData }) => ({
+                url: `/${userId}/avatar`,
+                method: 'PATCH',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }),
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
+                await queryFulfilled
+                    .then(({ data }) => {
+                        console.log('User updated:', data);
+                        Cookies.set('user', JSON.stringify(data));
+                        dispatch(updateSuccess(data));
+                    })
+                    .catch((error) => {
+                        console.error('Error during user update:', error);
+                    });
+            },
+            invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
+        }),
     }),
 });
 
@@ -91,4 +113,5 @@ export const {
     useUpdateUserMutation,
     useDeleteUserMutation,
     useUpdateIsShowReviewMutation,
+    useUpdateUserAvatarMutation,
 } = userApi;

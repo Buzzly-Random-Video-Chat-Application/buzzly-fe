@@ -5,6 +5,7 @@ import ReviewsTable from "./components/ReviewsTable"
 import { useGetReviewsQuery } from "../../../apis/reviewApi"
 import { useGetUsersQuery } from "../../../apis/userApi"
 import DashboardSumaryReviewCard from "../../../components/DashboardSumaryReviewCard"
+import AdminTopBar from '../../../components/AdminTopBar'
 
 const ReviewsManagament = () => {
     const { data: reviews } = useGetReviewsQuery({})
@@ -19,6 +20,7 @@ const ReviewsManagament = () => {
             minHeight: '100vh',
             padding: '2rem 1rem',
         }}>
+            <AdminTopBar />
             <Box sx={{
                 display: 'grid',
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' },

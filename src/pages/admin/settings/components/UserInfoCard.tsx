@@ -13,6 +13,7 @@ const UserInfoCard = () => {
             width: '100%',
             padding: '20px 50px',
             borderRadius: '20px',
+            border: '1px solid #F0F1F2',
             mt: 2,
         }}>
             <Box sx={{
@@ -44,9 +45,13 @@ const UserInfoCard = () => {
                 gap: '2rem',
                 width: '100%',
             }}>
-                <UserInfoFormItem label={'First Name'} value={'Nguyen Quoc'} />
-                <UserInfoFormItem label={'Last Name'} value={'Thang'} />
-                <UserInfoFormItem label={'Date of Birth'} value={'13-03-2004'} />
+                <Box gridColumn='span 1'>
+                    <UserInfoFormItem label={'Username'} value={'Nguyen Quoc Thang'} />
+                </Box>
+                <Box gridColumn='span 2'>
+                    <UserInfoFormItem label={'Email Address'} value={'nguyenqthangwork@gmail.com'} />
+                </Box>
+
             </Box>
             <Box sx={{
                 display: 'grid',
@@ -54,7 +59,7 @@ const UserInfoCard = () => {
                 gap: '2rem',
                 width: '100%',
             }}>
-                <UserInfoFormItem label={'Email Address'} value={'nguyenqthangwork@gmail.com'} />
+                <UserInfoFormItem label={'Date of Birth'} value={'13-03-2004'} />
                 <UserInfoFormItem label={'Phone Number'} value={'+84 346 129 897'} />
                 <UserInfoFormItem label={'User Role'} value={'Admin'} />
             </Box>

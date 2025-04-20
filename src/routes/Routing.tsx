@@ -25,8 +25,8 @@ const Routing = () => {
   return (
     <Routes>
       {/* Auth */}
-      <Route path={ROUTES.AUTH.REGISTER} element={<Register />} />
-      <Route path={ROUTES.AUTH.LOGIN} element={<Login />} />
+      <Route path={ROUTES.REGISTER} element={<Register />} />
+      <Route path={ROUTES.LOGIN} element={<Login />} />
 
       {/* Client */}
       <Route path={ROUTES.HOME} element={<Home />} />

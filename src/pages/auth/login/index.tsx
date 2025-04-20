@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import LoginCard from './components/LoginCard'
 import { icons } from '../../../assets'
 
+// TODO: ADD FORGOT PASSWORD
 const Login = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', py: { xs: '50px', md: '100px' }, px: { xs: '10px', md: '100px' }, flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '20px', md: '0' } }}>

@@ -1,4 +1,3 @@
-// GenderButton.tsx
 import { Box, Button, Typography } from '@mui/material';
 
 interface GenderButtonProps {

@@ -85,6 +85,7 @@ const Chatbot = () => {
                         userSelect: 'none',
                         transition: 'all 0.3s',
                         ":hover": { boxShadow: '5px 5px 0px 0px #191A23' },
+                        zIndex: 1200,
                     }}
                     onClick={handleChatbot}
                     role="button"
@@ -113,7 +114,7 @@ const Chatbot = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             overflow: 'hidden',
-                            zIndex: 1000,
+                            zIndex: 1200,
                         }}
                         ref={chatBoxRef}
                     >

@@ -18,7 +18,7 @@ const ReviewSection = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {reviewData?.results.slice(0, visibleReviews).map((review, index) => (
+                {reviewData?.results?.slice(0, visibleReviews).map((review, index) => (
                     <ReviewCard key={index} review={review} />
                 ))}
             </Box>

@@ -11,16 +11,16 @@ import {
     IconButton,
     TextField,
     InputAdornment,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
     Pagination,
     Typography,
     Avatar,
 } from '@mui/material';
-import { Search, MoreVert } from '@mui/icons-material';
+import { Search, MoreVert, Transgender } from '@mui/icons-material';
 import { IUser } from '../../../../types/user';
+import CustomTableHead, { CustomTableHeadItemProps } from '../../../../components/TableHead';
+import { GroupRounded, Man2Rounded, Woman2Rounded } from "@mui/icons-material";
+import { UppercaseFirstLetter } from '../../../../utils';
+import { getUserFlag } from '../../../../utils';
 
 interface UsersTableProps {
     users: IUser[];
@@ -28,14 +28,24 @@ interface UsersTableProps {
 
 const UsersTable = ({ users = [] }: UsersTableProps) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterGender, setFilterGender] = useState('all');
+    const [selectedFilter, setSelectedFilter] = useState<CustomTableHeadItemProps>({
+        icon: <GroupRounded />,
+        title: 'All',
+    });
     const [page, setPage] = useState(1);
     const rowsPerPage = 5;
 
+    const filterOptions: CustomTableHeadItemProps[] = [
+        { icon: <GroupRounded />, title: 'All' },
+        { icon: <Man2Rounded />, title: 'Male' },
+        { icon: <Woman2Rounded />, title: 'Female' },
+        { icon: <Transgender />, title: 'Other' },
+    ];
+
     const filteredUsers = users
         .filter((user) => {
-            if (filterGender === 'all') return true;
-            return user.gender.toLowerCase() === filterGender.toLowerCase();
+            if (selectedFilter.title === 'All') return true;
+            return user.gender.toLowerCase() === selectedFilter.title.toLowerCase();
         })
         .filter((user) => {
             const searchLower = searchTerm.toLowerCase();
@@ -57,67 +67,18 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
 
     return (
         <Box sx={{ width: '100%', mt: 4 }}>
-            {/* Thanh điều khiển: Bộ lọc, Tìm kiếm, Nút Add new */}
             <Box sx={{
                 display: 'flex',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 mb: 2,
                 gap: 2,
             }}>
-                {/* Bộ lọc theo Gender */}
-                <FormControl sx={{ minWidth: 150 }}>
-                    <InputLabel
-                        sx={{
-                            color: 'gray.500',
-                            '&.Mui-focused': {
-                                color: 'dark.500',
-                            },
-                        }}
-                    >
-                        Filter by Gender
-                    </InputLabel>
-                    <Select
-                        value={filterGender}
-                        onChange={(e) => setFilterGender(e.target.value as string)}
-                        label="Filter by Gender"
-                        sx={{
-                            '& .MuiSelect-select': {
-                                padding: '12px 20px 8px 20px',
-                                fontSize: 16,
-                            },
-                            '& .MuiInputBase-root': {
-                                padding: '0px',
-                            },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.200',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.400',
-                            },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'dark.500',
-                                borderWidth: 1,
-                            },
-                        }}
-                        MenuProps={{
-                            PaperProps: {
-                                sx: {
-                                    '& .MuiMenuItem-root': {
-                                        fontSize: 16,
-                                    },
-                                },
-                            },
-                        }}
-                    >
-                        <MenuItem value="all">All Users</MenuItem>
-                        <MenuItem value="male">Male Users</MenuItem>
-                        <MenuItem value="female">Female Users</MenuItem>
-                        <MenuItem value="other">Other</MenuItem>
-                    </Select>
-
-                </FormControl>
-
+                <CustomTableHead
+                    items={filterOptions}
+                    selected={selectedFilter}
+                    setSelected={setSelectedFilter}
+                />
                 <TextField
                     placeholder="Search"
                     value={searchTerm}
@@ -134,6 +95,7 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                         maxWidth: { xs: '100%', md: 300 },
                         '& .MuiInputBase-root': {
                             padding: '10px 20px 10px 8px',
+                            borderRadius: '8px',
                             fontSize: 16,
                         },
                         '& .MuiInputBase-input': {
@@ -153,7 +115,6 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                 />
             </Box>
 
-            {/* Bảng người dùng */}
             <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0' }}>
                 <Table>
                     <TableHead>
@@ -193,9 +154,13 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                                         </Box>
                                     </TableCell>
                                     <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.gender}</TableCell>
-                                    <TableCell>{user.nationality}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
+                                    <TableCell>{UppercaseFirstLetter(user.gender)}</TableCell>
+                                    <TableCell>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            <img src={getUserFlag(user)} /> {user.nationality}
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell>{UppercaseFirstLetter(user.role)}</TableCell>
                                     <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Box
@@ -203,11 +168,11 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                                                     width: 10,
                                                     height: 10,
                                                     borderRadius: '50%',
-                                                    bgcolor: user.isShowReview ? '#4caf50' : '#bdbdbd',
+                                                    bgcolor: user.isOnline ? '#4caf50' : '#bdbdbd',
                                                 }}
                                             />
                                             <Typography variant="body2">
-                                                {user.isShowReview ? 'Active' : 'Inactive'}
+                                                {user.isOnline ? 'Online' : 'Offline'}
                                             </Typography>
                                         </Box>
                                     </TableCell>
@@ -220,7 +185,7 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={9} sx={{ textAlign: 'center', py: 4 }}>
+                                <TableCell colSpan={8} sx={{ textAlign: 'center', py: 4 }}>
                                     <Typography variant="body2" color="textSecondary">
                                         No users found.
                                     </Typography>
@@ -231,7 +196,6 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                 </Table>
             </TableContainer>
 
-            {/* Phân trang */}
             {totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                     <Pagination

@@ -1,8 +1,7 @@
 export const ROUTES = {
-  AUTH: {
-    REGISTER: '/register',
-    LOGIN: '/login',
-  },
+  REGISTER: '/register',
+  LOGIN: '/login',
+  
   HOME: '/',
   PROFILE: '/profile',
   VIDEO_CHAT: '/video-chat',

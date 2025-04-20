@@ -1,9 +1,34 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material'
 import { useAppSelector } from '../../../../stores/store'
 import { Edit } from '@mui/icons-material'
+import { useUpdateUserAvatarMutation } from '../../../../apis/userApi'
+import { useRef } from 'react'
+import toast from 'react-hot-toast'
+
 
 const UserHeaderCard = () => {
     const { user } = useAppSelector((state) => state.user)
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const [updateUserAvatar] = useUpdateUserAvatarMutation()
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const formData = new FormData();
+            formData.append('avatar', file);
+            updateUserAvatar({ userId: user?.id, formData })
+                .unwrap()
+                .then(() => {
+                    toast.success('Avatar updated successfully');
+                })
+                .catch((error) => {
+                    toast.error('Failed to update avatar');
+                    console.error(error);
+                });
+        }
+    };
     return (
         <Box sx={{
             display: 'flex',
@@ -34,20 +59,30 @@ const UserHeaderCard = () => {
                         objectFit: 'cover'
                     }}
                 />
-                <IconButton sx={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    bgcolor: 'primary.500',
-                    '&:hover': {
-                        bgcolor: 'white.50',
-                    }
-                }}>
+                <IconButton
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bgcolor: 'primary.500',
+                        '&:hover': {
+                            bgcolor: 'white.50',
+                        }
+                    }}
+                    onClick={() => fileInputRef.current?.click()}
+                >
                     <Edit sx={{
                         color: 'dark.500',
                         fontSize: 12,
                     }} />
                 </IconButton>
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                />
             </Box>
             <Box sx={{
                 display: 'flex',

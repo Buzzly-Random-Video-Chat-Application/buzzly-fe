@@ -2,6 +2,7 @@ import { Box } from "@mui/material"
 import UserHeaderCard from "./components/UserHeaderCard"
 import UserInfoCard from "./components/UserInfoCard"
 import UserAddressCard from "./components/UserAddressCard"
+import AdminTopBar from '../../../components/AdminTopBar'
 
 const Settings = () => {
     return (
@@ -14,6 +15,7 @@ const Settings = () => {
             minHeight: '100vh',
             padding: '2rem 1rem',
         }}>
+            <AdminTopBar />
             <UserHeaderCard />
             <UserInfoCard />
             <UserAddressCard />

@@ -11,18 +11,15 @@ import {
     IconButton,
     TextField,
     InputAdornment,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
     Pagination,
     Typography,
     Avatar,
 } from '@mui/material';
-import { Search, MoreVert } from '@mui/icons-material';
+import { Search, MoreVert, ThumbUpOffAltRounded, ReportProblemRounded } from '@mui/icons-material';
 import { IReview } from '../../../../types/review';
 import { IUser } from '../../../../types/user';
 import { getUserById } from '../../../../utils';
+import CustomTableHead, { CustomTableHeadItemProps } from '../../../../components/TableHead';
 
 interface ReviewsTableProps {
     reviews: IReview[];
@@ -31,30 +28,25 @@ interface ReviewsTableProps {
 
 const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterRating, setFilterRating] = useState('all'); // Bộ lọc theo rating
+    const [selectedFilter, setSelectedFilter] = useState<CustomTableHeadItemProps>({
+        icon: <ThumbUpOffAltRounded />,
+        title: 'Reviews',
+    });
     const [page, setPage] = useState(1);
     const rowsPerPage = 5;
 
-    // Lọc và tìm kiếm reviews
+    const filterOptions: CustomTableHeadItemProps[] = [
+        { icon: <ThumbUpOffAltRounded />, title: 'Reviews' },
+        { icon: <ReportProblemRounded />, title: 'Reports' },
+    ];
+
     const filteredReviews = reviews
         .filter((review) => {
-            if (filterRating === 'all') return true;
-            switch (filterRating) {
-                case '5':
-                    return review.rating === 5;
-                case '4-5':
-                    return review.rating > 4 && review.rating <= 5;
-                case '3-4':
-                    return review.rating > 3 && review.rating <= 4;
-                case '2-3':
-                    return review.rating > 2 && review.rating <= 3;
-                case '1-2':
-                    return review.rating > 1 && review.rating <= 2;
-                case '0-1':
-                    return review.rating <= 1;
-                default:
-                    return true;
+            if (selectedFilter.title === 'Reviews') return true;
+            if (selectedFilter.title === 'Reports') {
+                return review.rating <= 2;
             }
+            return true;
         })
         .filter((review) => {
             if (!searchTerm) return true;
@@ -67,7 +59,6 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
             );
         });
 
-    // Tính toán phân trang
     const totalPages = Math.ceil(filteredReviews.length / rowsPerPage);
     const paginatedReviews = filteredReviews.slice(
         (page - 1) * rowsPerPage,
@@ -80,70 +71,20 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
 
     return (
         <Box sx={{ width: '100%', mt: 4 }}>
-            {/* Thanh điều khiển: Bộ lọc, Tìm kiếm */}
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     mb: 2,
                     gap: 2,
                 }}
             >
-                {/* Bộ lọc theo Rating */}
-                <FormControl sx={{ minWidth: 150 }}>
-                    <InputLabel
-                        sx={{
-                            color: 'gray.500',
-                            '&.Mui-focused': {
-                                color: 'dark.500',
-                            },
-                        }}
-                    >
-                        Filter by Rating
-                    </InputLabel>
-                    <Select
-                        value={filterRating}
-                        onChange={(e) => setFilterRating(e.target.value as string)}
-                        label="Filter by Rating"
-                        sx={{
-                            '& .MuiSelect-select': {
-                                padding: '12px 20px 8px 20px',
-                                fontSize: 16,
-                            },
-                            '& .MuiInputBase-root': {
-                                padding: '0px',
-                            },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.200',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.400',
-                            },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'dark.500',
-                                borderWidth: 1,
-                            },
-                        }}
-                        MenuProps={{
-                            PaperProps: {
-                                sx: {
-                                    '& .MuiMenuItem-root': {
-                                        fontSize: 16,
-                                    },
-                                },
-                            },
-                        }}
-                    >
-                        <MenuItem value="all">All Reviews</MenuItem>
-                        <MenuItem value="5">5 Stars</MenuItem>
-                        <MenuItem value="4-5">4 - 5 Stars</MenuItem>
-                        <MenuItem value="3-4">3 - 4 Stars</MenuItem>
-                        <MenuItem value="2-3">2 - 3 Stars</MenuItem>
-                        <MenuItem value="1-2">1 - 2 Stars</MenuItem>
-                        <MenuItem value="0-1">0 - 1 Star</MenuItem>
-                    </Select>
-                </FormControl>
+                <CustomTableHead
+                    items={filterOptions}
+                    selected={selectedFilter}
+                    setSelected={setSelectedFilter}
+                />
 
                 <TextField
                     placeholder="Search"
@@ -161,6 +102,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                         maxWidth: { xs: '100%', md: 300 },
                         '& .MuiInputBase-root': {
                             padding: '10px 20px 10px 8px',
+                            borderRadius: '8px',
                             fontSize: 16,
                         },
                         '& .MuiInputBase-input': {
@@ -180,7 +122,6 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                 />
             </Box>
 
-            {/* Bảng reviews */}
             <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0' }}>
                 <Table>
                     <TableHead>
@@ -241,7 +182,6 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                 </Table>
             </TableContainer>
 
-            {/* Phân trang */}
             {totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                     <Pagination

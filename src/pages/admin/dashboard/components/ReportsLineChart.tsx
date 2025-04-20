@@ -10,6 +10,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import Button from '../../../../components/ui/Button';
+import { TipsAndUpdatesRounded } from '@mui/icons-material';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -181,10 +183,18 @@ const ReportsLineChart = ({ color = 'primary', title, description, date, chart }
             />
 
             {/* Thời gian cập nhật */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography variant="body2" sx={{ color: '#666', fontWeight: 400 }}>
                     {date}
                 </Typography>
+                <Button
+                    category='text'
+                    size='small'
+                    icon={<TipsAndUpdatesRounded />}
+                    width='auto'
+                >
+                    Update
+                </Button>
             </Box>
         </Box>
     );

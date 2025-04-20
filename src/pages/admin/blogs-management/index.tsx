@@ -1,4 +1,5 @@
 import { Box } from "@mui/material"
+import AdminTopBar from "../../../components/AdminTopBar"
 
 const BlogsManagement = () => {
     return (
@@ -11,6 +12,8 @@ const BlogsManagement = () => {
             minHeight: '100vh',
             padding: '2rem 1rem',
         }}>
+            <AdminTopBar />
+
             Blog Management
         </Box>
     )

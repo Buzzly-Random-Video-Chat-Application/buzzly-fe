@@ -7,5 +7,6 @@ export interface IUser {
     nationality: string;
     role: string;
     isShowReview: boolean;
+    isOnline: boolean;
 }
 
