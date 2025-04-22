@@ -19,7 +19,6 @@ const App = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
       {!isNotFoundPage && (userRole === 'user' || !isAuthenticated) && <Header />}
-
       {isNotFoundPage ? (
         <Box sx={{ flex: 1, width: '100%' }}>
           <Routing />
@@ -36,9 +35,7 @@ const App = () => {
           <Routing />
         </Box>
       )}
-
       {!isNotFoundPage && (userRole === 'user' || !isAuthenticated) && <Footer />}
-
       <Chatbot />
       <ReviewDialog />
     </Box>
