@@ -182,13 +182,13 @@ const Footer = () => {
                                 key={item.name}
                                 variant="h6"
                                 component="a"
-                                href={item.href}
                                 sx={{
                                     textDecoration: 'none',
                                     color: 'white.50',
                                     fontWeight: location.pathname === item.href ? 700 : 400,
                                     '&:hover': { fontWeight: 700 },
                                 }}
+                                onClick={() => navigate(item.href)}
                             >
                                 {item.name}
                             </Typography>
