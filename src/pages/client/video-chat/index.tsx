@@ -16,7 +16,7 @@ import ConnectingCardMobile from './mobile/ConnectingCard';
 const WaitingConnectionCard = isBrowser ? WaitingConnectionCardDesktop : WaitingConnectionCardMobile;
 const ConnectingCard = isBrowser ? ConnectingCardDesktop : ConnectingCardMobile;
 
-const SERVER_URL = import.meta.env.VITE_API_URL;
+const VITE_SOCKET = import.meta.env.VITE_SOCKET;
 
 const VideoChat = () => {
     const [selectedCountry, setSelectedCountry] = useState<string>('balanced');
@@ -80,7 +80,7 @@ const VideoChat = () => {
 
     // 1. Khởi tạo socket và gửi userId
     useEffect(() => {
-        const newSocket = io(`${SERVER_URL}`, {
+        const newSocket = io(`${VITE_SOCKET}`, {
             path: '/v1/socket',
             query: { userId: user?.id }, // Gửi userId qua query
         });
