@@ -153,6 +153,7 @@ const Header = () => {
                             color: 'inherit',
                             fontWeight: location.pathname === item.href ? 700 : 400,
                             '&:hover': { fontWeight: 700 },
+                            cursor: 'pointer',
                         }}
                         onClick={() => navigate(item.href)}
                     >
