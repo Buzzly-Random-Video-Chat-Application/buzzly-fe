@@ -1,9 +1,9 @@
 {
-  "name": "vite-mui-ts",
+  "name": "buzzly",
   "version": "1.0.0",
-  "description": "TypeScript + React + Redux + MUI + RRD + ESLint + Prettier => Boilerplate",
+  "description": "Buzzly is a social media platform that connects people with similar interests and passions. It allows users to create and share content, engage with others, and discover new trends and ideas.",
   "license": "MIT",
-  "author": "emrecil <info.emrecil@gmail.com>",
+  "author": "Nguyen Quoc Thang <info.nguyenqthangwork@gmail.com>",
   "keywords": [
     "react",
     "boilerplate",
@@ -17,12 +17,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/emre-cil/vite-mui-ts.git"
+    "url": "https://github.com/nquynqthanq/buzzly-fe"
   },
   "bugs": {
-    "url": "https://github.com/emre-cil/vite-mui-ts/issues"
+    "url": "hthttps://github.com/nquynqthanq/buzzly-fe/issues"
   },
-  "homepage": "https://github.com/emre-cil/vite-mui-ts#readme",
+  "homepage": "https://github.com/nquynqthanq/buzzly-fe#readme",
   "type": "module",
   "scripts": {
     "dev": "vite --open",
