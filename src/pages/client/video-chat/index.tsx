@@ -8,18 +8,15 @@ import { IMessage } from '../../../types/app';
 import { useAppSelector } from '../../../stores/store';
 import { useGetUserByIdQuery } from '../../../apis/userApi';
 
-// Import các component tương ứng dựa trên thiết bị
 import WaitingConnectionCardDesktop from './desktop/WaitingConnectionCard';
 import ConnectingCardDesktop from './desktop/ConnectingCard';
 import WaitingConnectionCardMobile from './mobile/WaitingConnectionCard';
 import ConnectingCardMobile from './mobile/ConnectingCard';
 
-
-// Chọn component dựa trên thiết bị
 const WaitingConnectionCard = isBrowser ? WaitingConnectionCardDesktop : WaitingConnectionCardMobile;
 const ConnectingCard = isBrowser ? ConnectingCardDesktop : ConnectingCardMobile;
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_API_URL;
 
 const VideoChat = () => {
     const [selectedCountry, setSelectedCountry] = useState<string>('balanced');
