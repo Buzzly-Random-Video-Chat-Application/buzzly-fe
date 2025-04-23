@@ -25,6 +25,7 @@
   "homepage": "https://github.com/nquynqthanq/buzzly-fe#readme",
   "type": "module",
   "scripts": {
+    "deploy": "vercel deploy --prod",
     "dev": "vite --open",
     "start": "vite --open",
     "host": "vite --open --host",
