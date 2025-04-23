@@ -10,6 +10,7 @@ import './main.css';
 import Loader from './components/Loader';
 import { Toaster } from 'react-hot-toast';
 import { ReviewProvider } from './providers/review.provider';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -17,9 +18,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Suspense fallback={<Loader />}>
         <AppThemeProvider>
           <BrowserRouter>
-            <CssBaseline >
+            <CssBaseline>
               <ReviewProvider>
                 <App />
+                <SpeedInsights />
               </ReviewProvider>
             </CssBaseline>
           </BrowserRouter>
@@ -27,5 +29,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </Suspense>
       <Toaster />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
