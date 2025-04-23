@@ -19,9 +19,9 @@ const SocialIcons = () => (
         gap: '10px'
     }}>
         {[
-            { icon: <Facebook />, link: 'https://www.facebook.com' },
-            { icon: <Instagram />, link: 'https://www.instagram.com' },
-            { icon: <GitHub />, link: 'https://www.github.com' }
+            { icon: <Facebook />, link: 'https://www.facebook.com/nquynqthanq/' },
+            { icon: <Instagram />, link: 'https://www.instagram.com/nquynqthanq/' },
+            { icon: <GitHub />, link: 'https://github.com/nquynqthanq' }
         ].map((item, index) => (
             <IconButton
                 key={index}
@@ -53,7 +53,7 @@ const ContactInfo = () => (
             Email: info@buzzly.com
         </Typography>
         <Typography sx={{ color: 'white.50', textAlign: { xs: 'center', md: 'left' } }}>
-            Phone: 555-567-8901
+            Phone: +1 (123) 456-7890
         </Typography>
         <Typography sx={{ color: 'white.50', textAlign: { xs: 'center', md: 'left' } }}>
             Address: 1234 Main St Moonstone<br />City, Stardust State 12345
@@ -67,7 +67,7 @@ const SubscriptionForm = () => (
         flexDirection: { xs: 'column', md: 'row' },
         gap: '15px',
         alignItems: 'center',
-        width: { xs: '100%', md: 'auto' }
+        width: { xs: '100%', md: '50%' }
     }}>
         <TextField
             variant="outlined"

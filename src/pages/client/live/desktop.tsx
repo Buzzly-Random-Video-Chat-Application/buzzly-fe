@@ -1,24 +1,26 @@
-import { Box } from '@mui/material'
-import LiveBanner from './desktop/LiveBanner'
-import LiveContent from './desktop/LiveContent'
-import Trending from './desktop/Trending'
+import { Box } from '@mui/material';
+import LiveBanner from './desktop/LiveBanner';
+import LiveContent from './desktop/LiveContent';
+import Trending from './desktop/Trending';
 
 const LiveDesktop = () => {
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 'fit-content',
-            py: 10,
-            gap: 10,
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                p: 10,
+                gap: 10,
+            }}
+        >
             <LiveBanner />
             <Trending />
             <LiveContent />
         </Box>
-    )
-}
+    );
+};
 
-export default LiveDesktop
+export default LiveDesktop;

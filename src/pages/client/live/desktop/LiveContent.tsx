@@ -1,7 +1,6 @@
-import { Box, Typography } from '@mui/material'
-import { flags, images } from '../../../../assets'
+import { Box, Typography } from '@mui/material';
+import { flags, images } from '../../../../assets';
 import LiveCard from './LiveCard';
-
 
 const LiveContent = () => {
     const liveCards = [
@@ -16,29 +15,34 @@ const LiveContent = () => {
         { viewers: 78, username: 'Diana', country: flags.jp, image: images.live4 },
         { viewers: 150, username: 'Eve', country: flags.de, image: images.live5 },
     ];
+
     return (
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            flexDirection: 'column',
-            width: '100%',
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                flexDirection: 'column',
+                width: '100%',
+            }}
+        >
             <Typography variant="h3" mb={3}>
-                LiveContent
+                Live Content
             </Typography>
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(6, 1fr)',
-                gap: '20px',
-                overflow: 'hidden',
-            }}>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '20px',
+                    width: '100%',
+                }}
+            >
                 {liveCards.map((liveCard, index) => (
                     <LiveCard key={index} {...liveCard} />
                 ))}
             </Box>
         </Box>
-    )
-}
+    );
+};
 
-export default LiveContent
+export default LiveContent;
