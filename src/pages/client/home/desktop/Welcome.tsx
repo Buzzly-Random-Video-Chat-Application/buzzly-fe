@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
-import { icons } from '../../../../assets'
+import { icons } from '@assets'
 import { useNavigate } from 'react-router-dom'
-import Button from '../../../../components/ui/Button'
+import Button from '@components/ui/Button'
 
 const Welcome = () => {
     const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { CircleRounded, KeyboardArrowDownRounded, KeyboardArrowUpRounded } from '@mui/icons-material';
-import { images, icons } from '../../../../assets';
+import { images, icons } from '@assets';
 import React, { useEffect, useRef } from 'react';
 import GenderModal from '../components/GenderModal';
 import CountryModal from '../components/CountryModal';

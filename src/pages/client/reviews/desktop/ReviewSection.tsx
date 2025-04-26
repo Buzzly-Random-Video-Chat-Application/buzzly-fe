@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import ReviewCard from '../components/ReviewCard';
-import { useGetReviewsQuery } from '../../../../apis/reviewApi';
-import Button from '../../../../components/ui/Button';
+import { useGetReviewsQuery } from '@apis/reviewApi';
+import Button from '@components/ui/Button';
 import { useState } from 'react';
 
 const ReviewSection = () => {

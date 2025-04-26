@@ -1,6 +1,6 @@
 import { Box, Typography, Divider } from '@mui/material';
-import { icons } from '../../../../assets';
-import Button from '../../../../components/ui/Button';
+import { icons } from '@assets';
+import Button from '@components/ui/Button';
 import { Google, Apple, ArrowBackRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { isBrowser } from 'react-device-detect';

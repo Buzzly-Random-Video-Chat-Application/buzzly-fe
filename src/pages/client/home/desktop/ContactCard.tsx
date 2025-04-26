@@ -1,8 +1,8 @@
 import { Box, Typography, TextField } from '@mui/material'
 import React from 'react'
-import { icons } from '../../../../assets';
+import { icons } from '@assets';
 import toast from 'react-hot-toast';
-import Button from '../../../../components/ui/Button';
+import Button from '@components/ui/Button';
 
 interface ContactInputProps {
     label: string;

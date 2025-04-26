@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box, Card, CircularProgress, Typography } from '@mui/material'
-import CustomFormInput from '../../../../components/CustomFormInput'
+import CustomFormInput from '@components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { LOGIN_ERROR_MESSAGE, LOGIN_SUCCESS_MESSAGE } from '../../../../constants/messages'
-import { useLoginMutation } from '../../../../apis/authApi'
-import Button from '../../../../components/ui/Button'
+import { LOGIN_ERROR_MESSAGE, LOGIN_SUCCESS_MESSAGE } from '@constants/messages'
+import { useLoginMutation } from '@apis/authApi'
+import Button from '@components/ui/Button'
 import { isBrowser } from 'react-device-detect'
 
 const LoginCard = () => {

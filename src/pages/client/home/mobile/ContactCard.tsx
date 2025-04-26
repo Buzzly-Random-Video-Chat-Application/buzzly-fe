@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
 import toast from 'react-hot-toast';
-import Button from '../../../../components/ui/Button';
-import CustomFormInput from '../../../../components/CustomFormInput';
+import Button from '@components/ui/Button';
+import CustomFormInput from '@components/CustomFormInput';
 
 const ContactCard = () => {
     const [name, setName] = useState('');

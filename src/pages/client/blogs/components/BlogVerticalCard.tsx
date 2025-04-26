@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { IBlog } from '../../../../types/app'
+import { IBlog } from '@types/app'
 import { Box, Typography } from '@mui/material'
 
 interface BlogVerticalCardProps {

@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
-import { reviews } from '../../../../constants/app';
+import { reviews } from '@constants/app';
 import ReviewCard from './ReviewCard';
-import Button from '../../../../components/ui/Button';
+import Button from '@components/ui/Button';
 import { isBrowser } from 'react-device-detect';
-import { useGetReviewsQuery } from '../../../../apis/reviewApi';
+import { useGetReviewsQuery } from '@apis/reviewApi';
 
 const Reviews = () => {
     const { data: reviewData } = useGetReviewsQuery({});

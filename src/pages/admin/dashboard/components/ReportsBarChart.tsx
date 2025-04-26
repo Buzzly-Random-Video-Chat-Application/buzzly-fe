@@ -9,7 +9,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import Button from '../../../../components/ui/Button';
+import Button from '@components/ui/Button';
 import { TipsAndUpdatesRounded } from '@mui/icons-material';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);

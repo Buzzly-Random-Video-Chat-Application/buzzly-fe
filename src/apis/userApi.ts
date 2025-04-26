@@ -23,7 +23,6 @@ export const userApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
-
         getUsers: builder.query({
             query: ({ sortBy, limit, page }: { sortBy?: string; limit?: number; page?: number } = {}) => ({
                 url: '/',
@@ -33,7 +32,7 @@ export const userApi = createApi({
             providesTags: ['User'],
         }),
         
-        getUserById: builder.query<IUser, string>({
+        getUser: builder.query<IUser, string>({
             query: (userId) => ({
                 url: `/${userId}`,
                 method: 'GET',
@@ -42,20 +41,19 @@ export const userApi = createApi({
         }),
 
         updateUser: builder.mutation({
-            query: ({ userId, formData }) => ({
+            query: ({ userId, userData }) => ({
                 url: `/${userId}`,
                 method: 'PATCH',
-                data: formData,
+                data: userData,
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }),
             async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 await queryFulfilled
                     .then(({ data }) => {
-                        console.log('User updated:', data);
-                        Cookies.set('user', JSON.stringify(data));
-                        dispatch(updateSuccess(data));
+                        Cookies.set('user', JSON.stringify(data.user));
+                        dispatch(updateSuccess(data.user));
                     })
                     .catch((error) => {
                         console.error('Error during user update:', error);
@@ -63,6 +61,7 @@ export const userApi = createApi({
             },
             invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
         }),
+
         deleteUser: builder.mutation({
             query: (userId) => ({
                 url: `/${userId}`,
@@ -70,6 +69,7 @@ export const userApi = createApi({
             }),
             invalidatesTags: ['User'], 
         }),
+
         updateIsShowReview: builder.mutation({
             query: ({ userId, isShowReview }) => ({
                 url: `/${userId}/review`,
@@ -81,6 +81,7 @@ export const userApi = createApi({
             }),
             invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }], 
         }),
+
         updateUserAvatar: builder.mutation({
             query: ({ userId, formData }) => ({
                 url: `/${userId}/avatar`,
@@ -93,12 +94,11 @@ export const userApi = createApi({
             async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 await queryFulfilled
                     .then(({ data }) => {
-                        console.log('User updated:', data);
-                        Cookies.set('user', JSON.stringify(data));
-                        dispatch(updateSuccess(data));
+                        Cookies.set('user', JSON.stringify(data.user));
+                        dispatch(updateSuccess(data.user));
                     })
                     .catch((error) => {
-                        console.error('Error during user update:', error);
+                        console.error('Error during avatar update:', error);
                     });
             },
             invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
@@ -109,7 +109,7 @@ export const userApi = createApi({
 export const {
     useCreateUserMutation,
     useGetUsersQuery,
-    useGetUserByIdQuery,
+    useGetUserQuery,
     useUpdateUserMutation,
     useDeleteUserMutation,
     useUpdateIsShowReviewMutation,

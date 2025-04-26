@@ -6,12 +6,12 @@ import { useReview } from '../../../hooks/review.hook';
 import { isBrowser } from 'react-device-detect';
 import { IMessage } from '../../../types/app';
 import { useAppSelector } from '../../../stores/store';
-import { useGetUserByIdQuery } from '../../../apis/userApi';
 
 import WaitingConnectionCardDesktop from './desktop/WaitingConnectionCard';
 import ConnectingCardDesktop from './desktop/ConnectingCard';
 import WaitingConnectionCardMobile from './mobile/WaitingConnectionCard';
 import ConnectingCardMobile from './mobile/ConnectingCard';
+import { useGetUserQuery } from '@apis/userApi';
 
 const WaitingConnectionCard = isBrowser ? WaitingConnectionCardDesktop : WaitingConnectionCardMobile;
 const ConnectingCard = isBrowser ? ConnectingCardDesktop : ConnectingCardMobile;
@@ -38,7 +38,7 @@ const VideoChat = () => {
 
     const { user } = useAppSelector((state) => state.user);
 
-    const { data: strangerInfo } = useGetUserByIdQuery(strangerUserId ?? '', {
+    const { data: strangerInfo } = useGetUserQuery(strangerUserId ?? '', {
         skip: !strangerUserId,
     });
 

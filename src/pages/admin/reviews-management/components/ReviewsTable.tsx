@@ -16,10 +16,10 @@ import {
     Avatar,
 } from '@mui/material';
 import { Search, MoreVert, ThumbUpOffAltRounded, ReportProblemRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
-import { IUser } from '../../../../types/user';
-import { getUserById } from '../../../../utils';
-import CustomTableHead, { CustomTableHeadItemProps } from '../../../../components/TableHead';
+import { IReview } from '@types/review';
+import { IUser } from '@types/user';
+import { getUser } from '@utils';
+import CustomTableHead, { CustomTableHeadItemProps } from '@components/TableHead';
 
 interface ReviewsTableProps {
     reviews: IReview[];
@@ -51,7 +51,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
         .filter((review) => {
             if (!searchTerm) return true;
             const searchLower = searchTerm.toLowerCase();
-            const user = getUserById(users, review.userId);
+            const user = getUser(users, review.userId);
             return (
                 review.name.toLowerCase().includes(searchLower) ||
                 (user?.email?.toLowerCase().includes(searchLower) || false) ||
@@ -136,7 +136,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                     <TableBody>
                         {paginatedReviews.length > 0 ? (
                             paginatedReviews.map((review, index) => {
-                                const user = getUserById(users, review.userId);
+                                const user = getUser(users, review.userId);
                                 return (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1}</TableCell>

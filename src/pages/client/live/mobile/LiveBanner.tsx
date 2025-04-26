@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
-import { icons } from '../../../../assets';
+import { icons } from '@assets';
 import InfinityCarousel from './InfinityCarousel';
 
 const LiveBanner = () => {

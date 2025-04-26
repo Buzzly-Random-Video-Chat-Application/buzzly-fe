@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material'
-import { useAppSelector } from '../../../../stores/store'
+import { useAppSelector } from '@stores/store'
 import { Edit } from '@mui/icons-material'
-import { useUpdateUserAvatarMutation } from '../../../../apis/userApi'
+import { useUpdateUserAvatarMutation } from '@apis/userApi'
 import { useRef } from 'react'
 import toast from 'react-hot-toast'
 

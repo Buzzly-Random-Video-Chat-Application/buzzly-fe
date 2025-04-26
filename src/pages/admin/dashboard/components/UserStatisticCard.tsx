@@ -1,8 +1,9 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { IUser } from '../../../../types/user';
-import Button from '../../../../components/ui/Button';
+import { IUser } from '@types/user';
+import Button from '@components/ui/Button';
 import { ZoomOutRounded } from '@mui/icons-material';
-import { getUserFlag, UppercaseFirstLetter } from '../../../../utils';
+import { getUserFlag } from '@utils/userUtils';
+import { UppercaseFirstLetter } from '@utils/textUtils';
 import { useNavigate } from 'react-router-dom';
 
 interface UserStatisticCardProps {
@@ -11,7 +12,6 @@ interface UserStatisticCardProps {
 
 const UserStatisticCard = ({ users }: UserStatisticCardProps) => {
     const navigate = useNavigate();
-
     return (
         <Box sx={{
             bgcolor: '#fff',

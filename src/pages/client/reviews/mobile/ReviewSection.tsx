@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import ReviewCard from '../components/ReviewCard';
-import { useGetReviewsQuery } from '../../../../apis/reviewApi';
+import { useGetReviewsQuery } from '@apis/reviewApi';
 import { useState } from 'react';
-import Button from '../../../../components/ui/Button';
+import Button from '@components/ui/Button';
 
 const ReviewSection = () => {
     const { data: reviewData } = useGetReviewsQuery({});

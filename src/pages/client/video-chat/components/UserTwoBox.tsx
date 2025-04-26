@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { images } from '../../../../assets';
+import { images } from '@assets';
 
 interface UserTwoBoxProps {
     strangerStream: MediaStream | null;

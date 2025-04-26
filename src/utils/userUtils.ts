@@ -5,7 +5,7 @@ export const getUserFlag = (user: IUser | null) => {
   return countries.find((country) => country.name === (user?.nationality || ""))?.flag;
 };
 
-export const getUserById = (users: IUser[] | undefined, userId: string): IUser | undefined => {
+export const getUser = (users: IUser[] | undefined, userId: string): IUser | undefined => {
   if (!Array.isArray(users)) {
     return undefined;
   }

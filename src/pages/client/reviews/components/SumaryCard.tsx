@@ -3,7 +3,7 @@ import StarRateRounded from '@mui/icons-material/StarRateRounded';
 import StarHalfRounded from '@mui/icons-material/StarHalfRounded';
 import StarOutlineRounded from '@mui/icons-material/StarOutlineRounded';
 import ProgressBar from '../components/ProgressBar';
-import { useGetAppRatingQuery } from '../../../../apis/reviewApi';
+import { useGetAppRatingQuery } from '@apis/reviewApi';
 import { isMobile } from 'react-device-detect';
 
 const SumaryCard = () => {

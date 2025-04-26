@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Divider, Typography } from '@mui/material';
-import { percentageColor } from '../../../../utils/colorUtils';
+import { percentageColor } from '@utils/colorUtils';
 
 interface StatisticsCardProps {
     color: 'primary' | 'dark' | 'light' | 'black' | 'white' | 'gray' | 'green' | 'red' | 'yellow' | 'blue';

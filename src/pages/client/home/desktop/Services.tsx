@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { services } from '../../../../constants/app';
+import { services } from '@constants/app';
 import ServiceCard from './ServiceCard';
 
 const Services = () => {

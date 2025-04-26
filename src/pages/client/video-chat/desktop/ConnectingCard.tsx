@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ChatBox from './ChatBox';
 import ConnectingContainer from './ConnectingContainer';
-import { IUser } from '../../../../types/user';
+import { IUser } from '@types/user';
 
 interface IMessage {
     text: string;

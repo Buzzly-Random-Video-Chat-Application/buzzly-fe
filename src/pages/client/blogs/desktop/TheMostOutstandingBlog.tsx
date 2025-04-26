@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import BlogHorizontalCard from '../components/BlogHorizontalCard'
-import { blogs } from '../../../../constants/app'
+import { blogs } from '@constants/app'
 
 const TheMostOutstandingBlog = () => {
     return (

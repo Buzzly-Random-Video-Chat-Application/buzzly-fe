@@ -468,7 +468,7 @@ const Header = () => {
                 onConfirm={handleLogout}
                 stage="warning"
             />
-            <ProfileModal user={user} open={openProfileModal} onClose={handleCloseProfileModal} />
+            <ProfileModal open={openProfileModal} onClose={handleCloseProfileModal} />
             <SettingModal user={user} open={openSettingModal} onClose={handleCloseSettingModal} />
         </Box>
     );

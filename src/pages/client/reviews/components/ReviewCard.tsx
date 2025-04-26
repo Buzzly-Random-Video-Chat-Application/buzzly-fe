@@ -1,14 +1,14 @@
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
-import { useGetUserByIdQuery } from '../../../../apis/userApi';
+import { IReview } from '@types/review';
+import { useGetUserQuery } from '@apis/userApi';
 
 interface ReviewCardProps {
     review: IReview;
 }
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
-    const { data: userData } = useGetUserByIdQuery(review.userId, {
+    const { data: userData } = useGetUserQuery(review.userId, {
         skip: !review.userId,
     });
     return (

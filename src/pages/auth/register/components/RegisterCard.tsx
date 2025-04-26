@@ -1,11 +1,11 @@
 import { Box, Card, CircularProgress, Typography } from '@mui/material'
 import React from 'react'
-import CustomFormInput from '../../../../components/CustomFormInput'
+import CustomFormInput from '@components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
-import { useRegisterMutation } from '../../../../apis/authApi'
+import { useRegisterMutation } from '@apis/authApi'
 import toast from "react-hot-toast";
-import { REGISTER_ERROR_MESSAGE, REGISTER_SUCCESS_MESSAGE } from '../../../../constants/messages'
-import Button from '../../../../components/ui/Button'
+import { REGISTER_ERROR_MESSAGE, REGISTER_SUCCESS_MESSAGE } from '@constants/messages'
+import Button from '@components/ui/Button'
 import { isBrowser } from 'react-device-detect'
 
 const RegisterCard = () => {

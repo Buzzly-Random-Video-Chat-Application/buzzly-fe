@@ -1,22 +1,22 @@
-import React, { useRef, useState } from 'react'
-import { IUser } from '../types/user'
+import React, { useEffect, useRef, useState } from 'react';
 import CustomDialog from './CustomDialog';
 import { Box, Button, CircularProgress, IconButton, Typography } from '@mui/material';
 import { AutoFixHighRounded } from '@mui/icons-material';
 import CustomProfileInput from './CustomProfileInput';
 import { countries } from '../constants/country';
 import { genders } from '../constants/gender';
-import { useUpdateUserMutation } from '../apis/userApi';
+import { useUpdateUserMutation, useUpdateUserAvatarMutation } from '../apis/userApi';
 import toast from 'react-hot-toast';
-import { UPDATE_PROFILE_ERROR_MESSAGE, UPDATE_PROFILE_SUCCESS_MESSAGE } from '../constants/messages';
+import { UPDATE_PROFILE_SUCCESS_MESSAGE, UPDATE_PROFILE_ERROR_MESSAGE } from '../constants/messages';
+import { useAppSelector } from '@stores/store';
 
 interface ProfileModalProps {
-    user: IUser | null;
     open: boolean;
     onClose: () => void;
 }
 
-const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
+const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
+    const { user } = useAppSelector((state) => state.user);
     const [name, setName] = useState(user?.name || '');
     const [email, setEmail] = useState(user?.email || '');
     const [gender, setGender] = useState(user?.gender || '');
@@ -24,7 +24,18 @@ const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
     const [avatar, setAvatar] = useState(user?.avatar || '');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const [updateUser, { isLoading }] = useUpdateUserMutation();
+    useEffect(() => {
+        if (user) {
+            setName(user.name);
+            setEmail(user.email);
+            setGender(user.gender);
+            setNationality(user.nationality);;
+            setAvatar(user.avatar);
+        }
+    }, [user]);
+
+    const [updateUser, { isLoading: isUpdatingProfile }] = useUpdateUserMutation();
+    const [updateUserAvatar, { isLoading: isUpdatingAvatar }] = useUpdateUserAvatarMutation();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -42,21 +53,35 @@ const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
     };
 
     const handleUpdateProfile = async () => {
-        const formData = new FormData();
-        formData.append('name', name);
-        if (selectedFile) {
-            formData.append('avatar', selectedFile);
-        }
-        formData.append('gender', gender);
-        formData.append('nationality', nationality);
+        const userData = {
+            name,
+            gender,
+            nationality,
+            hashTags: user?.hashTags || [],
+            aboutMe: user?.aboutMe || '',
+            preferredLanguage: user?.preferredLanguage || [],
+            location: user?.location || '',
+        };
 
-        updateUser({ userId: user?.id, formData }).unwrap()
+        updateUser({ userId: user?.id, userData })
+            .unwrap()
+            .then(() => {
+                if (selectedFile) {
+                    const formData = new FormData();
+                    formData.append('avatar', selectedFile);
+                    return updateUserAvatar({ userId: user?.id, formData }).unwrap();
+                }
+            })
             .then(() => {
                 toast.success(UPDATE_PROFILE_SUCCESS_MESSAGE);
+                setSelectedFile(null);
             })
             .catch((error) => {
                 toast.error(UPDATE_PROFILE_ERROR_MESSAGE);
-                console.error(error);
+                console.error('Error updating profile or avatar:', error);
+            })
+            .finally(() => {
+                onClose();
             });
     };
 
@@ -176,8 +201,8 @@ const ProfileModal = ({ user, open, onClose }: ProfileModalProps) => {
                     boxShadow: '2px 2px 0px #191A23',
                     transform: 'none',
                 }
-            }} onClick={handleUpdateProfile} disabled={isLoading}>
-                {isLoading ? <CircularProgress size={28} sx={{ color: 'dark.500' }} /> : 'Complete'}
+            }} onClick={handleUpdateProfile} disabled={isUpdatingProfile || isUpdatingAvatar}>
+                {isUpdatingProfile || isUpdatingAvatar ? <CircularProgress size={28} sx={{ color: 'dark.500' }} /> : 'Complete'}
             </Button>
         </CustomDialog>
     )

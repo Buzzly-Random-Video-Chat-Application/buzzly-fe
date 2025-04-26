@@ -1,8 +1,8 @@
 import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { useRef, useState, useEffect } from 'react';
-import { IMessage } from '../../../../types/app';
-import { getUserFlag } from '../../../../utils';
-import { IUser } from '../../../../types/user';
+import { IMessage } from '@types/app';
+import { getUserFlag } from '@utils';
+import { IUser } from '@types/user';
 import { Send } from '@mui/icons-material';
 
 interface ChatBoxProps {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import CustomDialog from '../../../../components/CustomDialog';
+import CustomDialog from '@components/CustomDialog';
 import RadioButton from './RadioButton';
-import { countries } from '../../../../constants/country';
+import { countries } from '@constants/country';
 
 interface CountryModalProps {
     open: boolean;

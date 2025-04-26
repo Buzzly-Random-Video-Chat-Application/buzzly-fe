@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import UserInfoFormItem from './UserInfoFormItem'
-import Button from '../../../../components/ui/Button'
+import Button from '@components/ui/Button'
 import { Edit } from '@mui/icons-material'
 
 const UserAddressCard = () => {

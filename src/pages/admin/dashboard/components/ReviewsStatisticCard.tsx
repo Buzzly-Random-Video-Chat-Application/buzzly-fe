@@ -1,10 +1,10 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
 import { ZoomOutRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
-import Button from '../../../../components/ui/Button';
-import { IUser } from '../../../../types/user';
-import { getUserById } from '../../../../utils';
-import DashboardSumaryReviewCard from '../../../../components/DashboardSumaryReviewCard';
+import { IReview } from '@types/review';
+import Button from '@components/ui/Button';
+import { IUser } from '@types/user';
+import { getUser } from '@utils';
+import DashboardSumaryReviewCard from '@components/DashboardSumaryReviewCard';
 import { useNavigate } from 'react-router-dom';
 
 interface ReviewsStatisticCardProps {
@@ -66,11 +66,11 @@ const ReviewsStatisticCard = ({ reviews, users }: ReviewsStatisticCardProps) => 
                                         textOverflow: 'ellipsis',
                                     }}>
                                         <Avatar
-                                            src={getUserById(users, review.userId)?.avatar || ''}
-                                            alt={getUserById(users, review.userId)?.name || 'Unknown User'}
+                                            src={getUser(users, review.userId)?.avatar || ''}
+                                            alt={getUser(users, review.userId)?.name || 'Unknown User'}
                                             sx={{ width: 32, height: 32 }}
                                         />
-                                        {getUserById(users, review.userId)?.name || 'Unknown User'}
+                                        {getUser(users, review.userId)?.name || 'Unknown User'}
                                     </Box>
                                 </TableCell>
                                 <TableCell sx={{ width: '100px' }}>{review.rating}</TableCell>

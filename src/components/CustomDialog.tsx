@@ -35,7 +35,7 @@ const CustomDialog: React.FC<DialogProps> = ({ open, onClose, children, maxWidth
         },
       }}
     >
-      <DialogContent sx={{ p: 4, overflowY: 'auto' }}>{children}</DialogContent>
+      <DialogContent sx={{ p: 4, overflowY: 'auto', scrollbarWidth: 'none' }}>{children}</DialogContent>
       {actions && <Box sx={{ p: 2 }}>{actions}</Box>}
     </Dialog>
   );

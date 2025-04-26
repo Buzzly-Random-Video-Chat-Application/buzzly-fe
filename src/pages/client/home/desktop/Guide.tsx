@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import GuideCard from './GuideCard'
-import { guides } from '../../../../constants/app'
+import { guides } from '@constants/app'
 
 const Guide = () => {
     return (

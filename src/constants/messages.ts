@@ -31,3 +31,6 @@ export const RESET_PASSWORD_ERROR_MESSAGE = 'Failed to reset password.';
 
 export const UPDATE_PROFILE_SUCCESS_MESSAGE = 'Profile updated successfully.';
 export const UPDATE_PROFILE_ERROR_MESSAGE = 'Failed to update profile.';
+
+export const DELETE_USER_SUCCESS_MESSAGE = 'User deleted successfully.';
+export const DELETE_USER_ERROR_MESSAGE = 'Failed to delete user.';

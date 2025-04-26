@@ -8,5 +8,10 @@ export interface IUser {
     role: string;
     isShowReview: boolean;
     isOnline: boolean;
+    isEmailVerified?: boolean;
+    hashTags: string[];
+    aboutMe: string;
+    preferredLanguage: string[];
+    location: string;
 }
 

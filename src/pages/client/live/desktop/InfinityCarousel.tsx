@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Avatar, Box, Typography } from "@mui/material";
 import { RemoveRedEyeRounded } from "@mui/icons-material";
-import { flags, images } from "../../../../assets";
+import { flags, images } from "@assets";
 
 const lives = [
     {

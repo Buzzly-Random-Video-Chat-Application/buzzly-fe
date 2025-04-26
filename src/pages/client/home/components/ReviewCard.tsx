@@ -1,7 +1,7 @@
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
-import { useGetUserByIdQuery } from '../../../../apis/userApi';
+import { IReview } from '@types/review';
+import { useGetUserQuery } from '@apis/userApi';
 import { useNavigate } from 'react-router-dom';
 
 interface ReviewCardProps {
@@ -10,7 +10,7 @@ interface ReviewCardProps {
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
     const navigate = useNavigate();
-    const { data: userData } = useGetUserByIdQuery(review.userId, {
+    const { data: userData } = useGetUserQuery(review.userId, {
         skip: !review.userId,
     });
     return (

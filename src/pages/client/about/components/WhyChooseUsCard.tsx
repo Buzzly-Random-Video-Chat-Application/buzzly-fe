@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { icons } from '../../../../assets'
+import { icons } from '@assets'
 
 interface WhyChooseUsCardProps {
     index: number

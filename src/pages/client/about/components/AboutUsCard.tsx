@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { icons } from '../../../../assets'
-import Button from '../../../../components/ui/Button'
+import { icons } from '@assets'
+import Button from '@components/ui/Button'
 import { isBrowser } from 'react-device-detect'
 
 const AboutUsCard = () => {
