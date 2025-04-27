@@ -11,10 +11,10 @@ import ProfileModal from './ProfileModal';
 import SettingModal from './SettingModal';
 import Button from './ui/Button';
 import { getUserFlag } from '../utils/userUtils';
-import { useAppSelector } from '../stores/store';
+import { useAppSelector, RootState } from '../stores/store';
 
 const Header = () => {
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
     const location = useLocation();
     const navigate = useNavigate();
     const [userAnchorEl, setUserAnchorEl] = useState<HTMLDivElement | null>(null);

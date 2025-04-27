@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { flags, images } from '@assets';
+import { flags, images } from '@assets/index';
 import LiveCard from './LiveCard';
 
 const Trending = () => {

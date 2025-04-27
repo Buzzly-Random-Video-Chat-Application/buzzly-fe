@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import { flags, images } from "@assets";
+import { flags, images } from "@assets/index";
 
 const lives = [
     {

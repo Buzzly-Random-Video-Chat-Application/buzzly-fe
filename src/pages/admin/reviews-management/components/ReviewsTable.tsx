@@ -16,14 +16,14 @@ import {
     Avatar,
 } from '@mui/material';
 import { Search, MoreVert, ThumbUpOffAltRounded, ReportProblemRounded } from '@mui/icons-material';
-import { IReview } from '@types/review';
-import { IUser } from '@types/user';
-import { getUser } from '@utils';
+import { IReview } from '../../../../types/review';
+import { IUser } from '../../../../types/user';
+import { getUser } from '@utils/userUtils';
 import CustomTableHead, { CustomTableHeadItemProps } from '@components/TableHead';
 
 interface ReviewsTableProps {
-    reviews: IReview[];
-    users: IUser[];
+    reviews: IReview[] | undefined;
+    users: IUser[] | undefined;
 }
 
 const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
@@ -53,7 +53,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
             const searchLower = searchTerm.toLowerCase();
             const user = getUser(users, review.userId);
             return (
-                review.name.toLowerCase().includes(searchLower) ||
+                review.name?.toLowerCase().includes(searchLower) ||
                 (user?.email?.toLowerCase().includes(searchLower) || false) ||
                 review.review.toLowerCase().includes(searchLower)
             );
@@ -173,7 +173,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                             <TableRow>
                                 <TableCell colSpan={5} sx={{ textAlign: 'center', py: 4 }}>
                                     <Typography variant="body2" color="textSecondary">
-                                        No reviews found.
+                                        No review found.
                                     </Typography>
                                 </TableCell>
                             </TableRow>

@@ -1,5 +1,5 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material'
-import { useAppSelector } from '@stores/store'
+import { RootState, useAppSelector } from '@stores/store'
 import { Edit } from '@mui/icons-material'
 import { useUpdateUserAvatarMutation } from '@apis/userApi'
 import { useRef } from 'react'
@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 
 const UserHeaderCard = () => {
-    const { user } = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state: RootState) => state.user);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const [updateUserAvatar] = useUpdateUserAvatarMutation()
@@ -18,7 +18,7 @@ const UserHeaderCard = () => {
             const file = files[0];
             const formData = new FormData();
             formData.append('avatar', file);
-            updateUserAvatar({ userId: user?.id, formData })
+            updateUserAvatar({ userId: user?.id || '', formData })
                 .unwrap()
                 .then(() => {
                     toast.success('Avatar updated successfully');

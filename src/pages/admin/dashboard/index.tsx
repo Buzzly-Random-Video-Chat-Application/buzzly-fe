@@ -1,15 +1,18 @@
 import { Box } from "@mui/material"
 import { useGetReviewsQuery } from "../../../apis/reviewApi";
-import ReviewsStatisticCard from "./components/ReviewsStatisticCard";
+import ReviewsStatisticSection from "./components/ReviewsStatisticSection";
 import { useGetUsersQuery } from "../../../apis/userApi";
-import UserStatisticCard from "./components/UserStatisticCard";
+import UserStatisticSection from "./components/UserStatisticSection";
 import StatisticCardSection from "./components/StatisticCardSection";
 import ChartSection from "./components/ChartSection";
 import AdminTopBar from "../../../components/AdminTopBar";
+import { useGetBlogsQuery } from "@apis/blogApi";
+import BlogStatisticSection from "./components/BlogsStatisticSection";
 
 const Dashboard = () => {
     const { data: reviews } = useGetReviewsQuery({})
     const { data: users } = useGetUsersQuery({})
+    const { data: blogs } = useGetBlogsQuery({})
 
     return (
         <Box sx={{
@@ -24,8 +27,9 @@ const Dashboard = () => {
             <AdminTopBar />
             <StatisticCardSection />
             <ChartSection />
-            <ReviewsStatisticCard reviews={reviews?.results || []} users={users?.results} />
-            <UserStatisticCard users={users?.results || []} />
+            <ReviewsStatisticSection reviews={reviews?.results || []} users={users?.results} />
+            <UserStatisticSection users={users?.results || []} />
+            <BlogStatisticSection blogs={blogs?.results || []} />
         </Box>
     )
 }

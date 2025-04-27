@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { ReviewContext } from '../hooks/review.hook';
-import { useAppSelector } from '../stores/store';
+import { RootState, useAppSelector } from '../stores/store';
 import { useCreateReviewMutation } from '../apis/reviewApi';
 import { useUpdateIsShowReviewMutation } from '../apis/userApi';
 import { IReview } from '../types/review';
 
 export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
     const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
     const [shouldShowReviewDialog, setShouldShowReviewDialog] = useState(false);
 

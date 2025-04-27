@@ -1,11 +1,30 @@
-import { Home, NotificationsRounded, Search, SettingsRounded } from '@mui/icons-material';
-import { Box, IconButton, Typography, TextField, InputAdornment, Avatar } from '@mui/material';
+import {
+    Box,
+    IconButton,
+    Typography,
+    TextField,
+    InputAdornment,
+    Avatar,
+    Button,
+} from '@mui/material';
+import {
+    Home,
+    NotificationsRounded,
+    Search,
+    SettingsRounded,
+    ArrowBackIosNewRounded as ArrowBackIosRounded,
+} from '@mui/icons-material';
 import { useState } from 'react';
-import { useAppSelector } from '../stores/store';
+import { RootState, useAppSelector } from '../stores/store';
 
-const AdminTopBar = () => {
+interface AdminTopBarProps {
+    title?: string;
+    handleClick?: () => void;
+}
+
+const AdminTopBar = ({ title, handleClick }: AdminTopBarProps) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
 
     return (
         <Box
@@ -42,102 +61,135 @@ const AdminTopBar = () => {
                     padding: '0 1rem',
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '1.4rem',
-                        fontWeight: 400,
-                        color: 'dark.500',
-                    }}
-                >
-                    <IconButton
-                        disableTouchRipple
-                        sx={{
-                            padding: 0,
-                            color: 'dark.500',
-                            backgroundColor: 'transparent',
-                            '&:hover': {
-                                backgroundColor: 'transparent',
-                            },
-                        }}
-                    >
-                        <Home fontSize="small" />
-                    </IconButton>
-                    /
-                    <Typography
-                        sx={{
-                            fontSize: '1.4rem',
-                            fontWeight: 400,
-                            color: 'dark.500',
-                        }}
-                    >
-                        Home
-                    </Typography>
-                </Box>
-
+                {/* Left Section: Conditional Title or Home Breadcrumb */}
                 <Box
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '1rem',
+                        fontSize: '1.4rem',
+                        fontWeight: 400,
+                        color: 'dark.500',
                     }}
                 >
-                    <TextField
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search />
-                                </InputAdornment>
-                            ),
-                        }}
-                        sx={{
-                            flex: 1,
-                            maxWidth: { xs: '100%', md: 300 },
-                            '& .MuiInputBase-root': {
-                                padding: '10px 20px 10px 8px',
-                                borderRadius: '8px',
-                                fontSize: 16,
-                            },
-                            '& .MuiInputBase-input': {
-                                padding: '2px',
-                            },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.200',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'gray.400',
-                            },
-                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'dark.500',
-                                borderWidth: 1,
-                            },
-                        }}
-                    />
-                    <Avatar
-                        src={user?.avatar}
-                        alt="User Avatar"
-                        sx={{
-                            width: 40,
-                            height: 40,
-                            marginLeft: '1rem',
-                            cursor: 'pointer',
-                            '&:hover': {
-                                backgroundColor: 'gray.200',
-                            },
-                        }}
-                    />
-                    <IconButton>
-                        <SettingsRounded />
-                    </IconButton>
-                    <IconButton>
-                        <NotificationsRounded />
-                    </IconButton>
+                    {title ? (
+                        <Button
+                            onClick={handleClick}
+                            disableTouchRipple
+                            sx={{
+                                padding: 0,
+                                color: 'dark.500',
+                                backgroundColor: 'transparent',
+                                '&:hover': {
+                                    backgroundColor: 'transparent',
+                                },
+                                textTransform: 'none',
+                                gap: '1rem',
+                            }}
+                        >
+                            <ArrowBackIosRounded fontSize="small" />
+                            <Typography
+                                sx={{
+                                    fontSize: '1rem',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {title}
+                            </Typography>
+                        </Button>
+                    ) : (
+                        <>
+                            <IconButton
+                                disableTouchRipple
+                                sx={{
+                                    padding: 0,
+                                    color: 'dark.500',
+                                    backgroundColor: 'transparent',
+                                    '&:hover': {
+                                        backgroundColor: 'transparent',
+                                    },
+                                }}
+                            >
+                                <Home fontSize="small" />
+                            </IconButton>
+                            /
+                            <Typography
+                                sx={{
+                                    fontSize: '1.4rem',
+                                    fontWeight: 400,
+                                    color: 'dark.500',
+                                }}
+                            >
+                                Home
+                            </Typography>
+                        </>
+                    )}
                 </Box>
+
+                {/* Right Section: Search, Avatar, and Icons (Hidden when title is present) */}
+                {!title && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                        }}
+                    >
+                        <TextField
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            sx={{
+                                flex: 1,
+                                maxWidth: { xs: '100%', md: 300 },
+                                '& .MuiInputBase-root': {
+                                    padding: '10px 20px 10px 8px',
+                                    borderRadius: '8px',
+                                    fontSize: 16,
+                                },
+                                '& .MuiInputBase-input': {
+                                    padding: '2px',
+                                },
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: 'gray.200',
+                                },
+                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: 'gray.400',
+                                },
+                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: 'dark.500',
+                                    borderWidth: 1,
+                                },
+                            }}
+                        />
+                        <Avatar
+                            src={user?.avatar}
+                            alt="User Avatar"
+                            sx={{
+                                width: 40,
+                                height: 40,
+                                marginLeft: '1rem',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    backgroundColor: 'gray.200',
+                                },
+                            }}
+                        />
+                        <IconButton>
+                            <SettingsRounded />
+                        </IconButton>
+                        <IconButton>
+                            <NotificationsRounded />
+                        </IconButton>
+                    </Box>
+                )}
             </Box>
         </Box>
     );

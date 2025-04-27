@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import PopupModal from './PopupModal';
 import useLogout from '../utils/useLogout';
 import toast from 'react-hot-toast';
-import { useAppSelector } from '../stores/store';
+import { RootState, useAppSelector } from '../stores/store';
 
 type SidebarItemProps = {
     type: string;
@@ -67,7 +67,7 @@ const SidebarItem = ({ type, icon, title, selectedMenu, openSideBar, onClick }: 
 const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
     const [openSideBar, setOpenSideBar] = useState(true);
     const [selectedMenu, setSelectedMenu] = useState('dashboard');
     const [openModal, setOpenModal] = useState(false);

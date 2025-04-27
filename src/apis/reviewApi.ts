@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { REVIEW_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
-import { IReview, IAppRating, IReviewResponse, IReviewRequest } from '../types/review';
+import { IReview, IAppRating, IReviewResponse, IReviewRequest, IReviewListResponse, IReviewUpdate } from '../types/review';
 
 export const reviewApi = createApi({
     reducerPath: 'reviewApi',
@@ -10,7 +10,7 @@ export const reviewApi = createApi({
     }),
     tagTypes: ['Review'],  
     endpoints: (builder) => ({
-        createReview: builder.mutation<IReview, IReview>({
+        createReview: builder.mutation<IReviewResponse, IReview>({
             query: (reviewData) => ({
                 url: '/',
                 method: 'POST',
@@ -22,7 +22,7 @@ export const reviewApi = createApi({
             invalidatesTags: ['Review'], 
         }),
 
-        getReviews: builder.query<IReviewResponse, IReviewRequest>({
+        getReviews: builder.query<IReviewListResponse, IReviewRequest>({
             query: ({  sortBy, limit, page }: {sortBy?: string; limit?: number; page?: number } = {}) => ({
                 url: '/',
                 method: 'GET',
@@ -31,7 +31,7 @@ export const reviewApi = createApi({
             providesTags: ['Review'], 
         }),
 
-        updateReview: builder.mutation({
+        updateReview: builder.mutation<IReviewResponse, {reviewId: string, reviewData: IReviewUpdate}>({
             query: ({ reviewId, reviewData }) => ({
                 url: `/${reviewId}`,
                 method: 'PATCH',

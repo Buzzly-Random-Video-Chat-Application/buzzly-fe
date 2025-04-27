@@ -1,7 +1,7 @@
 export interface IReview {
     id?: string;
     userId: string;
-    name: string;
+    name?: string;
     rating: number;
     review: string;
 }
@@ -17,6 +17,12 @@ export interface IAppRating {
 }
 
 export interface IReviewResponse {
+    message: string;
+    result: IReview;
+}
+
+export interface IReviewListResponse {
+    message: string;
     results: IReview[];
     page: number;
     limit: number;
@@ -29,3 +35,9 @@ export interface IReviewRequest {
     limit?: number;
     page?: number;
 }
+
+export interface IReviewUpdate {
+    rating: number;
+    review: string;
+}
+

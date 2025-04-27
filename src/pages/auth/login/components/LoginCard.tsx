@@ -34,7 +34,7 @@ const LoginCard = () => {
             const response = await login({ email, password }).unwrap();
             toast.success(LOGIN_SUCCESS_MESSAGE);
 
-            const userRole = response.user.role;
+            const userRole = response.result.role;
 
             if (userRole === 'admin') {
                 navigate('/dashboard');

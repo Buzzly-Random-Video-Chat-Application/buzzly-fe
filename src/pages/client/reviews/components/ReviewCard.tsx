@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
-import { IReview } from '@types/review';
+import { IReview } from '../../../../types/review';
 import { useGetUserQuery } from '@apis/userApi';
 
 interface ReviewCardProps {
@@ -32,8 +32,8 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
         >
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' }}>
                 <Avatar
-                    src={userData?.avatar}
-                    alt={userData?.name}
+                    src={userData?.result?.avatar}
+                    alt={userData?.result?.name}
                     sx={{
                         width: '50px',
                         height: '50px',
@@ -42,7 +42,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
                 />
                 <Box>
                     <Typography variant="body1" sx={{ fontWeight: 700 }}>
-                        {userData?.name}
+                        {userData?.result?.name}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
                         {[1, 2, 3, 4, 5].map((item, index) => (

@@ -1,5 +1,5 @@
 import { Box, Typography, Divider } from '@mui/material';
-import { icons } from '@assets';
+import { icons } from '@assets/index';
 import Button from '@components/ui/Button';
 import { Google, Apple, ArrowBackRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';

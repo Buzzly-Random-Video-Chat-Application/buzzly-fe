@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomDialog from '@components/CustomDialog';
 import { Box, Button, Typography } from '@mui/material';
-import { icons } from '@assets';
+import { icons } from '@assets/index';
 import GenderButton from './GenderButton';
 
 interface GenderModalProps {

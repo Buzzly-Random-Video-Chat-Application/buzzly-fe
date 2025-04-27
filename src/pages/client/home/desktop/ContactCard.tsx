@@ -1,6 +1,6 @@
 import { Box, Typography, TextField } from '@mui/material'
 import React from 'react'
-import { icons } from '@assets';
+import { icons } from '@assets/index';
 import toast from 'react-hot-toast';
 import Button from '@components/ui/Button';
 

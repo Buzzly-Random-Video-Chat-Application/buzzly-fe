@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
-import { IReview } from '@types/review';
+import { IReview } from '../../../../types/review';
 import { useGetUserQuery } from '@apis/userApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
     const { data: userData } = useGetUserQuery(review.userId, {
         skip: !review.userId,
     });
+
     return (
         <Box
             sx={{
@@ -42,8 +43,8 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
                 }}
             >
                 <Avatar
-                    src={userData?.avatar}
-                    alt={userData?.name}
+                    src={userData?.result?.avatar}
+                    alt={userData?.result?.name}
                     sx={{
                         width: { xs: '40px', md: '50px' },
                         height: { xs: '40px', md: '50px' },
@@ -52,7 +53,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
                 />
                 <Box>
                     <Typography variant="body1" sx={{ fontWeight: 700 }}>
-                        {userData?.name}
+                        {userData?.result?.name}
                     </Typography>
                     <Box
                         sx={{

@@ -1,4 +1,5 @@
-import { TableRow, TableHead, TableCell, TableSortLabel, Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export interface CustomTableHeadItemProps {
     icon: React.ReactNode;
@@ -11,47 +12,48 @@ interface CustomTableHeadProps {
     setSelected: (item: CustomTableHeadItemProps) => void;
 }
 
+const StyledButton = styled(Button)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+    border: '1px solid #F0F1F2',
+    borderRadius: '8px',
+    padding: '8px 16px',
+    textTransform: 'none',
+    justifyContent: 'flex-start',
+    '& .MuiButton-startIcon': {
+        marginRight: theme.spacing(2),
+    },
+}));
+
 const CustomTableHead = ({ items, selected, setSelected }: CustomTableHeadProps) => {
     return (
-        <TableHead>
-            <TableRow sx={{ display: 'flex', flexDirection: 'row', width: '100%', gap: 1 }}>
-                {items.map((item, index) => (
-                    <TableCell
-                        key={index}
-                        sx={{
-                            flex: 1,
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+            {items.map((item, index) => (
+                <StyledButton
+                    key={index}
+                    sx={{
+                        color: 'dark.500',
+                        bgcolor: selected.title === item.title ? 'primary.light' : 'transparent',
+                    }}
+                    onClick={() => setSelected(item)}
+                    startIcon={
+                        <Box sx={{
                             display: 'flex',
+                            justifyContent: 'center',
                             alignItems: 'center',
-                            cursor: 'pointer',
-                            color: selected.title === item.title ? 'primary.main' : 'text.secondary',
-                            bgcolor: selected.title === item.title ? 'primary.light' : 'transparent',
-                            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
-                            border: '1px solid #F0F1F2',
-                            borderRadius: '8px',
-                            padding: '8px 16px',
-                        }}
-                    >
-                        <TableSortLabel
-                            active={selected.title === item.title}
-                            direction={selected.title === item.title ? 'asc' : 'desc'}
-                            onClick={() => setSelected(item)}
-                            sx={{ flexDirection: 'row', alignItems: 'center' }}
-                        >
-                            <Box sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                color: 'dark.500',
-                                mr: 2,
-                            }}>
-                                {item.icon}
-                            </Box>
-                            {item.title}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
+                            color: 'dark.500',
+                        }}>
+                            {item.icon}
+                        </Box>
+                    }
+                    disableTouchRipple
+                >
+                    {item.title}
+                </StyledButton>
+            ))}
+        </Box>
     );
 };
 

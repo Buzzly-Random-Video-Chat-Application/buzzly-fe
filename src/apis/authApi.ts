@@ -3,7 +3,7 @@ import { AUTH_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
 import Cookies from 'js-cookie';
 import { loginSuccess } from '../stores/slices/userSlice';
-import { IAuth } from '../types/auth';
+import { IAuthResponse } from '../types/auth';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -11,7 +11,7 @@ export const authApi = createApi({
         baseUrl: AUTH_ENDPOINT,
     }),
     endpoints: (builder) => ({
-        register: builder.mutation<IAuth, { email: string; password: string; name: string }>({
+        register: builder.mutation<IAuthResponse, { email: string; password: string; name: string }>({
             query: ({ email, password, name }) => ({
                 url: '/register',
                 method: 'POST',
@@ -22,7 +22,7 @@ export const authApi = createApi({
                 },
             }),
         }),
-        login: builder.mutation<IAuth, { email: string, password: string}>({
+        login: builder.mutation<IAuthResponse, { email: string, password: string}>({
             query: ({ email, password }) => ({
                 url: '/login',
                 method: 'POST',
@@ -39,8 +39,8 @@ export const authApi = createApi({
                     Cookies.set('accessToken', accessToken);
                     Cookies.set('refreshToken', refreshToken);
 
-                    Cookies.set('user', JSON.stringify(data.user));
-                    dispatch(loginSuccess(data.user));
+                    Cookies.set('user', JSON.stringify(data.result));
+                    dispatch(loginSuccess(data.result));
                 }).catch((error) => {
                     console.error('Error during login:', error);
                 });

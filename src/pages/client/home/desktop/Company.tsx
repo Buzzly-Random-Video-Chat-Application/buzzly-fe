@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { icons } from '@assets'
+import { icons } from '@assets/index'
 
 const Company = () => {
     return (

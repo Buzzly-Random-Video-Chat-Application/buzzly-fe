@@ -34,7 +34,7 @@ import toast from 'react-hot-toast';
 import { DELETE_USER_SUCCESS_MESSAGE, DELETE_USER_ERROR_MESSAGE } from '@constants/messages';
 
 interface UsersTableProps {
-    users: IUser[];
+    users: IUser[] | undefined;
 }
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -312,7 +312,7 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                             <TableRow>
                                 <TableCell colSpan={8} sx={{ textAlign: 'center', py: 4 }}>
                                     <Typography variant="body2" color="textSecondary">
-                                        No users found.
+                                        No user found.
                                     </Typography>
                                 </TableCell>
                             </TableRow>

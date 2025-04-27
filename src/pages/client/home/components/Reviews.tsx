@@ -8,6 +8,7 @@ import { useGetReviewsQuery } from '@apis/reviewApi';
 const Reviews = () => {
     const { data: reviewData } = useGetReviewsQuery({});
 
+    console.log('Review data:', reviewData);
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: { xs: '20px', md: '0' } }}>
             {/* Header */}

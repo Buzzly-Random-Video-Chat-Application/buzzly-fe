@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { icons } from '@assets'
+import { icons } from '@assets/index'
 import { useNavigate } from 'react-router-dom'
 import Button from '@components/ui/Button'
 

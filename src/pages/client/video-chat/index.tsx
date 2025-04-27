@@ -5,7 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import { useReview } from '../../../hooks/review.hook';
 import { isBrowser } from 'react-device-detect';
 import { IMessage } from '../../../types/app';
-import { useAppSelector } from '../../../stores/store';
+import { RootState, useAppSelector } from '../../../stores/store';
 
 import WaitingConnectionCardDesktop from './desktop/WaitingConnectionCard';
 import ConnectingCardDesktop from './desktop/ConnectingCard';
@@ -36,7 +36,7 @@ const VideoChat = () => {
     const socketRef = useRef<Socket | null>(null);
     const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
 
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
 
     const { data: strangerInfo } = useGetUserQuery(strangerUserId ?? '', {
         skip: !strangerUserId,
@@ -364,7 +364,7 @@ const VideoChat = () => {
                     strangerStream={strangerStream}
                     messages={messages}
                     sendMessage={sendMessage}
-                    strangerInfo={strangerInfo}
+                    strangerInfo={strangerInfo?.result}
                 />
             )}
             <PopupModal

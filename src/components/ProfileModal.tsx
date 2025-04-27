@@ -8,7 +8,7 @@ import { genders } from '../constants/gender';
 import { useUpdateUserMutation, useUpdateUserAvatarMutation } from '../apis/userApi';
 import toast from 'react-hot-toast';
 import { UPDATE_PROFILE_SUCCESS_MESSAGE, UPDATE_PROFILE_ERROR_MESSAGE } from '../constants/messages';
-import { useAppSelector } from '@stores/store';
+import { useAppSelector, RootState } from '@stores/store';
 
 interface ProfileModalProps {
     open: boolean;
@@ -16,7 +16,7 @@ interface ProfileModalProps {
 }
 
 const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector((state: RootState) => state.user);
     const [name, setName] = useState(user?.name || '');
     const [email, setEmail] = useState(user?.email || '');
     const [gender, setGender] = useState(user?.gender || '');
@@ -63,7 +63,11 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
             location: user?.location || '',
         };
 
-        updateUser({ userId: user?.id, userData })
+        if (!user?.id) {
+            toast.error('User ID is missing.');
+            return;
+        }
+        updateUser({ userId: user.id, userData })
             .unwrap()
             .then(() => {
                 if (selectedFile) {
@@ -151,27 +155,27 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
                         label='name'
                         placeholder='Enter your name'
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value as string)}
                     />
                     <CustomProfileInput
                         label='email'
                         placeholder='Enter your email'
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value as string)}
                         disabled={true}
                     />
                     <CustomProfileInput
                         label='gender'
                         placeholder='Select your gender'
                         value={gender}
-                        onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setGender(e.target.value as string)}
                         options={genders.map((gender) => gender.name)}
                     />
                     <CustomProfileInput
                         label="country"
                         placeholder="Select your country"
                         value={nationality}
-                        onChange={(e) => setNationality(e.target.value)}
+                        onChange={(e) => setNationality(e.target.value as string)}
                         options={countries.map((country) => country.name)}
                     />
                 </Box>
