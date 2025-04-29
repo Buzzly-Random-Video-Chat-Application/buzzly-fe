@@ -36,7 +36,7 @@ const BlogsManagement = () => {
             {activeTab === 'ADD' && (
                 <>
                     <AdminTopBar title="Add New Blog" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="add" />
+                    <BlogAction action="add" setActiveTabProp={() => setActiveTab('TABLE')} />
                 </>
             )}
             {activeTab === 'ADD_BY_CSV' && (
@@ -48,13 +48,13 @@ const BlogsManagement = () => {
             {activeTab === 'EDIT' && selectedBlog && (
                 <>
                     <AdminTopBar title="Edit Blog" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="edit" blog={selectedBlog} />
+                    <BlogAction action="edit" blog={selectedBlog} setActiveTabProp={() => setActiveTab('TABLE')} />
                 </>
             )}
             {activeTab === 'VIEW' && selectedBlog && (
                 <>
                     <AdminTopBar title="Blog Details" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="view" blog={selectedBlog} />
+                    <BlogAction action="view" blog={selectedBlog} setActiveTabProp={() => setActiveTab('TABLE')} />
                 </>
             )}
         </Box>

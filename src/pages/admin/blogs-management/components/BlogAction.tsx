@@ -4,7 +4,6 @@ import {
     TextField,
     Button,
     Typography,
-    CircularProgress,
     MenuItem,
     FormControl,
     InputLabel,
@@ -25,13 +24,13 @@ import { isBrowser } from 'react-device-detect';
 import { icons } from '@assets/index';
 import CustomButton from '@components/ui/Button';
 
-
 interface BlogActionProps {
     action: string;
     blog?: IBlog;
+    setActiveTabProp: (tab: string) => void;
 }
 
-const BlogAction = ({ action, blog }: BlogActionProps) => {
+const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
     const { user } = useAppSelector((state: RootState) => state.user);
     const [formData, setFormData] = useState<Partial<IBlog>>({
         label: '',
@@ -59,6 +58,7 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                 ...blog,
                 content: blog.content || [{ intro: '', sections: [] }],
             });
+            setImageFile(null); // Reset imageFile khi chỉnh sửa
         } else if (action === 'add') {
             setFormData({
                 label: '',
@@ -70,6 +70,7 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                 author: user || undefined,
                 isPinned: false,
             });
+            setImageFile(null); // Reset imageFile khi thêm mới
         }
     }, [action, user, blog]);
 
@@ -164,10 +165,7 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
         const file = e.target.files?.[0];
         if (file) {
             setImageFile(file);
-            setFormData((prev) => ({
-                ...prev,
-                image_title: file.name,
-            }));
+            // Removed automatic setting of image_title
         }
     };
 
@@ -176,17 +174,26 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
         e.preventDefault();
 
         // Basic validation
-        if (!formData.label || !formData.title || !formData.description) {
+        if (!formData.label || !formData.title || !formData.description || !formData.image_title) {
             toast.error('Please fill in all required fields');
             return;
         }
+
+        // Clean up content to remove empty listItems
+        const cleanedContent = formData.content?.map((content) => ({
+            ...content,
+            sections: content.sections?.map((section) => ({
+                ...section,
+                listItems: section.listItems?.filter((item) => item.trim() !== '') || [],
+            })),
+        }));
 
         const formDataToSend = new FormData();
         formDataToSend.append('label', formData.label || '');
         formDataToSend.append('title', formData.title || '');
         formDataToSend.append('description', formData.description || '');
         formDataToSend.append('image_title', formData.image_title || '');
-        formDataToSend.append('content', JSON.stringify(formData.content));
+        formDataToSend.append('content', JSON.stringify(cleanedContent));
         formDataToSend.append('isPinned', String(formData.isPinned));
 
         if (imageFile) {
@@ -197,9 +204,15 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
             if (action === 'add') {
                 await createBlog(formDataToSend).unwrap();
                 toast.success('Blog created successfully');
+                setTimeout(() => {
+                    setActiveTabProp('TABLE');
+                }, 1000);
             } else if (action === 'edit' && blog?.id) {
                 await updateBlog({ blogId: blog.id, blogData: formDataToSend }).unwrap();
                 toast.success('Blog updated successfully');
+                setTimeout(() => {
+                    setActiveTabProp('TABLE');
+                }, 1000);
             }
         } catch (error) {
             toast.error(`Error ${action === 'add' ? 'creating' : 'updating'} blog`);
@@ -221,7 +234,11 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                     <Divider orientation="vertical" sx={{ height: '24px', mx: 2 }} />
                     <Typography variant="body1" sx={{ color: 'dark.500' }}>
                         {formData.createdAt
-                            ? new Date(formData.createdAt).toLocaleDateString()
+                            ? new Date(formData.createdAt).toLocaleDateString('en-US', {
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric',
+                            })
                             : 'N/A'}
                     </Typography>
                 </Box>
@@ -361,7 +378,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                         value={formData.label}
                         onChange={(e) => handleInputChange(e as React.ChangeEvent<HTMLInputElement>)}
                         label="Label"
-                        disabled={action === 'view'}
                         sx={{
                             '&.MuiSelect-root': {
                                 '& fieldset': {
@@ -393,7 +409,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                     name="title"
                     value={formData.title}
                     onChange={(e) => handleInputChange(e as React.ChangeEvent<HTMLInputElement>)}
-                    disabled={action === 'view'}
                     required
                     sx={{
                         mb: 2,
@@ -428,7 +443,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                     onChange={(e) => handleInputChange(e as React.ChangeEvent<HTMLInputElement>)}
                     multiline
                     rows={4}
-                    disabled={action === 'view'}
                     required
                     sx={{
                         mb: 2,
@@ -455,11 +469,62 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                     }}
                 />
 
-                <Button
-                    variant="contained"
+                {
+                    (action === 'add' && imageFile) || (action === 'edit' && (imageFile || formData.image)) ? (
+                        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, mb: 4 }}>
+                            <img
+                                src={imageFile ? URL.createObjectURL(imageFile) : formData.image}
+                                alt={formData.image_title || formData.title}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    borderRadius: '10px',
+                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                }}
+                            />
+                        </Box>
+                    ) : null
+                }
+
+                <TextField
+                    fullWidth
+                    label="Image Title"
+                    name="image_title"
+                    value={formData.image_title}
+                    onChange={(e) => handleInputChange(e as React.ChangeEvent<HTMLInputElement>)}
+                    required
+                    sx={{
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderWidth: 1,
+                                borderColor: 'gray.200'
+                            },
+                            '&:hover fieldset': {
+                                borderWidth: 1,
+                                borderColor: 'gray.300'
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderWidth: 1,
+                                borderColor: 'dark.500'
+                            },
+                        },
+                        '& .MuiInputLabel-root': {
+                            color: 'gray.600',
+                            '&.Mui-focused': {
+                                color: 'dark.500',
+                            },
+                        },
+                    }}
+                />
+
+                <CustomButton
                     component="label"
+                    category="primary"
+                    size="small"
+                    shape="square"
+                    width="fit-content"
                     sx={{ mb: 2 }}
-                    disabled={action === 'view'}
                 >
                     Upload Image
                     <input
@@ -468,12 +533,8 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                         hidden
                         onChange={handleImageChange}
                     />
-                </Button>
-                {formData.image_title && (
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                        Selected: {formData.image_title}
-                    </Typography>
-                )}
+                </CustomButton>
+
 
                 {formData.content?.map((content, contentIndex) => (
                     <Box
@@ -488,7 +549,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                             onChange={(e) => handleContentChange(contentIndex, 'intro', e.target.value)}
                             multiline
                             rows={3}
-                            disabled={action === 'view'}
                             sx={{
                                 mb: 2,
                                 '& .MuiOutlinedInput-root': {
@@ -527,7 +587,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                                     onChange={(e) =>
                                         handleSectionChange(contentIndex, sectionIndex, 'title', e.target.value)
                                     }
-                                    disabled={action === 'view'}
                                     sx={{
                                         mb: 2,
                                         '& .MuiOutlinedInput-root': {
@@ -566,7 +625,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                                     }
                                     multiline
                                     rows={3}
-                                    disabled={action === 'view'}
                                     sx={{
                                         mb: 2,
                                         '& .MuiOutlinedInput-root': {
@@ -605,7 +663,6 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                                     }
                                     multiline
                                     rows={3}
-                                    disabled={action === 'view'}
                                     sx={{
                                         mb: 2,
                                         '& .MuiOutlinedInput-root': {
@@ -676,17 +733,27 @@ const BlogAction = ({ action, blog }: BlogActionProps) => {
                 <Divider sx={{ my: 2 }} />
 
                 <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button
+                    <CustomButton
                         type="submit"
-                        variant="contained"
-                        disabled={isCreating || isUpdating || action === 'view'}
-                        startIcon={isCreating || isUpdating ? <CircularProgress size={20} /> : null}
+                        category="primary"
+                        size="small"
+                        shape="square"
+                        width="auto"
+                        disabled={isCreating || isUpdating}
+                        loading={isCreating || isUpdating}
                     >
                         {action === 'add' ? 'Create Blog' : 'Update Blog'}
-                    </Button>
-                    <Button variant="outlined" onClick={() => window.history.back()}>
+                    </CustomButton>
+                    <CustomButton
+                        category="default"
+                        size="small"
+                        shape="square"
+                        width="auto"
+                        disabled={isCreating || isUpdating}
+                        onClick={() => setActiveTabProp('TABLE')}
+                    >
                         Cancel
-                    </Button>
+                    </CustomButton>
                 </Box>
             </form>
         </Box>
