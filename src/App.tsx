@@ -6,7 +6,7 @@ import Chatbot from './components/Chatbot';
 import ReviewDialog from './components/ReviewDialog';
 import Sidebar from './components/Sidebar';
 import { useAppSelector } from './stores/store';
-import { useLocation } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
 
 const App = () => {
@@ -14,12 +14,19 @@ const App = () => {
   const userRole = user?.role;
 
   const location = useLocation();
-  const isNotFoundPage = location.pathname === '*' || !Object.values(ROUTES).includes(location.pathname);
+
+  const NOT_FOUND_PAGE = !Object.values(ROUTES).some(route => {
+    const cleanRoute = typeof route === 'string' ? route.split('?')[0] : route;
+    if (cleanRoute === location.pathname) return true;
+    return matchPath({ path: cleanRoute }, location.pathname);
+  });
+
+  const BLOG_DETAILS_PAGE = matchPath({ path: ROUTES.BLOG_DETAILS }, location.pathname);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
-      {!isNotFoundPage && (userRole === 'user' || !isAuthenticated) && <Header />}
-      {isNotFoundPage ? (
+      {!NOT_FOUND_PAGE && (userRole === 'user' || !isAuthenticated) && !BLOG_DETAILS_PAGE && <Header />}
+      {NOT_FOUND_PAGE ? (
         <Box sx={{ flex: 1, width: '100%' }}>
           <Routing />
         </Box>
@@ -35,7 +42,7 @@ const App = () => {
           <Routing />
         </Box>
       )}
-      {!isNotFoundPage && (userRole === 'user' || !isAuthenticated) && <Footer />}
+      {!NOT_FOUND_PAGE && (userRole === 'user' || !isAuthenticated) && <Footer />}
       <Chatbot />
       <ReviewDialog />
     </Box>

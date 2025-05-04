@@ -26,8 +26,9 @@ import { Search, MoreVert, Visibility, Edit, Delete, AddCircleOutlineRounded, Fi
 import PopupModal from '@components/PopupModal';
 import toast from 'react-hot-toast';
 import { IBlog } from '../../../../types/blog';
+import { useDeleteBlogMutation } from '@apis/blogApi';
 
-interface BlogsTableProps {
+interface BlogTableProps {
     blogs: IBlog[] | undefined;
     setActiveTabProp: (tab: string) => void;
     setSelectedBlogProp: (blog: IBlog | null) => void;
@@ -77,12 +78,14 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-const BlogsTable = ({ blogs = [], setActiveTabProp, setSelectedBlogProp }: BlogsTableProps) => {
+const BlogTable = ({ blogs = [], setActiveTabProp, setSelectedBlogProp }: BlogTableProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(1);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+    const [deleteBlog] = useDeleteBlogMutation();
 
     const rowsPerPage = 5;
 
@@ -128,7 +131,7 @@ const BlogsTable = ({ blogs = [], setActiveTabProp, setSelectedBlogProp }: Blogs
 
         try {
             // Implement your delete mutation
-            // await deleteBlog(selectedBlogId).unwrap();
+            await deleteBlog(selectedBlogId).unwrap();
             toast.success('Blog deleted successfully');
             setOpenDeleteModal(false);
             handleMenuClose();
@@ -473,4 +476,4 @@ const BlogsTable = ({ blogs = [], setActiveTabProp, setSelectedBlogProp }: Blogs
     );
 };
 
-export default BlogsTable;
+export default BlogTable;

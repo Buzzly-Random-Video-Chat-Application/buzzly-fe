@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import AdminTopBar from '../../../components/AdminTopBar';
-import BlogsTable from './components/BlogsTable';
+import BlogTable from './components/BlogTable';
 import BlogAction from './components/BlogAction';
 import { useGetBlogsQuery } from '@apis/blogApi';
 import { useState } from 'react';
 import { IBlog } from '../../../types/blog';
+import BlogListAction from './components/BlogListAction';
 
 const BlogsManagement = () => {
     const { data: blogs } = useGetBlogsQuery({});
@@ -26,7 +27,7 @@ const BlogsManagement = () => {
             {activeTab === 'TABLE' && (
                 <>
                     <AdminTopBar />
-                    <BlogsTable
+                    <BlogTable
                         blogs={blogs?.results}
                         setActiveTabProp={setActiveTab}
                         setSelectedBlogProp={setSelectedBlog}
@@ -35,26 +36,26 @@ const BlogsManagement = () => {
             )}
             {activeTab === 'ADD' && (
                 <>
-                    <AdminTopBar title="Add New Blog" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="add" setActiveTabProp={() => setActiveTab('TABLE')} />
+                    <AdminTopBar title="Add New Blog" setActiveTab={setActiveTab} />
+                    <BlogAction action="add" setActiveTab={setActiveTab} />
                 </>
             )}
             {activeTab === 'ADD_BY_CSV' && (
                 <>
-                    <AdminTopBar title="Add Blogs by CSV" handleClick={() => setActiveTab('TABLE')} />
-                    <div>Add by CSV</div>
+                    <AdminTopBar title="Add Blogs by CSV" setActiveTab={setActiveTab} />
+                    <BlogListAction />
                 </>
             )}
             {activeTab === 'EDIT' && selectedBlog && (
                 <>
-                    <AdminTopBar title="Edit Blog" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="edit" blog={selectedBlog} setActiveTabProp={() => setActiveTab('TABLE')} />
+                    <AdminTopBar title="Edit Blog" setActiveTab={setActiveTab} />
+                    <BlogAction action="edit" blog={selectedBlog} setActiveTab={setActiveTab} />
                 </>
             )}
             {activeTab === 'VIEW' && selectedBlog && (
                 <>
-                    <AdminTopBar title="Blog Details" handleClick={() => setActiveTab('TABLE')} />
-                    <BlogAction action="view" blog={selectedBlog} setActiveTabProp={() => setActiveTab('TABLE')} />
+                    <AdminTopBar title="Blog Details" setActiveTab={setActiveTab} />
+                    <BlogAction action="view" blog={selectedBlog} setActiveTab={setActiveTab} />
                 </>
             )}
         </Box>

@@ -19,10 +19,10 @@ import { RootState, useAppSelector } from '../stores/store';
 
 interface AdminTopBarProps {
     title?: string;
-    handleClick?: () => void;
+    setActiveTab?: (React.Dispatch<React.SetStateAction<string>>);
 }
 
-const AdminTopBar = ({ title, handleClick }: AdminTopBarProps) => {
+const AdminTopBar = ({ title, setActiveTab }: AdminTopBarProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const { user } = useAppSelector((state: RootState) => state.user);
 
@@ -74,7 +74,7 @@ const AdminTopBar = ({ title, handleClick }: AdminTopBarProps) => {
                 >
                     {title ? (
                         <Button
-                            onClick={handleClick}
+                            onClick={() => setActiveTab && setActiveTab('TABLE')}
                             disableTouchRipple
                             sx={{
                                 padding: 0,

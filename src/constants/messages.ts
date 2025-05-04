@@ -8,7 +8,7 @@ export const LOGIN_ERROR_MESSAGE = {
   INVALID_ROLE: 'Invalid role.',
 };
 
-export const REGISTER_SUCCESS_MESSAGE = 'Registration successful.';
+export const REGISTER_SUCCESS_MESSAGE = 'Registration successful. Please verify your account.';
 export const REGISTER_ERROR_MESSAGE = {
   DEFAULT: 'Failed to register.',
   EMAIL_TAKEN: 'Email already taken.',

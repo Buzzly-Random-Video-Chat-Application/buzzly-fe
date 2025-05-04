@@ -12,7 +12,7 @@ import {
     IconButton,
     SelectChangeEvent,
 } from '@mui/material';
-import { AddCircleOutline, Apple, Delete, Google } from '@mui/icons-material';
+import { AddCircleOutline, Apple, Delete, Google, PushPin } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import {
     useCreateBlogMutation,
@@ -27,10 +27,10 @@ import CustomButton from '@components/ui/Button';
 interface BlogActionProps {
     action: string;
     blog?: IBlog;
-    setActiveTabProp: (tab: string) => void;
+    setActiveTab: (React.Dispatch<React.SetStateAction<string>>);
 }
 
-const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
+const BlogAction = ({ action, blog, setActiveTab }: BlogActionProps) => {
     const { user } = useAppSelector((state: RootState) => state.user);
     const [formData, setFormData] = useState<Partial<IBlog>>({
         label: '',
@@ -205,13 +205,13 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                 await createBlog(formDataToSend).unwrap();
                 toast.success('Blog created successfully');
                 setTimeout(() => {
-                    setActiveTabProp('TABLE');
+                    setActiveTab('TABLE');
                 }, 1000);
             } else if (action === 'edit' && blog?.id) {
                 await updateBlog({ blogId: blog.id, blogData: formDataToSend }).unwrap();
                 toast.success('Blog updated successfully');
                 setTimeout(() => {
-                    setActiveTabProp('TABLE');
+                    setActiveTab('TABLE');
                 }, 1000);
             }
         } catch (error) {
@@ -357,10 +357,27 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
             width: '100%',
             padding: 1,
         }}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" sx={{ mb: 2 }}>
                 {action === 'add' ? 'Add New Blog' : 'Edit Blog'}
             </Typography>
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mb: 2 }}>
+                    <IconButton
+                        disableTouchRipple
+                        disableFocusRipple
+                        disableRipple
+                        sx={{
+                            padding: 1,
+                            margin: 'none',
+                            rotate: '45deg',
+                            color: formData.isPinned ? 'primary.500' : 'gray.500',
+                            backgroundColor: formData.isPinned ? 'dark.500' : 'none',
+                        }}
+                        onClick={() => setFormData((prev) => ({ ...prev, isPinned: !prev.isPinned }))}
+                    >
+                        <PushPin />
+                    </IconButton>
+                </Box>
                 <FormControl fullWidth sx={{ mb: 2 }}>
                     <InputLabel
                         id="label-select-label"
@@ -469,14 +486,14 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                     }}
                 />
 
-                {
+                {/* {
                     (action === 'add' && imageFile) || (action === 'edit' && (imageFile || formData.image)) ? (
                         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, mb: 4 }}>
                             <img
                                 src={imageFile ? URL.createObjectURL(imageFile) : formData.image}
                                 alt={formData.image_title || formData.title}
                                 style={{
-                                    width: '100%',
+                                    width: '50%',
                                     height: 'auto',
                                     borderRadius: '10px',
                                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -484,7 +501,7 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                             />
                         </Box>
                     ) : null
-                }
+                } */}
 
                 <TextField
                     fullWidth
@@ -535,13 +552,18 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                     />
                 </CustomButton>
 
+                {imageFile && (
+                    <Typography variant="body2" sx={{ mb: 2 }}>
+                        Selected: {imageFile.name}
+                    </Typography>
+                )}
 
                 {formData.content?.map((content, contentIndex) => (
                     <Box
                         key={contentIndex}
                         sx={{ mb: 3, p: 2, border: '1px solid #e0e0e0', borderRadius: '8px' }}
                     >
-                        <Typography variant="h6">Content Block {contentIndex + 1}</Typography>
+                        <Typography variant="h6" sx={{ mb: 4 }}>Content Block {contentIndex + 1}</Typography>
                         <TextField
                             fullWidth
                             label="Intro"
@@ -579,7 +601,7 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                                 key={sectionIndex}
                                 sx={{ mb: 2, pl: 2, borderLeft: '2px solid #1976d2' }}
                             >
-                                <Typography variant="subtitle1">Section {sectionIndex + 1}</Typography>
+                                <Typography variant="subtitle1" sx={{ mb: 2 }}>Section {sectionIndex + 1}</Typography>
                                 <TextField
                                     fullWidth
                                     label="Section Title"
@@ -750,7 +772,7 @@ const BlogAction = ({ action, blog, setActiveTabProp }: BlogActionProps) => {
                         shape="square"
                         width="auto"
                         disabled={isCreating || isUpdating}
-                        onClick={() => setActiveTabProp('TABLE')}
+                        onClick={() => setActiveTab('TABLE')}
                     >
                         Cancel
                     </CustomButton>

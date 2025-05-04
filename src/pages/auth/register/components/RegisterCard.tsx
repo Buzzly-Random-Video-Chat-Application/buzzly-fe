@@ -33,15 +33,20 @@ const RegisterCard = () => {
         return true
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (validate()) {
             try {
-                register({ email, name, password })
+                await register({ email, name, password }).unwrap();
                 toast.success(REGISTER_SUCCESS_MESSAGE)
-                navigate('/login')
+                setTimeout(() => {
+                    navigate('/login')
+                }, 3000);
             } catch (error) {
-                toast.error(REGISTER_ERROR_MESSAGE.DEFAULT)
-                console.error('Registration error:', error)
+                if ((error as { status: number }).status === 400) {
+                    toast.error(REGISTER_ERROR_MESSAGE.EMAIL_TAKEN)
+                } else {
+                    toast.error(REGISTER_ERROR_MESSAGE.DEFAULT)
+                }
             }
         }
     }

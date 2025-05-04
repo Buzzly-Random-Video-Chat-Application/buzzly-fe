@@ -5,3 +5,8 @@ export interface IAuthResponse {
     result: IUser;
     tokens: IToken;
 }
+
+export interface IForgotPasswordResponse {
+    message: string;
+    token: string;
+}

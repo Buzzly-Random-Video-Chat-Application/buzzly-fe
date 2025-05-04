@@ -3,7 +3,7 @@ import { AUTH_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
 import Cookies from 'js-cookie';
 import { loginSuccess } from '../stores/slices/userSlice';
-import { IAuthResponse } from '../types/auth';
+import { IAuthResponse, IForgotPasswordResponse } from '../types/auth';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -52,6 +52,36 @@ export const authApi = createApi({
                 method: 'GET',
             }),
         }),
+        forgotPassword: builder.mutation<IForgotPasswordResponse, string>({
+            query: (email: string) => ({
+                url: '/forgot-password',
+                method: 'POST',
+                data: {
+                    email,
+                },
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: ({ password, token }: { password: string; token: string }) => ({
+                url: '/reset-password',
+                method: 'POST',
+                data: {
+                    password,
+                },
+                params: {
+                    token,
+                },
+            }),
+        }),
+        verifyEmail: builder.mutation({
+            query: (token: string) => ({
+                url: '/verify-email',
+                method: 'POST',
+                params: {
+                    token,
+                },
+            }),
+        }),
     }),
 });
 
@@ -59,4 +89,7 @@ export const {
     useRegisterMutation,
     useLoginMutation,
     useMeQuery,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
+    useVerifyEmailMutation,
 } = authApi;

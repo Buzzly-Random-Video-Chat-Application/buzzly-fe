@@ -39,102 +39,52 @@ const BlogStatisticSection = ({ blogs }: BlogStatisticSectionProps) => {
                 <Table>
                     <TableHead>
                         <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>ID</TableCell>
-                            <TableCell sx={{ fontWeight: 600, flex: 1 }}>Title</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Author</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Label</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Created At</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Status</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>ID</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>Title</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>Author</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>Label</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>Created At</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {blogs.length > 0 ? (
                             blogs.slice(0, 5).map((blog) => (
                                 <TableRow key={blog.id}>
-                                    <TableCell sx={{ width: 'fit-content' }}>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                maxWidth: '100px',
-                                                whiteSpace: 'nowrap',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                            }}
-                                        >
-                                            {blog.id}
-                                        </Typography>
+                                    <TableCell>
+                                        {blog.id}
                                     </TableCell>
-                                    <TableCell sx={{ flex: 1 }}>
+                                    <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Avatar
                                                 src={blog.image || ''}
                                                 alt={blog.title}
                                                 sx={{ width: 32, height: 32 }}
                                             />
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    flex: 1,
-                                                    whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                }}
-                                            >
-                                                {blog.title}
-                                            </Typography>
+                                            {blog.title}
                                         </Box>
                                     </TableCell>
-                                    <TableCell sx={{ width: 'fit-content' }}>
+                                    <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Avatar
                                                 src={blog.author.avatar || ''}
                                                 alt={blog.author.name}
                                                 sx={{ width: 32, height: 32 }}
                                             />
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    maxWidth: '150px',
-                                                    whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                }}
-                                            >
-                                                {blog.author.name}
-                                            </Typography>
+                                            {blog.author.name}
                                         </Box>
                                     </TableCell>
-                                    <TableCell sx={{ width: 'fit-content' }}>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                maxWidth: '100px',
-                                                whiteSpace: 'nowrap',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                            }}
-                                        >
-                                            {blog.label}
-                                        </Typography>
+                                    <TableCell>
+                                        {blog.label}
                                     </TableCell>
-                                    <TableCell sx={{ width: 'fit-content' }}>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                maxWidth: '100px',
-                                                whiteSpace: 'nowrap',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                            }}
-                                        >
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                month: 'long',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                            })}
-                                        </Typography>
+                                    <TableCell>
+                                        {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                        })}
                                     </TableCell>
-                                    <TableCell sx={{ width: 'fit-content' }}>
+                                    <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Box
                                                 sx={{
@@ -144,9 +94,7 @@ const BlogStatisticSection = ({ blogs }: BlogStatisticSectionProps) => {
                                                     bgcolor: blog.isPinned ? '#4caf50' : '#bdbdbd',
                                                 }}
                                             />
-                                            <Typography variant="body2">
-                                                {blog.isPinned ? 'Pinned' : 'Normal'}
-                                            </Typography>
+                                            {blog.isPinned ? 'Pinned' : 'Normal'}
                                         </Box>
                                     </TableCell>
                                 </TableRow>

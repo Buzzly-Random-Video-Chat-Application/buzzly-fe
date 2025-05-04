@@ -129,7 +129,7 @@ const Button: React.FC<CustomButtonProps> = ({
                 '&:disabled': {
                     backgroundColor: 'black.50',
                     color: 'black.200',
-                    borderColor: category === 'outlined' ? 'black.50' : undefined,
+                    borderColor: 'black.50',
                     boxShadow: '2px 2px 0px 0px #191A23',
                     cursor: 'not-allowed',
                     transform: 'none',

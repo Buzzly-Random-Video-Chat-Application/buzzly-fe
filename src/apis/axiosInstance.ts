@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_BASE_URL } from '../constants/endpoints';
 import Cookies from 'js-cookie';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
@@ -45,8 +45,8 @@ axiosInstance.interceptors.response.use(
                 refreshTokenPromise = axiosInstance
                     .post('/auth/refresh-tokens', refreshToken)
                     .then((response) => {
-                        toast.error('CHECKING DATA RETURN: ', response.data);
-                        console.log('CHECKING DATA RETURN: ', response.data);
+                        // toast.error('CHECKING DATA RETURN: ', response.data);
+                        // console.log('CHECKING DATA RETURN: ', response.data);
                         const newAccessToken = response.data.access.token;
                         const newRefreshToken = response.data.refresh.token;
 
@@ -65,9 +65,9 @@ axiosInstance.interceptors.response.use(
                         Cookies.remove('accessToken');
                         Cookies.remove('refreshToken');
                         Cookies.remove('user');
-                        setTimeout(() => {
-                            window.location.href = '/login';
-                        }, 2000);
+                        // setTimeout(() => {
+                        //     window.location.href = '/login';
+                        // }, 2000);
                         return Promise.reject(error);
                     })
                     .finally(() => {

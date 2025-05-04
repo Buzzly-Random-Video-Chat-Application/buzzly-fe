@@ -1,17 +1,19 @@
 import React from 'react'
-import { Box, Card, CircularProgress, Typography } from '@mui/material'
+import { Box, Card, CircularProgress, Typography, Button } from '@mui/material'
 import CustomFormInput from '@components/CustomFormInput'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { LOGIN_ERROR_MESSAGE, LOGIN_SUCCESS_MESSAGE } from '@constants/messages'
 import { useLoginMutation } from '@apis/authApi'
-import Button from '@components/ui/Button'
+import CustomButton from '@components/ui/Button'
 import { isBrowser } from 'react-device-detect'
+import { CheckBoxOutlineBlankRounded, CheckBoxRounded } from '@mui/icons-material'
 
 const LoginCard = () => {
     const navigate = useNavigate()
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [rememberMe, setRememberMe] = React.useState(false)
 
     const [login, { isLoading }] = useLoginMutation()
 
@@ -44,8 +46,11 @@ const LoginCard = () => {
                 toast.error(LOGIN_ERROR_MESSAGE.INVALID_ROLE);
             }
         } catch (error) {
-            toast.error(LOGIN_ERROR_MESSAGE.INVALID_CREDENTIALS);
-            console.error('Login error:', error);
+            if ((error as { status: number }).status === 403) {
+                toast.error(LOGIN_ERROR_MESSAGE.ACCOUNT_NOT_VERIFIED);
+            } else {
+                toast.error(LOGIN_ERROR_MESSAGE.INVALID_CREDENTIALS);
+            }
         }
     };
     return (
@@ -88,9 +93,36 @@ const LoginCard = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-
             </Box>
-            <Button
+            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} gap={'30px'} width={'100%'}>
+                <Button
+                    startIcon={rememberMe ? <CheckBoxRounded fontSize='inherit' /> : <CheckBoxOutlineBlankRounded fontSize='inherit' />}
+                    variant="text"
+                    disableTouchRipple
+                    sx={{
+                        textTransform: 'none',
+                        color: 'dark.500',
+                        fontSize: '16px !important',
+                        fontWeight: 400,
+                    }}
+                    onClick={() => setRememberMe(!rememberMe)}
+                >
+                    Remember Me
+                </Button>
+                <Typography
+                    sx={{
+                        color: 'dark.200',
+                        fontSize: '16px !important',
+                        fontWeight: 400,
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => navigate('/forgot-password')}
+                >
+                    Forgot Password?
+                </Typography>
+            </Box>
+            <CustomButton
                 category='default'
                 shape='square'
                 size={isBrowser ? 'medium' : 'small'}
@@ -99,7 +131,7 @@ const LoginCard = () => {
                 onClick={handleLogin}
             >
                 {isLoading ? <CircularProgress sx={{ color: 'dark.500' }} size={35} /> : 'Login'}
-            </Button>
+            </CustomButton>
             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={1}>
                 <Typography variant='body1' sx={{ color: 'black.200' }}>
                     Don’t have an Account ?

@@ -13,7 +13,7 @@ const StatisticCardSection = () => {
             <StatisticsCard
                 color="dark"
                 icon={<ConnectWithoutContactRounded fontSize="medium" />}
-                title="Connections"
+                title="Total Connections"
                 count={281}
                 percentage={{
                     color: "500",
