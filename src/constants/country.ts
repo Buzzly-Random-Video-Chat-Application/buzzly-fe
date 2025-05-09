@@ -1,19 +1,17 @@
-import { flags } from "../assets";
-
 export interface ICountry {
-    name: string;
-    code: string;
-    flag: string;
+    label: string;
+    value: string;
 }
 
+
 export const countries: ICountry[] = [
-    { name: 'United States', code: 'US', flag: flags.us },
-    { name: 'Vietnam', code: 'VN', flag: flags.vn },
-    { name: 'Thailand', code: 'TH', flag: flags.th },
-    { name: 'Japan', code: 'JP', flag: flags.jp },
-    { name: 'South Korea', code: 'KR', flag: flags.kr },
-    { name: 'China', code: 'CN', flag: flags.cn },
-    { name: 'India', code: 'IN', flag: flags.ind },
-    { name: 'United Kingdom', code: 'UK', flag: flags.uk },
-    { name: 'Germany', code: 'DE', flag: flags.de },
+    { label: 'United States', value: 'US' },
+    { label: 'Vietnam', value: 'VN' },
+    { label: 'Thailand', value: 'TH' },
+    { label: 'Japan', value: 'JP' },
+    { label: 'South Korea', value: 'KR' },
+    { label: 'China', value: 'CN' },
+    { label: 'India', value: 'IN'},
+    { label: 'United Kingdom', value: 'UK' },
+    { label: 'Germany', value: 'DE' },
 ]

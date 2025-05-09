@@ -26,24 +26,10 @@ const Trending = () => {
             </Typography>
             <Box
                 sx={{
-                    display: 'flex',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                     gap: '20px',
-                    overflowX: 'auto',
                     width: '100%',
-                    pb: 2,
-                    '&::-webkit-scrollbar': {
-                        height: '8px',
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        background: 'transparent',
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        background: 'primary.500',
-                        borderRadius: '4px',
-                    },
-                    '&::-webkit-scrollbar-thumb:hover': {
-                        background: 'primary.600',
-                    },
                 }}
             >
                 {liveCards.map((liveCard, index) => (

@@ -1,5 +1,6 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { RemoveRedEyeRounded } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 interface LiveCardProps {
     viewers: number;
@@ -9,18 +10,17 @@ interface LiveCardProps {
 }
 
 const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
+    const navigate = useNavigate();
     return (
-        <Box
-            sx={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '300px',
-                minWidth: '200px',
-                aspectRatio: '2 / 3',
-                cursor: 'pointer',
-            }}
-        >
+        <Box sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '300px',
+            minWidth: '200px',
+            aspectRatio: '2 / 3',
+            cursor: 'pointer',
+        }} onClick={() => navigate('/live/host?roomId=123456')}>
             <Box
                 component="img"
                 src={image}
@@ -43,12 +43,12 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                     gap: '4px',
                     color: 'white.50',
                     bgcolor: 'black.100',
-                    padding: '4px 12px',
+                    padding: '2px 6px',
                     borderRadius: '30px',
                 }}
             >
-                <RemoveRedEyeRounded sx={{ color: 'white', fontSize: '16px' }} />
-                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{viewers}</Typography>
+                <RemoveRedEyeRounded sx={{ color: 'white', fontSize: '12px !important' }} />
+                <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>{viewers}</Typography>
             </Box>
             <Box
                 sx={{

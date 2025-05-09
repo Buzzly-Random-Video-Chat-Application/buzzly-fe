@@ -1,5 +1,6 @@
 export interface IGender {
-    name: string;
+    label: string;
+    value: string;
 }
 
 export const GENDER = {
@@ -9,7 +10,7 @@ export const GENDER = {
 };
 
 export const genders: IGender[] = [
-    { name: GENDER.FEMALE },
-    { name: GENDER.MALE },
-    { name: GENDER.OTHER },
+    { label: 'Female', value: 'female' },
+    { label: 'Male', value: 'male' },
+    { label: 'Other', value: 'other' },
 ]

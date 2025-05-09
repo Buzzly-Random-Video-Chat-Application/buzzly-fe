@@ -12,8 +12,8 @@ import { Box, TextField, InputAdornment, MenuItem, Select, SelectChangeEvent } f
 import React from 'react';
 
 interface Option {
-    name: string;
-    value: string; // Used for value (e.g., country code)
+    label: string;
+    value: string;
 }
 
 interface CustomProfileInputProps {
@@ -22,7 +22,7 @@ interface CustomProfileInputProps {
     value: string | string[];
     onChange: (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | string[]>) => void;
     disabled?: boolean;
-    options?: string[] | Option[]; // Support both string[] and Option[]
+    options?: string[] | Option[];
     multiline?: boolean;
     maxLength?: number;
 }
@@ -79,7 +79,7 @@ const CustomProfileInput = ({
                         // For preferredLanguage, map codes to names; for hashtags, use the values directly
                         if (label.toLowerCase() === 'preferredlanguage' && Array.isArray(options) && options[0] && typeof options[0] === 'object' && 'name' in options[0]) {
                             return selectedArray
-                                .map((code) => (options as Option[]).find((opt) => opt.value === code)?.name || code)
+                                .map((code) => (options as Option[]).find((opt) => opt.value === code)?.label || code)
                                 .join(', ');
                         }
                         return selectedArray.join(', ');
@@ -120,7 +120,7 @@ const CustomProfileInput = ({
                             key={index}
                             value={typeof option === 'object' && 'value' in option ? option.value : option}
                         >
-                            {typeof option === 'object' && 'name' in option ? option.name : option}
+                            {typeof option === 'object' && 'label' in option ? option.label : option}
                         </MenuItem>
                     ))}
                 </Select>
@@ -180,7 +180,7 @@ const CustomProfileInput = ({
                             key={index}
                             value={typeof option === 'object' && 'value' in option ? option.value : option}
                         >
-                            {typeof option === 'object' && 'name' in option ? option.name : option}
+                            {typeof option === 'object' && 'label' in option ? option.label : option}
                         </MenuItem>
                     ))}
                 </TextField>

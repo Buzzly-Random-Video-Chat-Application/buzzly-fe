@@ -9,6 +9,7 @@ export const ROUTES = {
   PROFILE: '/profile',
   VIDEO_CHAT: '/video-chat',
   LIVE: '/live',
+  LIVE_HOST: '/live/host',
   BLOGS: '/blogs',
   ABOUT: '/about',
   REVIEWS: '/reviews',

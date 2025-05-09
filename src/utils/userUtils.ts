@@ -1,8 +1,8 @@
 import { IUser } from "../types/user";
-import { countries } from "../constants/country";
+import { countries } from "@constants/country";
 
 export const getUserFlag = (user: IUser | null) => {
-  return countries.find((country) => country.name === (user?.nationality || ""))?.flag;
+  return `https://flagcdn.com/${countries.find((country) => country.label === user?.nationality)?.value.toLowerCase()}.svg`
 };
 
 export const getUser = (users: IUser[] | undefined, userId: string): IUser | undefined => {

@@ -108,6 +108,8 @@ const Header = () => {
         };
     }, [lastScrollY]);
 
+    console.log('user flag: ', getUserFlag(user));
+
     return (
         <Box
             sx={{
@@ -405,7 +407,7 @@ const Header = () => {
                             >
                                 {user?.name}
                             </Typography>
-                            <img src={getUserFlag(user)} />
+                            <img src={getUserFlag(user)} style={{ width: '20px', height: '13px' }} />
                         </Box>
                     </Box>
                     <Divider sx={{ width: '100%', color: 'dark.500' }} />

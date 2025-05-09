@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Routing from './routes/Routing';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Chatbot from './components/Chatbot';
+// import Chatbot from './components/Chatbot';
 import ReviewDialog from './components/ReviewDialog';
 import Sidebar from './components/Sidebar';
 import { useAppSelector } from './stores/store';
@@ -43,7 +43,7 @@ const App = () => {
         </Box>
       )}
       {!NOT_FOUND_PAGE && (userRole === 'user' || !isAuthenticated) && <Footer />}
-      <Chatbot />
+      {/* <Chatbot /> */}
       <ReviewDialog />
     </Box>
   );

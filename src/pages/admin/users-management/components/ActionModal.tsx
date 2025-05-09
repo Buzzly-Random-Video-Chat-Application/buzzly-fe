@@ -116,7 +116,7 @@ const ActionModal = ({ open, onClose, action, user }: ActionModalProps) => {
                         value={formData.gender}
                         onChange={handleInputChange('gender')}
                         disabled={action === 'view'}
-                        options={genders.map((g) => g.name)}
+                        options={genders.map((g) => g.label)}
                     />
 
                     <CustomProfileInput
@@ -125,7 +125,7 @@ const ActionModal = ({ open, onClose, action, user }: ActionModalProps) => {
                         value={formData.nationality}
                         onChange={handleInputChange('nationality')}
                         disabled={action === 'view'}
-                        options={countries.map((c) => ({ name: c.name, value: c.name }))}
+                        options={countries.map((c) => ({ label: c.label, value: c.value }))}
                     />
                 </Box>
 
@@ -163,7 +163,7 @@ const ActionModal = ({ open, onClose, action, user }: ActionModalProps) => {
                     value={formData.preferredLanguage}
                     onChange={handleInputChange('preferredLanguage')}
                     disabled={action === 'view'}
-                    options={countries.map((c) => ({ name: c.name, value: c.code }))}
+                    options={countries.map((c) => ({ label: c.label, value: c.value }))}
                 />
 
                 <CustomProfileInput

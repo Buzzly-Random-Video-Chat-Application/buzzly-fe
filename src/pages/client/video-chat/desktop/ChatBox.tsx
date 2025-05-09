@@ -8,7 +8,7 @@ import { Send } from '@mui/icons-material';
 interface ChatBoxProps {
     sendMessage: (message: string) => void;
     messages: IMessage[];
-    strangerInfo: IUser | undefined;
+    strangerInfo: IUser | null;
 }
 
 const ChatBox = ({ sendMessage, messages, strangerInfo }: ChatBoxProps) => {
@@ -82,7 +82,7 @@ const ChatBox = ({ sendMessage, messages, strangerInfo }: ChatBoxProps) => {
                         alignItems: 'center',
                         gap: '5px',
                     }}>
-                        <img src={getUserFlag(strangerInfo || null)} />
+                        {strangerInfo && <img src={getUserFlag(strangerInfo)} style={{ width: '20px', height: '13px' }} />}
                         <Typography sx={{ fontSize: '10px !important', color: 'white.50' }}>
                             {strangerInfo?.nationality || 'No information'}
                         </Typography>

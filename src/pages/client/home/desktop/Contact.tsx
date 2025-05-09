@@ -9,7 +9,7 @@ const Contact = () => {
                     Contact Us
                 </Typography>
                 <Typography>
-                    Lorem ipsum dolor sit amet consectetur.<br />Ultricies eu arcu
+                    Have a question or feedback? We're here to help!<br />Reach out to us anytime, and we'll get back to you as soon as possible.
                 </Typography>
             </Box>
             <ContactCard />

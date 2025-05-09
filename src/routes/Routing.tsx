@@ -24,6 +24,7 @@ import ResetPassword from '@pages/auth/reset-password';
 import VerifyEmail from '@pages/auth/verify-email';
 
 import NotFoundPage from './NotFoundPage';
+import LiveHost from '@pages/client/host';
 
 const Routing = () => {
   return (
@@ -41,6 +42,7 @@ const Routing = () => {
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
       <Route path={ROUTES.LIVE} element={<Live />} />
+      <Route path={ROUTES.LIVE_HOST} element={<LiveHost />} />
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
       <Route path={ROUTES.REVIEWS} element={<Reviews />} />

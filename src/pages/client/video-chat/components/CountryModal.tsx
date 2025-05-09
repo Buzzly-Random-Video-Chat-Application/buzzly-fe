@@ -13,7 +13,7 @@ interface CountryModalProps {
 
 const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: CountryModalProps) => {
     const user_country_code = 'VN';
-    const user_country = countries.find((country) => country.code === user_country_code);
+    const user_country = countries.find((country) => country.value === user_country_code);
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
 
     const handleCountryChange = (country: string) => {
@@ -36,9 +36,9 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 onClick={() => handleCountryChange('Balanced')}
             />
             <RadioButton
-                name={user_country?.name || 'Unknown'}
-                isSelected={countrySelected === user_country?.name}
-                onClick={() => handleCountryChange(user_country?.name || 'Unknown')}
+                name={user_country?.label || 'Unknown'}
+                isSelected={countrySelected === user_country?.label}
+                onClick={() => handleCountryChange(user_country?.label || 'Unknown')}
             />
             <Typography sx={{
                 marginY: { xs: '10px', md: '20px' },
@@ -48,12 +48,12 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 Select the country you want to pair with
             </Typography>
             {countries.map((country, index) =>
-                country.code !== user_country_code && (
+                country.value !== user_country_code && (
                     <RadioButton
                         key={index}
-                        name={country.name}
-                        isSelected={countrySelected === country.name}
-                        onClick={() => handleCountryChange(country.name)}
+                        name={country.label}
+                        isSelected={countrySelected === country.label}
+                        onClick={() => handleCountryChange(country.label)}
                     />
                 )
             )}

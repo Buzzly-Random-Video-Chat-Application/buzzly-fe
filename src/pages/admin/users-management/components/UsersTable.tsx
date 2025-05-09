@@ -277,7 +277,7 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                                     <TableCell>{UppercaseFirstLetter(user.gender)}</TableCell>
                                     <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <img src={getUserFlag(user)} /> {user.nationality}
+                                            <img src={getUserFlag(user)} style={{ width: '20px', height: '13px' }} /> {user.nationality}
                                         </Box>
                                     </TableCell>
                                     <TableCell>{UppercaseFirstLetter(user.role)}</TableCell>
