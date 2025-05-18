@@ -1,9 +1,7 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
 import { ZoomOutRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
 import Button from '@components/ui/Button';
-import { IUser } from '../../../../types/user';
-import { getUser } from '@utils/userUtils';
+import { getUserById } from '@utils/userUtils';
 import DashboardSumaryReviewCard from '@components/DashboardSumaryReviewCard';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,7 +35,7 @@ const ReviewsStatisticSection = ({ reviews, users }: ReviewsStatisticSectionProp
                     shape="square"
                     width="auto"
                     icon={<ZoomOutRounded />}
-                    onClick={() => navigate('/reviews-management')}
+                    onClick={() => navigate('/feedbacks-management')}
                 >
                     See all
                 </Button>
@@ -67,11 +65,11 @@ const ReviewsStatisticSection = ({ reviews, users }: ReviewsStatisticSectionProp
                                             textOverflow: 'ellipsis',
                                         }}>
                                             <Avatar
-                                                src={getUser(users, review.userId)?.avatar || ''}
-                                                alt={getUser(users, review.userId)?.name || 'Unknown User'}
+                                                src={getUserById(users, review.userId)?.avatar || ''}
+                                                alt={getUserById(users, review.userId)?.name || 'Unknown User'}
                                                 sx={{ width: 32, height: 32 }}
                                             />
-                                            {getUser(users, review.userId)?.name || 'Unknown User'}
+                                            {getUserById(users, review.userId)?.name || 'Unknown User'}
                                         </Box>
                                     </TableCell>
                                     <TableCell sx={{ width: '100px' }}>{review.rating}</TableCell>

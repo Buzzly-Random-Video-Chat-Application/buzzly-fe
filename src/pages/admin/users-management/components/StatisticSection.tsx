@@ -1,8 +1,10 @@
 import { Box } from '@mui/material'
 import StatisticsCard from './StatisticsCard'
 import { GroupRounded, Man2Rounded, Woman2Rounded } from '@mui/icons-material'
+import { useGetUserStatisticsQuery } from '@apis/statisticApi'
 
 const StatisticSection = () => {
+    const { data: userStatistics } = useGetUserStatisticsQuery()
     return (
         <Box sx={{
             display: 'grid',
@@ -14,10 +16,10 @@ const StatisticSection = () => {
                 color="dark"
                 icon={<GroupRounded fontSize="medium" />}
                 title="All Users"
-                count={281}
+                count={userStatistics?.results.total.quantity || 0}
                 percentage={{
                     color: "500",
-                    amount: 55,
+                    amount: userStatistics?.results.total.percentage || 0,
                     label: "than lask week",
                 }}
             />
@@ -25,10 +27,10 @@ const StatisticSection = () => {
                 color="primary"
                 icon={<Man2Rounded fontSize="medium" />}
                 title="Male Users"
-                count={281}
+                count={userStatistics?.results.male.quantity || 0}
                 percentage={{
                     color: "600",
-                    amount: 55,
+                    amount: userStatistics?.results.male.percentage || 0,
                     label: "than lask week",
                 }}
             />
@@ -36,10 +38,10 @@ const StatisticSection = () => {
                 color="red"
                 icon={<Woman2Rounded fontSize="medium" />}
                 title="Female Users"
-                count={281}
+                count={userStatistics?.results.female.quantity || 0}
                 percentage={{
                     color: "300",
-                    amount: 55,
+                    amount: userStatistics?.results.female.percentage || 0,
                     label: "than lask week",
                 }}
             />

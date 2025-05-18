@@ -2,7 +2,6 @@ import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead
 import Button from '@components/ui/Button';
 import { ZoomOutRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { IBlog } from '../../../../types/blog';
 
 interface BlogStatisticSectionProps {
     blogs: IBlog[];

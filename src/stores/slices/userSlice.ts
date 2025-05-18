@@ -1,24 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser } from '../../types/user';
 import Cookies from 'js-cookie';
 
 interface UserState {
     isAuthenticated: boolean;
-    user: IUser | null;
-    mode: string | null;
+    user: IUser | undefined;
+    mode: string;
 }
 
 const accessToken = Cookies.get('accessToken');
-const user: IUser | null = Cookies.get('user') ? (JSON.parse(Cookies.get('user') as string) as IUser) : null;
+let user: IUser | undefined;
+try {
+    const userCookie = Cookies.get('user');
+    user = userCookie ? (JSON.parse(userCookie) as IUser) : undefined;
+} catch (error) {
+    console.error('Failed to parse user cookie:', error);
+    user = undefined;
+}
 
 const initialState: UserState = {
     isAuthenticated: !!accessToken,
-    user: user || null,
-    mode: localStorage.getItem('mode')
-        ? localStorage.getItem('mode')
-        : window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light',
+    user: user || undefined,
+    mode: localStorage.getItem('mode') ?? 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
 };
 
 const userSlice = createSlice({
@@ -31,7 +34,7 @@ const userSlice = createSlice({
         },
         logoutSuccess(state) {
             state.isAuthenticated = false;
-            state.user = null;
+            state.user = undefined;
         },
         changeMode: (state) => {
             if (state.mode === 'light') {
@@ -44,7 +47,7 @@ const userSlice = createSlice({
         },
         updateSuccess(state, action: PayloadAction<IUser>) {
             state.user = action.payload;
-        }
+        },
     },
 });
 

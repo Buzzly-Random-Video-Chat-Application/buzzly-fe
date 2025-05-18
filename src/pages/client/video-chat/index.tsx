@@ -1,17 +1,17 @@
 import { Box } from '@mui/material';
 import { useEffect, useState, useCallback, useRef } from 'react';
-import PopupModal from '../../../components/PopupModal';
+import PopupModal from '@components/PopupModal';
 import { io, Socket } from 'socket.io-client';
-import { useReview } from '../../../hooks/review.hook';
+import { useReview } from '@hooks/review.hook';
 import { isBrowser } from 'react-device-detect';
-import { IMessage } from '../../../types/app';
-import { RootState, useAppSelector } from '../../../stores/store';
+import { RootState, useAppSelector } from '@stores/store';
 
 import WaitingConnectionCardDesktop from './desktop/WaitingConnectionCard';
 import ConnectingCardDesktop from './desktop/ConnectingCard';
 import WaitingConnectionCardMobile from './mobile/WaitingConnectionCard';
 import ConnectingCardMobile from './mobile/ConnectingCard';
 import { useGetUserQuery } from '@apis/userApi';
+import { TYPE, GENDER } from '@enums/video-chat';
 
 const WaitingConnectionCard = isBrowser ? WaitingConnectionCardDesktop : WaitingConnectionCardMobile;
 const ConnectingCard = isBrowser ? ConnectingCardDesktop : ConnectingCardMobile;
@@ -20,7 +20,7 @@ const VITE_SOCKET = import.meta.env.VITE_SOCKET;
 
 const VideoChat = () => {
     const [selectedCountry, setSelectedCountry] = useState<string>('balanced');
-    const [selectedGender, setSelectedGender] = useState<string>('both');
+    const [selectedGender, setSelectedGender] = useState<GENDER>(GENDER.BOTH);
     const [startVideoChat, setStartVideoChat] = useState(false);
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [strangerStream, setStrangerStream] = useState<MediaStream | null>(null);
@@ -28,7 +28,7 @@ const VideoChat = () => {
     const [remoteSocketId, setRemoteSocketId] = useState<string | null>(null);
     const [strangerUserId, setStrangerUserId] = useState<string | null>(null);
     const [roomId, setRoomId] = useState<string | null>(null);
-    const [userType, setUserType] = useState<'p1' | 'p2' | null>(null);
+    const [userType, setUserType] = useState<TYPE | null>(null);
     const [messages, setMessages] = useState<IMessage[]>([]);
 
     const { openReviewDialog } = useReview();
@@ -50,12 +50,11 @@ const VideoChat = () => {
 
         pc.oniceconnectionstatechange = () => {
             if (pc.iceConnectionState === 'disconnected') {
-                socket.emit('disconnect');
+                socket.emit('rc:disconnect');
             }
         };
 
         const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }).catch((err) => {
-            console.error('Error accessing media devices:', err);
             throw err;
         });
         setStream(mediaStream);
@@ -63,7 +62,7 @@ const VideoChat = () => {
 
         pc.onicecandidate = (event) => {
             if (event.candidate) {
-                socket.emit('ice:send', { candidate: event.candidate, to: remoteId });
+                socket.emit('rc:ice:send', { candidate: event.candidate, to: remoteId });
             }
         };
 
@@ -74,15 +73,14 @@ const VideoChat = () => {
         if (userType === 'p1') {
             const offer = await pc.createOffer();
             await pc.setLocalDescription(offer);
-            socket.emit('sdp:send', { sdp: offer, to: remoteId });
+            socket.emit('rc:sdp:send', { sdp: offer, to: remoteId });
         }
     }, [userType]);
 
-    // 1. Khởi tạo socket và gửi userId
     useEffect(() => {
         const newSocket = io(`${VITE_SOCKET}`, {
             path: '/v1/socket',
-            query: { userId: user?.id }, // Gửi userId qua query
+            query: { userId: user?.id },
         });
         socketRef.current = newSocket;
 
@@ -90,14 +88,13 @@ const VideoChat = () => {
             console.log('Socket connected:', newSocket.id);
         });
 
-        newSocket.on('disconnect', () => {
+        newSocket.on('rc_disconnect', () => {
             console.log('Socket disconnected');
         });
 
         return () => {
             if (newSocket) {
                 newSocket.disconnect();
-                console.log('Socket disconnected on unmount');
             }
         };
     }, [user]);
@@ -105,18 +102,16 @@ const VideoChat = () => {
     // 2. Xử lý roomId
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('roomid', (id: string) => {
-                console.log('Received roomid:', id);
+            socketRef.current.on('rc:roomid', (id: string) => {
                 setRoomId(id);
             });
         }
     }, []);
 
-    // 3. Xử lý remote-socket và thiết lập WebRTC
+    // 3. Xử lý rc:remote:socket và thiết lập WebRTC
     useEffect(() => {
         if (socketRef.current) {
             const handleRemoteSocket = async ({ socketId, userId }: { socketId: string; userId: string }) => {
-                console.log('Received remote socket:', socketId, 'with userId:', userId);
                 if (!remoteSocketId) {
                     setRemoteSocketId(socketId);
                     setStrangerUserId(userId);
@@ -126,10 +121,10 @@ const VideoChat = () => {
                     }
                 }
             };
-            socketRef.current.on('remote-socket', handleRemoteSocket);
+            socketRef.current.on('rc:remote:socket', handleRemoteSocket);
 
             return () => {
-                socketRef.current?.off('remote-socket', handleRemoteSocket);
+                socketRef.current?.off('rc:remote:socket', handleRemoteSocket);
             };
         }
     }, [setupWebRTC, remoteSocketId]);
@@ -137,7 +132,7 @@ const VideoChat = () => {
     // 4. Xử lý ICE candidate
     useEffect(() => {
         if (socketRef.current && remoteSocketId) {
-            socketRef.current.on('ice:reply', ({ candidate, from }) => {
+            socketRef.current.on('rc:ice:reply', ({ candidate, from }) => {
                 if (peerConnectionRef.current && from === remoteSocketId) {
                     peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate)).catch((err) =>
                         console.error('Error adding ICE candidate:', err)
@@ -150,14 +145,14 @@ const VideoChat = () => {
     // 5. Xử lý SDP
     useEffect(() => {
         if (socketRef.current && remoteSocketId) {
-            socketRef.current.on('sdp:reply', async ({ sdp, from }) => {
+            socketRef.current.on('rc:sdp:reply', async ({ sdp, from }) => {
                 if (peerConnectionRef.current && from === remoteSocketId) {
                     try {
                         await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
                         if (sdp.type === 'offer') {
                             const answer = await peerConnectionRef.current.createAnswer();
                             await peerConnectionRef.current.setLocalDescription(answer);
-                            socketRef.current?.emit('sdp:send', { sdp: answer, to: remoteSocketId });
+                            socketRef.current?.emit('rc:sdp:send', { sdp: answer, to: remoteSocketId });
                         }
                     } catch (err) {
                         console.error('Error setting remote SDP:', err);
@@ -176,10 +171,10 @@ const VideoChat = () => {
                     { text, sender: sender === userType ? 'You' : 'Stranger' },
                 ]);
             };
-            socketRef.current.on('get-message', handleMessage);
+            socketRef.current.on('rc:receive:message', handleMessage);
 
             return () => {
-                socketRef.current?.off('get-message', handleMessage);
+                socketRef.current?.off('rc:receive:message', handleMessage);
             };
         }
     }, [userType]);
@@ -201,16 +196,16 @@ const VideoChat = () => {
     // 8. Xử lý lỗi từ server
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('error', (msg: string) => {
+            socketRef.current.on('rc:error', (msg: string) => {
                 console.error('Server error:', msg);
             });
         }
     }, []);
 
-    // 9. Xử lý sự kiện end-chat (khi một người nhấn ESC)
+    // 9. Xử lý sự kiện rc:end:chat (khi một người nhấn ESC)
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('end-chat', () => {
+            socketRef.current.on('rc:end:chat', () => {
                 setStartVideoChat(false);
                 setStrangerStream(null);
                 setRemoteSocketId(null);
@@ -230,10 +225,10 @@ const VideoChat = () => {
         }
     }, [stream, openReviewDialog]);
 
-    // 10. Xử lý sự kiện next-chat (khi một người nhấn Next)
+    // 10. Xử lý sự kiện rc:next:chat (khi một người nhấn Next)
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('next-chat', () => {
+            socketRef.current.on('rc:next:chat', () => {
                 setStrangerStream(null);
                 setRemoteSocketId(null);
                 setStrangerUserId(null);
@@ -243,8 +238,7 @@ const VideoChat = () => {
                 peerConnectionRef.current?.close();
                 peerConnectionRef.current = null;
 
-                socketRef.current?.emit('start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
-                    console.log('Received user type:', type);
+                socketRef.current?.emit('rc:start', { selectedGender, selectedCountry }, (type: TYPE) => {
                     setUserType(type);
                 });
             });
@@ -255,8 +249,7 @@ const VideoChat = () => {
 
     const handleStartVideoChat = useCallback(() => {
         setStartVideoChat(true);
-        socketRef.current?.emit('start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
-            console.log('Received user type:', type);
+        socketRef.current?.emit('rc:start', { selectedGender, selectedCountry }, (type: TYPE) => {
             setUserType(type);
         });
     }, [selectedGender, selectedCountry]);
@@ -312,16 +305,16 @@ const VideoChat = () => {
         setSelectedCountry(country);
     }, []);
 
-    const handleGenderSelect = useCallback((gender: string) => {
+    const handleGenderSelect = useCallback((gender: GENDER) => {
         setSelectedGender(gender);
     }, []);
 
     const handleEndVideoChat = useCallback(() => {
-        socketRef.current?.emit('end-chat', roomId);
+        socketRef.current?.emit('rc:end:chat', roomId);
     }, [roomId]);
 
     const handleNextVideoChat = useCallback(() => {
-        socketRef.current?.emit('next-chat', roomId);
+        socketRef.current?.emit('rc:next:chat', roomId);
     }, [roomId]);
 
     const requestPermissions = useCallback(() => {
@@ -331,7 +324,7 @@ const VideoChat = () => {
 
     const sendMessage = useCallback((message: string) => {
         if (socketRef.current && roomId && userType && message.trim()) {
-            socketRef.current.emit('send-message', message, userType, roomId);
+            socketRef.current.emit('rc:send:message', message, userType, roomId);
             setMessages((prev) => [...prev, { text: message, sender: 'You' }]);
         }
     }, [roomId, userType]);

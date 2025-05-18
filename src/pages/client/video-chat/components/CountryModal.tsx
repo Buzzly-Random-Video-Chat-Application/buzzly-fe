@@ -3,6 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import CustomDialog from '@components/CustomDialog';
 import RadioButton from './RadioButton';
 import { countries } from '@constants/country';
+import { useAppSelector } from '@stores/store';
 
 interface CountryModalProps {
     open: boolean;
@@ -12,8 +13,8 @@ interface CountryModalProps {
 }
 
 const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: CountryModalProps) => {
-    const user_country_code = 'VN';
-    const user_country = countries.find((country) => country.value === user_country_code);
+    const { user } = useAppSelector((state) => state.user);
+    const user_country = countries.find((country) => country.label === user?.nationality);
     const [countrySelected, setCountrySelected] = React.useState('Balanced');
 
     const handleCountryChange = (country: string) => {
@@ -35,11 +36,13 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 isSelected={countrySelected === 'Balanced'}
                 onClick={() => handleCountryChange('Balanced')}
             />
-            <RadioButton
-                name={user_country?.label || 'Unknown'}
-                isSelected={countrySelected === user_country?.label}
-                onClick={() => handleCountryChange(user_country?.label || 'Unknown')}
-            />
+            {user &&
+                <RadioButton
+                    name={user_country?.label || ''}
+                    isSelected={countrySelected === user_country?.label}
+                    onClick={() => handleCountryChange(user_country?.label || '')}
+                />
+            }
             <Typography sx={{
                 marginY: { xs: '10px', md: '20px' },
                 fontWeight: 500,
@@ -48,7 +51,7 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
                 Select the country you want to pair with
             </Typography>
             {countries.map((country, index) =>
-                country.value !== user_country_code && (
+                country.label !== user?.nationality && (
                     <RadioButton
                         key={index}
                         name={country.label}

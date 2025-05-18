@@ -1,8 +1,12 @@
 import { Box } from '@mui/material'
 import StatisticsCard from './StatisticsCard'
 import { LiveTvRounded, ConnectWithoutContactRounded, DuoRounded, GroupAddRounded } from '@mui/icons-material'
+import { useGetUserStatisticsQuery, useGetConnectionStatisticsQuery } from '@apis/statisticApi'
 
 const StatisticCardSection = () => {
+    const { data: userStatistics } = useGetUserStatisticsQuery()
+    const { data: connectionStatistics } = useGetConnectionStatisticsQuery()
+
     return (
         <Box sx={{
             display: 'grid',
@@ -14,10 +18,10 @@ const StatisticCardSection = () => {
                 color="dark"
                 icon={<ConnectWithoutContactRounded fontSize="medium" />}
                 title="Total Connections"
-                count={281}
+                count={connectionStatistics?.results.total.quantity || 0}
                 percentage={{
                     color: "500",
-                    amount: 55,
+                    amount: connectionStatistics?.results.total.percentage || 0,
                     label: "than lask week",
                 }}
             />
@@ -25,10 +29,10 @@ const StatisticCardSection = () => {
                 color="yellow"
                 icon={<GroupAddRounded fontSize="medium" />}
                 title="Users"
-                count={281}
+                count={userStatistics?.results.total.quantity || 0}
                 percentage={{
                     color: "600",
-                    amount: 55,
+                    amount: userStatistics?.results.total.percentage || 0,
                     label: "than lask week",
                 }}
             />
@@ -36,10 +40,10 @@ const StatisticCardSection = () => {
                 color="primary"
                 icon={<DuoRounded fontSize="medium" />}
                 title="Current Connections"
-                count={281}
+                count={connectionStatistics?.results.live.quantity || 0}
                 percentage={{
                     color: "600",
-                    amount: 55,
+                    amount: connectionStatistics?.results.live.percentage || 0,
                     label: "than lask week",
                 }}
             />
@@ -47,10 +51,10 @@ const StatisticCardSection = () => {
                 color="light"
                 icon={<LiveTvRounded fontSize="medium" />}
                 title="Current Lives"
-                count={281}
+                count={0}
                 percentage={{
                     color: "700",
-                    amount: 55,
+                    amount: 0,
                     label: "than lask week",
                 }}
             />

@@ -3,7 +3,6 @@ import { AUTH_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
 import Cookies from 'js-cookie';
 import { loginSuccess } from '../stores/slices/userSlice';
-import { IAuthResponse, IForgotPasswordResponse } from '../types/auth';
 
 export const authApi = createApi({
     reducerPath: 'authApi',

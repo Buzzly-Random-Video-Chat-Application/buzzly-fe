@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import BlogVerticalCard from '../components/BlogVerticalCard';
-import { IBlog } from '../../../../types/blog';
 
 interface BlogContentProps {
     blogs: IBlog[];

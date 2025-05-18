@@ -1,12 +1,12 @@
 import { RemoveRedEyeRounded } from '@mui/icons-material';
 import { Avatar, Box, Typography } from '@mui/material';
 
-interface ViewerSectionProps {
+interface ViewerHostSectionProps {
     viewerCount: number;
     avatars: string[];
 }
 
-const ViewerSection = ({ viewerCount, avatars }: ViewerSectionProps) => {
+const ViewerHostSection = ({ viewerCount, avatars }: ViewerHostSectionProps) => {
     return (
         <Box
             sx={{
@@ -72,4 +72,4 @@ const ViewerSection = ({ viewerCount, avatars }: ViewerSectionProps) => {
     );
 };
 
-export default ViewerSection;
+export default ViewerHostSection;

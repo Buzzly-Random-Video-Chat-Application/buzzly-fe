@@ -3,18 +3,19 @@ import CustomDialog from '@components/CustomDialog';
 import { Box, Button, Typography } from '@mui/material';
 import { icons } from '@assets/index';
 import GenderButton from './GenderButton';
+import { GENDER } from '@enums/video-chat';
 
 interface GenderModalProps {
     open: boolean;
     onClose: () => void;
-    onGenderSelect: (selectedGender: string) => void;
+    onGenderSelect: (selectedGender: GENDER) => void;
     onStartVideoChat: () => void;
 }
 
 const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: GenderModalProps) => {
-    const [selectedGender, setSelectedGender] = React.useState('both');
+    const [selectedGender, setSelectedGender] = React.useState<GENDER>(GENDER.BOTH);
 
-    const handleGenderChange = (gender: string) => {
+    const handleGenderChange = (gender: GENDER) => {
         setSelectedGender(gender);
         onGenderSelect(gender);
     };
@@ -44,20 +45,20 @@ const GenderModal = ({ open, onClose, onGenderSelect, onStartVideoChat }: Gender
                 <GenderButton
                     label="Both"
                     icon={icons.both}
-                    isSelected={selectedGender === 'both'}
-                    onClick={() => handleGenderChange('both')}
+                    isSelected={selectedGender === GENDER.BOTH}
+                    onClick={() => handleGenderChange(GENDER.BOTH)}
                 />
                 <GenderButton
                     label="Male"
                     icon={icons.male}
-                    isSelected={selectedGender === 'male'}
-                    onClick={() => handleGenderChange('male')}
+                    isSelected={selectedGender === GENDER.MALE}
+                    onClick={() => handleGenderChange(GENDER.MALE)}
                 />
                 <GenderButton
                     label="Female"
                     icon={icons.female}
-                    isSelected={selectedGender === 'female'}
-                    onClick={() => handleGenderChange('female')}
+                    isSelected={selectedGender === GENDER.FEMALE}
+                    onClick={() => handleGenderChange(GENDER.FEMALE)}
                 />
             </Box>
             <Box sx={{

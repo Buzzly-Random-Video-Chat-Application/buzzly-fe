@@ -1,14 +1,14 @@
-export interface AccessToken {
+type AccessToken = {
     token: string;
     expires: Date;
 }
 
-export interface RefreshToken {
+type RefreshToken = {
     token: string;
     expires: Date;
 }
 
-export interface IToken {
+type IToken = {
     access: AccessToken;
     refresh: RefreshToken;
 }

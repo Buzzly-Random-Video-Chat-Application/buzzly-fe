@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import BlogHorizontalCard from '../components/BlogHorizontalCard';
-import { IBlog } from '../../../../types/blog';
 
 interface TheMostOutstandingBlogProps {
     blogs: IBlog[];

@@ -20,7 +20,7 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
             minWidth: '200px',
             aspectRatio: '2 / 3',
             cursor: 'pointer',
-        }} onClick={() => navigate('/live/host?roomId=123456')}>
+        }} onClick={() => navigate('/live/guest?livestreamRoomId=123456')}>
             <Box
                 component="img"
                 src={image}

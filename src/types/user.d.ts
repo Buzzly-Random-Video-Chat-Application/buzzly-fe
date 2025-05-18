@@ -1,4 +1,4 @@
-export interface IUser {
+type IUser = {
     id: string;
     email: string;
     name: string;
@@ -15,12 +15,12 @@ export interface IUser {
     location: string;
 }
 
-export interface IUserResponse {
+type IUserResponse = {
     message: string;
     result: IUser;
 }
 
-export interface IUserListResponse {
+type IUserListResponse = {
     message: string;
     results: IUser[];
     total: number;
@@ -29,14 +29,14 @@ export interface IUserListResponse {
     totalPage: number;
 }
 
-export interface IUserCreate {
+type IUserCreate = {
     name: string;
     email: string;
     password: string;
     role: string;
 }
 
-export interface IUserUpdate {
+type IUserUpdate = {
     name?: string;
     gender?: string;
     nationality?: string;
@@ -46,7 +46,7 @@ export interface IUserUpdate {
     location?: string;
 }
 
-export interface IUserRequest {
+type IUserRequest = {
     sortBy?: string;
     limit?: number;
     page?: number;

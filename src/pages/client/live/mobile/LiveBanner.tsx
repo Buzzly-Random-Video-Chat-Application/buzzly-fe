@@ -18,17 +18,21 @@ const LiveBanner = () => {
             <Typography variant="h4" mb={4}>
                 Viewer, guest, or host
             </Typography>
-            <Button sx={{
-                backgroundColor: 'dark.500',
-                color: 'white.50',
-                padding: '5px 20px',
-                textTransform: 'none',
-                fontSize: '14px',
-                fontWeight: 600,
-                borderRadius: '30px',
-                gap: '5px',
-                mb: 4,
-            }} startIcon={<img src={icons.tv} alt="tv" style={{ width: '15px', height: '15px' }} />}>
+            <Button
+                sx={{
+                    backgroundColor: 'dark.500',
+                    color: 'white.50',
+                    padding: '5px 20px',
+                    textTransform: 'none',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    borderRadius: '30px',
+                    gap: '5px',
+                    mb: 4,
+                }}
+                startIcon={<img src={icons.tv} alt="tv" style={{ width: '15px', height: '15px' }} />}
+                onClick={() => window.location.href = '/live/live-settings'}
+            >
                 Start Live
             </Button>
             <InfinityCarousel />

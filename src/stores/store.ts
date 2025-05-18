@@ -6,7 +6,8 @@ import { authApi } from '@apis/authApi';
 import { userApi } from '@apis/userApi';
 import { reviewApi } from '@apis/reviewApi';
 import { blogApi } from '@apis/blogApi';
-
+import { feedbackApi } from '@apis/feedbackApi';
+import { statisticApi } from '@apis/statisticApi';
 
 const store = configureStore({
     reducer: {
@@ -15,13 +16,17 @@ const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [reviewApi.reducerPath]: reviewApi.reducer,
         [blogApi.reducerPath]: blogApi.reducer,
-    },
+        [feedbackApi.reducerPath]: feedbackApi.reducer,
+        [statisticApi.reducerPath]: statisticApi.reducer,
+    },  
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(
             authApi.middleware,
             userApi.middleware,
             reviewApi.middleware,
             blogApi.middleware,
+            feedbackApi.middleware,
+            statisticApi.middleware,
         );
     }
 });

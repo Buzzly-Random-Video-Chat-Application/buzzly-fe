@@ -11,11 +11,12 @@ interface PopupModalProps {
     title: string;
     message: string;
     onConfirm: () => void;
+    width?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const PopupModal = ({ open, onClose, stage, title, message, onConfirm }: PopupModalProps) => {
+const PopupModal = ({ open, onClose, stage, title, message, onConfirm, width }: PopupModalProps) => {
     return (
-        <CustomDialog open={open} onClose={onClose}>
+        <CustomDialog open={open} onClose={onClose} maxWidth={width || 'xs'}>
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',

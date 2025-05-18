@@ -1,31 +1,29 @@
 import { Box } from '@mui/material';
-import ViewerSection from './ViewerSection';
 import HostInfo from './HostInfo';
-import ChatSection from './ChatSection';
-import LiveScreenSection from './LiveScreenSection';
+import LiveScreenHostSection from './LiveScreenHostSection';
+import ChatHostSection from './ChatHostSection';
+import ViewerHostSection from './ViewerHostSection';
+import { useAppSelector } from '@stores/store';
+import { getUserFlag } from '@utils/userUtils';
 
-const HostLiveSection = () => {
-    // Sample data (replace with API data later)
-    const viewerCount = 10;
-    const avatars = [...Array(20)].map(
-        (_, index) => `https://picsum.photos/200/200?random=${index + 1}`
-    );
+interface LiveHostSectionProps {
+    stream: MediaStream | null;
+    messages: { id: string; sender: string; content: string; type: string }[];
+    viewerCount: number;
+    guests: { guestUserId: string; guestSocketId: string }[];
+    onSendMessage: (message: string) => void;
+    onEndLive: () => void;
+}
+
+const LiveHostSection = ({ stream, messages, viewerCount, guests, onSendMessage, onEndLive }: LiveHostSectionProps) => {
+    const { user } = useAppSelector((state) => state.user);
+    const avatars = guests.map((_g, index) => `https://picsum.photos/200/200?random=${index + 1}`);
     const hostInfo = {
-        hostName: 'Host Name',
+        hostName: user?.name || 'Host Name',
         country: 'Viet Nam',
-        countryFlag: 'https://flagcdn.com/vn.svg',
+        countryFlag: getUserFlag(user ? user : null),
         rating: 1000,
-        avatarSrc: 'https://picsum.photos/200/200?random=6',
-    };
-
-    const handleSendMessage = (message: string) => {
-        console.log('Send message:', message);
-        // Integrate with WebSocket or API later
-    };
-
-    const handleNextLive = () => {
-        console.log('Navigate to next live');
-        // Integrate with navigation or API later
+        avatarSrc: user?.avatar || 'https://picsum.photos/200/200?random=6',
     };
 
     return (
@@ -39,7 +37,11 @@ const HostLiveSection = () => {
                 gap: '10px',
             }}
         >
-            <LiveScreenSection onNextLive={handleNextLive} />
+            <LiveScreenHostSection
+                stream={stream}
+                user={user}
+                onEndLive={onEndLive}
+            />
             <Box
                 sx={{
                     width: '30%',
@@ -49,7 +51,7 @@ const HostLiveSection = () => {
                     gap: '10px',
                 }}
             >
-                <ViewerSection viewerCount={viewerCount} avatars={avatars} />
+                <ViewerHostSection viewerCount={viewerCount} avatars={avatars} />
                 <Box
                     sx={{
                         width: '100%',
@@ -69,11 +71,11 @@ const HostLiveSection = () => {
                         rating={hostInfo.rating}
                         avatarSrc={hostInfo.avatarSrc}
                     />
-                    <ChatSection onSendMessage={handleSendMessage} />
+                    <ChatHostSection messages={messages} onSendMessage={onSendMessage} />
                 </Box>
             </Box>
         </Box>
     );
 };
 
-export default HostLiveSection;
+export default LiveHostSection;

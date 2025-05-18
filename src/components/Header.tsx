@@ -108,8 +108,6 @@ const Header = () => {
         };
     }, [lastScrollY]);
 
-    console.log('user flag: ', getUserFlag(user));
-
     return (
         <Box
             sx={{

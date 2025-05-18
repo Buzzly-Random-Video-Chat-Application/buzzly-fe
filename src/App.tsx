@@ -23,6 +23,8 @@ const App = () => {
 
   const BLOG_DETAILS_PAGE = matchPath({ path: ROUTES.BLOG_DETAILS }, location.pathname);
 
+  window.scrollTo(0, 0);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
       {!NOT_FOUND_PAGE && (userRole === 'user' || !isAuthenticated) && !BLOG_DETAILS_PAGE && <Header />}

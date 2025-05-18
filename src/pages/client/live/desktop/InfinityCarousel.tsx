@@ -108,22 +108,24 @@ export default function InfinityCarousel() {
                                     height: "100%",
                                 }}
                             />
-                            <Box sx={{
-                                position: "absolute",
-                                top: "10px",
-                                left: "10px",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                gap: "4px",
-                                color: "white.50",
-                                bgcolor: "black.100",
-                                padding: "0px 8px",
-                                borderRadius: "30px",
-                            }}>
-                                <RemoveRedEyeRounded sx={{ color: "white", fontSize: "15px" }} />
-                                <Box sx={{ fontSize: "15px" }}>{image.viewers}</Box>
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: '10px',
+                                    left: '10px',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    color: 'white.50',
+                                    bgcolor: 'black.100',
+                                    padding: '2px 6px',
+                                    borderRadius: '30px',
+                                }}
+                            >
+                                <RemoveRedEyeRounded sx={{ color: 'white', fontSize: '12px !important' }} />
+                                <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>1000</Typography>
                             </Box>
                             <Box sx={{
                                 position: "absolute",

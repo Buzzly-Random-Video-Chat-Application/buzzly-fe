@@ -6,10 +6,13 @@ import { useGetReviewsQuery } from "../../../apis/reviewApi"
 import { useGetUsersQuery } from "../../../apis/userApi"
 import DashboardSumaryReviewCard from "../../../components/DashboardSumaryReviewCard"
 import AdminTopBar from '../../../components/AdminTopBar'
+import { useGetReviewStatisticsQuery } from "@apis/statisticApi"
 
-const ReviewsManagament = () => {
+const FeedbacksManagament = () => {
     const { data: reviews } = useGetReviewsQuery({})
     const { data: users } = useGetUsersQuery({})
+    const { data: reviewStatistics } = useGetReviewStatisticsQuery()
+
     return (
         <Box sx={{
             display: 'flex',
@@ -37,10 +40,10 @@ const ReviewsManagament = () => {
                         color="dark"
                         icon={<ThumbUpOffAltRounded fontSize="medium" />}
                         title="Reviews"
-                        count={281}
+                        count={reviewStatistics?.results.total.quantity || 0}
                         percentage={{
                             color: "500",
-                            amount: 55,
+                            amount: reviewStatistics?.results.total.percentage || 0,
                             label: "than lask week",
                         }}
                     />
@@ -48,10 +51,10 @@ const ReviewsManagament = () => {
                         color="primary"
                         icon={<ReportProblemRounded fontSize="medium" />}
                         title="Report Reviews"
-                        count={281}
+                        count={reviewStatistics?.results.negative.quantity || 0}
                         percentage={{
                             color: "600",
-                            amount: 55,
+                            amount: reviewStatistics?.results.negative.percentage || 0,
                             label: "than lask week",
                         }}
                     />
@@ -64,4 +67,4 @@ const ReviewsManagament = () => {
     )
 }
 
-export default ReviewsManagament
+export default FeedbacksManagament

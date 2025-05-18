@@ -13,7 +13,6 @@ import {
     Avatar,
 } from '@mui/material';
 import { CloudUpload, FileUpload } from '@mui/icons-material';
-import { IBlog } from '../../../../types/blog';
 import Papa from 'papaparse';
 import toast from 'react-hot-toast';
 

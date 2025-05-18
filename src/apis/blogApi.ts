@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { BLOG_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
-import { IBlogResponse, IBlogRequest, IBlogListResponse } from '../types/blog';
 
 export const blogApi = createApi({
     reducerPath: 'blogApi',

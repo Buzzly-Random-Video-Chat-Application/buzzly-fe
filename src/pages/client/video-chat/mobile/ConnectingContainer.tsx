@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import UserOneBox from '../components/UserOneBox';
-import UserTwoBox from '../components/UserTwoBox';
+import UserTwoBox from '../desktop/UserTwoBox';
 import { ArrowForwardRounded } from '@mui/icons-material';
 
 interface ConnectingContainerProps {

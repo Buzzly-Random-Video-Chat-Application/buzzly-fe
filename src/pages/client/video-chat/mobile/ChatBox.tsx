@@ -1,14 +1,12 @@
 import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { useRef, useState, useEffect } from 'react';
-import { IMessage } from '../../../../types/app';
 import { getUserFlag } from '@utils/userUtils';
-import { IUser } from '../../../../types/user';
 import { Send } from '@mui/icons-material';
 
 interface ChatBoxProps {
     sendMessage: (message: string) => void;
     messages: IMessage[];
-    strangerInfo: IUser | null;
+    strangerInfo: IUser | undefined;
 }
 
 const ChatBox = ({ sendMessage, messages, strangerInfo }: ChatBoxProps) => {

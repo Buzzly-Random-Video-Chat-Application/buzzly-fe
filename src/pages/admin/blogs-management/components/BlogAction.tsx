@@ -18,7 +18,6 @@ import {
     useCreateBlogMutation,
     useUpdateBlogMutation,
 } from '@apis/blogApi';
-import { IBlog } from '../../../../types/blog';
 import { useAppSelector, RootState } from '@stores/store';
 import { isBrowser } from 'react-device-detect';
 import { icons } from '@assets/index';

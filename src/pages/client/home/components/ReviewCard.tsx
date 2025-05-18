@@ -1,6 +1,5 @@
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { StarRateRounded, StarOutlineRounded, StarHalfRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
 import { useGetUserQuery } from '@apis/userApi';
 import { useNavigate } from 'react-router-dom';
 

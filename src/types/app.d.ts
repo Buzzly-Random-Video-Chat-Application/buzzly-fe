@@ -1,21 +1,21 @@
-export interface IHeader {
+type IHeader = {
     name: string;
     href: string;
 }
 
-export interface IService {
+type IService = {
     label: string;
     icon: string;
     href: string;
     type: number;
 }
 
-export interface IGuide {
+type IGuide = {
     title: string;
     description: string;
 }
 
-export interface IMessage {
+type IMessage = {
     sender: string;
     text: string;
 }

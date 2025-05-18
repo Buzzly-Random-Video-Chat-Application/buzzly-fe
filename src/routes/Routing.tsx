@@ -13,7 +13,7 @@ import BlogDetail from '@pages/client/blog';
 import Dashboard from '@pages/admin/dashboard';
 import BlogsManagement from '@pages/admin/blogs-management';
 import UserManagement from '@pages/admin/users-management';
-import ReviewsManagament from '@pages/admin/reviews-management';
+import FeedbacksManagament from '@pages/admin/reviews-management';
 import AnnouncementsManagement from '@pages/admin/announcements-management';
 import Settings from '@pages/admin/settings';
 
@@ -24,7 +24,9 @@ import ResetPassword from '@pages/auth/reset-password';
 import VerifyEmail from '@pages/auth/verify-email';
 
 import NotFoundPage from './NotFoundPage';
-import LiveHost from '@pages/client/host';
+import LiveGuest from '@pages/client/live/guest';
+import LiveHost from '@pages/client/live/host';
+import LiveSettings from '@pages/client/live/live-settings';
 
 const Routing = () => {
   return (
@@ -42,7 +44,13 @@ const Routing = () => {
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
       <Route path={ROUTES.LIVE} element={<Live />} />
-      <Route path={ROUTES.LIVE_HOST} element={<LiveHost />} />
+      <Route path={ROUTES.LIVE_GUEST} element={<LiveGuest />} />
+      <Route element={<ProtectedRoute allowedRoles={['user']} />}>
+        <Route path={ROUTES.LIVE_HOST} element={<LiveHost />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['user']} />}>
+        <Route path={ROUTES.LIVE_SETTINGS} element={<LiveSettings />} />
+      </Route>
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
       <Route path={ROUTES.REVIEWS} element={<Reviews />} />
@@ -59,7 +67,7 @@ const Routing = () => {
         <Route path={ROUTES.USERS_MANAGEMENT} element={<UserManagement />} />
       </Route>
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-        <Route path={ROUTES.REVIEWS_MANAGEMENT} element={<ReviewsManagament />} />
+        <Route path={ROUTES.REVIEWS_MANAGEMENT} element={<FeedbacksManagament />} />
       </Route>
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path={ROUTES.SETTINGS} element={<Settings />} />

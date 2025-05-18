@@ -1,11 +1,7 @@
 import { Box } from '@mui/material'
 import ReportsBarChart from './ReportsBarChart'
 import ReportsLineChart from './ReportsLineChart'
-
-const reportsBarChartData = {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
-    datasets: { label: "Sales", data: [50, 20, 10, 22, 50, 10, 40] },
-};
+import { useGetWeeklyConnectionStatisticsQuery } from '@apis/statisticApi';
 
 const reportsLineChartData = {
     labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -13,6 +9,7 @@ const reportsLineChartData = {
 };
 
 const ChartSection = () => {
+    const { data: weeklyConnectionStatistics } = useGetWeeklyConnectionStatisticsQuery();
     return (
         <Box sx={{
             display: 'grid',
@@ -26,7 +23,13 @@ const ChartSection = () => {
                 title="Connection statistics"
                 description="Last Campaign Performance"
                 date="campaign sent 2 days ago"
-                chart={reportsBarChartData}
+                chart={weeklyConnectionStatistics?.results || {
+                    labels: [],
+                    datasets: {
+                        label: "",
+                        data: [],
+                    },
+                }}
             />
             <ReportsLineChart
                 color="green"

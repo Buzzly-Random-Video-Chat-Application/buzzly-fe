@@ -6,27 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { isBrowser } from 'react-device-detect';
 
 interface BlogDetailProps {
-    topic: string;
-    title: string;
-    message: string;
-    image: string;
-    date: string;
-    content: {
-        intro: string;
-        sections: Array<{
-            title: string;
-            paragraphs: string[];
-            listItems?: string[];
-        }>;
-    };
+    blog: IBlog;
 }
 
-const BlogDetail = ({ topic, title, message, image, date, content }: BlogDetailProps) => {
+const BlogDetail = ({ blog }: BlogDetailProps) => {
     const navigate = useNavigate();
     const handleBack = () => {
         navigate(-1);
     };
-    window.scrollTo(0, 0);
     return (
         <Box sx={{ margin: '0 auto', padding: { xs: '20px', md: '40px' } }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mb: { xs: 2, md: 4 } }}>
@@ -44,19 +31,23 @@ const BlogDetail = ({ topic, title, message, image, date, content }: BlogDetailP
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mb: { xs: 2, md: 4 } }}>
                 <Typography variant="body1" sx={{ color: 'dark.500' }}>
-                    {topic}
+                    {blog.label}
                 </Typography>
                 <Divider orientation="vertical" sx={{ height: '24px', mx: 2 }} />
                 <Typography variant="body1" sx={{ color: 'dark.500' }}>
-                    {date}
+                    {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })}
                 </Typography>
             </Box>
 
             <Typography variant="h3" sx={{ fontWeight: 700, mb: { xs: 2, md: 4 }, textAlign: 'left' }}>
-                {title}
+                {blog.title}
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', mb: { xs: 2, md: 4 }, textAlign: 'left' }}>
-                {message}
+                {blog.description}
             </Typography>
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: { xs: 4, md: 8 } }}>
@@ -74,7 +65,7 @@ const BlogDetail = ({ topic, title, message, image, date, content }: BlogDetailP
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, mb: 4 }}>
                 <Box sx={{ flex: 2 }}>
                     <img
-                        src={image}
+                        src={blog.image}
                         alt="Main illustration"
                         style={{
                             width: '100%',
@@ -84,41 +75,50 @@ const BlogDetail = ({ topic, title, message, image, date, content }: BlogDetailP
                         }}
                     />
                     <Typography variant="body2" sx={{ display: 'block', mt: 1, textAlign: 'center' }}>
-                        Video chatting with strangers is a great way to make new friends.
+                        {blog.image_title}
                     </Typography>
                 </Box>
             </Box>
 
-            <Typography variant="body1" sx={{ mb: 3 }}>
-                {content.intro}
-            </Typography>
-
-            {content.sections.map((section, index) => (
-                <Box key={index} sx={{ mb: 3 }}>
-                    <Typography variant="h3" sx={{ fontWeight: 600, mb: { xs: 2, md: 4 } }}>
-                        {section.title}
-                    </Typography>
-                    {section.paragraphs.map((paragraph, pIndex) => (
-                        <Typography key={pIndex} variant="body1" sx={{ mb: { xs: 2, md: 4 } }}>
-                            {paragraph}
+            {blog.content?.map((content, contentIndex) => {
+                return (
+                    <Box key={contentIndex} sx={{ mb: 4 }}>
+                        {/* Nội dung intro */}
+                        <Typography variant="body1" sx={{ mb: 3 }}>
+                            {content?.intro}
                         </Typography>
-                    ))}
-                    {section.listItems && (
-                        <Box component="ul" sx={{ pl: 3, mb: 3 }}>
-                            {section.listItems.map((item, iIndex) => (
-                                <li key={iIndex}>
-                                    <Typography
-                                        variant="body1"
-                                        dangerouslySetInnerHTML={{ __html: item }}
-                                    />
-                                </li>
-                            ))}
-                        </Box>
-                    )}
-                </Box>
-            ))}
+
+                        {/* Các section */}
+                        {content?.sections?.map((section, index) => (
+                            <Box key={index} sx={{ mb: 3 }}>
+                                <Typography variant="h3" sx={{ fontWeight: 600, mb: { xs: 2, md: 4 } }}>
+                                    {section.title}
+                                </Typography>
+                                {section.paragraphs.map((paragraph, pIndex) => (
+                                    <Typography key={pIndex} variant="body1" sx={{ mb: { xs: 2, md: 4 } }}>
+                                        {paragraph}
+                                    </Typography>
+                                ))}
+                                {section.listItems && (
+                                    <Box component="ul" sx={{ pl: 3, mb: 3 }}>
+                                        {section.listItems.map((item, iIndex) => (
+                                            <li key={iIndex}>
+                                                <Typography
+                                                    variant="body1"
+                                                    dangerouslySetInnerHTML={{ __html: item }}
+                                                />
+                                            </li>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Box>
+                        ))}
+                    </Box>
+                )
+            })}
 
             <Divider sx={{ my: 4 }} />
+
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
                 <Button icon={<Apple />} category="default" size="small" shape="pill" width="auto">
                     App Store

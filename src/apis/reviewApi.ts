@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { REVIEW_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
-import { IReview, IAppRating, IReviewResponse, IReviewRequest, IReviewListResponse, IReviewUpdate } from '../types/review';
 
 export const reviewApi = createApi({
     reducerPath: 'reviewApi',

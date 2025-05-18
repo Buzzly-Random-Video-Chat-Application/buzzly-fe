@@ -4,7 +4,6 @@ import BlogTable from './components/BlogTable';
 import BlogAction from './components/BlogAction';
 import { useGetBlogsQuery } from '@apis/blogApi';
 import { useState } from 'react';
-import { IBlog } from '../../../types/blog';
 import BlogListAction from './components/BlogListAction';
 
 const BlogsManagement = () => {

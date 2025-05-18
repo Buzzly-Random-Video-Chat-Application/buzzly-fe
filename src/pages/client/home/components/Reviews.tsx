@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { reviews } from '@constants/app';
 import ReviewCard from './ReviewCard';
 import Button from '@components/ui/Button';
 import { isBrowser } from 'react-device-detect';
@@ -53,7 +52,7 @@ const Reviews = () => {
                     marginTop: { xs: '0', md: '50px' },
                 }}
             >
-                {reviewData?.results?.slice(0, window.innerWidth < 900 ? 2 : reviews.length).map((review, index) => (
+                {reviewData?.results?.slice(0, window.innerWidth < 900 ? 2 : reviewData?.results?.length).map((review, index) => (
                     <ReviewCard key={index} review={review} />
                 ))}
             </Box>

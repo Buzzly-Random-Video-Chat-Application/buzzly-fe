@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { IBlog } from '../../../../types/blog'
 import { Box, Typography } from '@mui/material'
 
 interface BlogVerticalCardProps {
@@ -10,7 +9,7 @@ const BlogVerticalCard = ({ blog }: BlogVerticalCardProps) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/blog/${blog.label.toLowerCase().replace(/\s+/g, '-')}/${blog.title.toLowerCase().replace(/\s+/g, '-')}`);
+        navigate(`/blog/${blog.id}`);
     };
 
     return (

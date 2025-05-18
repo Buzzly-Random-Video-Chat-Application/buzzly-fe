@@ -94,16 +94,24 @@ const LoginCard = () => {
                     required
                 />
             </Box>
-            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} gap={'30px'} width={'100%'}>
+            <Box
+                display="flex"
+                flexDirection={'row'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
+                gap={{ xs: '10px', sm: '20px' }}
+                width="100%"
+            >
                 <Button
-                    startIcon={rememberMe ? <CheckBoxRounded fontSize='inherit' /> : <CheckBoxOutlineBlankRounded fontSize='inherit' />}
+                    startIcon={rememberMe ? <CheckBoxRounded fontSize="small" /> : <CheckBoxOutlineBlankRounded fontSize="small" />}
                     variant="text"
                     disableTouchRipple
                     sx={{
                         textTransform: 'none',
                         color: 'dark.500',
-                        fontSize: '16px !important',
+                        fontSize: { xs: '14px !important', sm: '16px !important' },
                         fontWeight: 400,
+                        padding: { xs: '4px 0', sm: '6px 0' },
                     }}
                     onClick={() => setRememberMe(!rememberMe)}
                 >
@@ -112,10 +120,11 @@ const LoginCard = () => {
                 <Typography
                     sx={{
                         color: 'dark.200',
-                        fontSize: '16px !important',
+                        fontSize: { xs: '14px !important', sm: '16px !important' },
                         fontWeight: 400,
                         textDecoration: 'underline',
                         cursor: 'pointer',
+                        padding: { xs: '4px 0', sm: '6px 0' },
                     }}
                     onClick={() => navigate('/forgot-password')}
                 >

@@ -1,6 +1,4 @@
-import { IUser } from "./user";
-
-export interface IBlog {
+type IBlog = {
     id: string;
     label: string;
     title: string;
@@ -22,12 +20,12 @@ export interface IBlog {
     updatedAt: Date;
 }
 
-export interface IBlogResponse {
+type IBlogResponse = {
     message: string;
     result: IBlog;
 }
 
-export interface IBlogListResponse {
+type IBlogListResponse = {
     results: IBlog[];
     page: number;
     limit: number;
@@ -35,7 +33,7 @@ export interface IBlogListResponse {
     totalResults: number;
 }
 
-export interface IBlogRequest {
+type IBlogRequest = {
     sortBy?: string;
     limit?: number;
     page?: number;

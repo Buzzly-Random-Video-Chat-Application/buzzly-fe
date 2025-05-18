@@ -22,7 +22,6 @@ import {
     TableBody,
 } from '@mui/material';
 import { Search, MoreVert, Transgender, Visibility, Edit, Delete } from '@mui/icons-material';
-import { IUser } from '../../../../types/user';
 import CustomTableHead, { CustomTableHeadItemProps } from '@components/TableHead';
 import { GroupRounded, Man2Rounded, Woman2Rounded } from '@mui/icons-material';
 import { UppercaseFirstLetter } from '@utils/textUtils';

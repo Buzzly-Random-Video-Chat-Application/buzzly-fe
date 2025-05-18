@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-const LiveHostMobile = () => {
+const LiveGuestMobile = () => {
     return (
         <Box sx={{
             display: 'flex',
@@ -14,4 +14,4 @@ const LiveHostMobile = () => {
     )
 }
 
-export default LiveHostMobile
+export default LiveGuestMobile

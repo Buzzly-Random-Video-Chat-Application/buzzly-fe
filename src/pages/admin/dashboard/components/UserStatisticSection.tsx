@@ -1,5 +1,4 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { IUser } from '../../../../types/user';
 import Button from '@components/ui/Button';
 import { ZoomOutRounded } from '@mui/icons-material';
 import { getUserFlag } from '@utils/userUtils';

@@ -3,7 +3,6 @@ import { USER_ENDPOINT } from '../constants/endpoints';
 import { axiosBaseQuery } from './axiosInstance';
 import { updateSuccess } from '../stores/slices/userSlice';
 import Cookies from 'js-cookie';
-import { IUserCreate, IUserListResponse, IUserRequest, IUserResponse, IUserUpdate } from '../types/user';
 
 export const userApi = createApi({
     reducerPath: 'userApi',

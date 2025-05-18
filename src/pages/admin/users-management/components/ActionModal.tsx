@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import CustomDialog from '@components/CustomDialog';
 import CustomProfileInput from '@components/CustomProfileInput';
-import { IUser } from '../../../../types/user';
 import Button from '@components/ui/Button';
 import toast from 'react-hot-toast';
 import { UPDATE_PROFILE_SUCCESS_MESSAGE, UPDATE_PROFILE_ERROR_MESSAGE } from '@constants/messages';

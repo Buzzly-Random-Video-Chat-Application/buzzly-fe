@@ -16,9 +16,7 @@ import {
     Avatar,
 } from '@mui/material';
 import { Search, MoreVert, ThumbUpOffAltRounded, ReportProblemRounded } from '@mui/icons-material';
-import { IReview } from '../../../../types/review';
-import { IUser } from '../../../../types/user';
-import { getUser } from '@utils/userUtils';
+import { getUserById } from '@utils/userUtils';
 import CustomTableHead, { CustomTableHeadItemProps } from '@components/TableHead';
 
 interface ReviewsTableProps {
@@ -51,7 +49,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
         .filter((review) => {
             if (!searchTerm) return true;
             const searchLower = searchTerm.toLowerCase();
-            const user = getUser(users, review.userId);
+            const user = getUserById(users, review.userId);
             return (
                 review.name?.toLowerCase().includes(searchLower) ||
                 (user?.email?.toLowerCase().includes(searchLower) || false) ||
@@ -70,7 +68,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
     };
 
     return (
-        <Box sx={{ width: '100%', mt: 4 }}>
+        <Box sx={{ width: '100%', px: { xs: 1, sm: 0 }, mt: 4 }}>
             <Box
                 sx={{
                     display: 'flex',
@@ -136,7 +134,7 @@ const ReviewsTable = ({ reviews = [], users = [] }: ReviewsTableProps) => {
                     <TableBody>
                         {paginatedReviews.length > 0 ? (
                             paginatedReviews.map((review, index) => {
-                                const user = getUser(users, review.userId);
+                                const user = getUserById(users, review.userId);
                                 return (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1}</TableCell>

@@ -25,7 +25,6 @@ import {
 import { Search, MoreVert, Visibility, Edit, Delete, AddCircleOutlineRounded, FilePresentRounded } from '@mui/icons-material';
 import PopupModal from '@components/PopupModal';
 import toast from 'react-hot-toast';
-import { IBlog } from '../../../../types/blog';
 import { useDeleteBlogMutation } from '@apis/blogApi';
 
 interface BlogTableProps {

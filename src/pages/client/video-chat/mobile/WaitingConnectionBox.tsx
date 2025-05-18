@@ -4,10 +4,11 @@ import { images, icons } from '@assets/index';
 import React, { useEffect, useRef } from 'react';
 import GenderModal from '../components/GenderModal';
 import CountryModal from '../components/CountryModal';
+import { GENDER } from '@enums/video-chat';
 
 interface WaitingConnectionBoxProps {
     handleCountrySelect: (country: string) => void;
-    handleGenderSelect: (gender: string) => void;
+    handleGenderSelect: (gender: GENDER) => void;
     handleStartVideoChat: () => void;
     stream: MediaStream | null;
 }

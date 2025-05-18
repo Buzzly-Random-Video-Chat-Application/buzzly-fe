@@ -2,12 +2,12 @@ import { Send } from '@mui/icons-material';
 import { Box, IconButton, TextField } from '@mui/material';
 import React from 'react';
 
-interface ChatSectionProps {
-    messages?: { id: string; sender: string; content: string }[]; // Optional for now
+interface ChatGuestSectionProps {
+    messages: { id: string; sender: string; content: string; type: string }[];
     onSendMessage: (message: string) => void;
 }
 
-const ChatSection = ({ messages = [], onSendMessage }: ChatSectionProps) => {
+const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) => {
     const [message, setMessage] = React.useState('');
 
     const handleSend = () => {
@@ -32,7 +32,6 @@ const ChatSection = ({ messages = [], onSendMessage }: ChatSectionProps) => {
                     flex: 1,
                 }}
             >
-                {/* Render messages (placeholder for API integration) */}
                 {messages.map((msg) => (
                     <Box key={msg.id} sx={{ color: 'white.50' }}>
                         <strong>{msg.sender}: </strong>
@@ -85,4 +84,4 @@ const ChatSection = ({ messages = [], onSendMessage }: ChatSectionProps) => {
     );
 };
 
-export default ChatSection;
+export default ChatGuestSection;

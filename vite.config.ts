@@ -9,10 +9,10 @@ export default defineConfig({
       targets: [
         {
           src: 'src/assets/**/*',
-          dest: 'assets'
-        }
-      ]
-    })
+          dest: 'assets',
+        },
+      ],
+    }),
   ],
   css: {
     preprocessorOptions: {
@@ -36,6 +36,7 @@ export default defineConfig({
       '@themes': '/src/themes',
       '@types': '/src/types',
       '@utils': '/src/utils',
+      '@enums': '/src/enums',
     },
   },
 });

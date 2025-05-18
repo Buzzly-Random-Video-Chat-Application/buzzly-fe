@@ -1,4 +1,4 @@
-export interface IReview {
+type IReview = {
     id?: string;
     userId: string;
     name?: string;
@@ -6,7 +6,7 @@ export interface IReview {
     review: string;
 }
 
-export interface IAppRating {
+type IAppRating = {
     rating: number;
     reviewCount: number;
     excellent: number;
@@ -16,12 +16,12 @@ export interface IAppRating {
     poor: number;
 }
 
-export interface IReviewResponse {
+type IReviewResponse = {
     message: string;
     result: IReview;
 }
 
-export interface IReviewListResponse {
+type IReviewListResponse = {
     message: string;
     results: IReview[];
     page: number;
@@ -30,13 +30,13 @@ export interface IReviewListResponse {
     totalResults: number;
 }
 
-export interface IReviewRequest {
+type IReviewRequest = {
     sortBy?: string;
     limit?: number;
     page?: number;
 }
 
-export interface IReviewUpdate {
+type IReviewUpdate = {
     rating: number;
     review: string;
 }

@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { IBlog } from '../../../../types/blog';
 import { useNavigate } from 'react-router-dom';
 
 interface BlogHorizontalCardProps {
@@ -10,7 +9,7 @@ const BlogHorizontalCard = ({ blog }: BlogHorizontalCardProps) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/blog/${blog.label.toLowerCase().replace(/\s+/g, '-')}/${blog.title.toLowerCase().replace(/\s+/g, '-')}`);
+        navigate(`/blog/${blog.id}`);
     };
 
     return (

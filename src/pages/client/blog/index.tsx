@@ -1,31 +1,37 @@
 import { useParams } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 import BlogDetailComponent from './components/BlogDetail';
-import { blogs } from '../../../constants/app';
-import { content1, content2, content3, content4, content5, content6, content7, content8, content9 } from '../../../constants/app';
-
-const contents = [content1, content2, content3, content4, content5, content6, content7, content8, content9];
+import { useGetBlogQuery } from '@apis/blogApi';
 
 const BlogDetail = () => {
-    const { label, title } = useParams<{ label: string; title: string }>();
+    const { blogId } = useParams<{ blogId: string }>();
+    const { data: blogs, error, isLoading } = useGetBlogQuery(blogId || '');
 
-    const blogIndex = blogs.findIndex(
-        (blog) =>
-            blog.label.toLowerCase().replace(/\s+/g, '-') === label &&
-            blog.title.toLowerCase().replace(/\s+/g, '-') === title
-    );
+    // Handle loading state
+    if (isLoading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <Typography variant="h6" color="textSecondary">
+                    Loading blog...
+                </Typography>
+            </Box>
+        );
+    }
 
-    const blog = blogs[blogIndex];
-    const content = contents[blogIndex];
+    // Handle error state
+    if (error || !blogs?.result) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <Typography variant="h6" color="error">
+                    Failed to load blog. Please try again later.
+                </Typography>
+            </Box>
+        );
+    }
 
+    const blog = blogs.result;
     return (
-        <BlogDetailComponent
-            topic={blog.label}
-            title={blog.title}
-            message={blog.description}
-            image={blog.image}
-            date={blog.date}
-            content={content}
-        />
+        <BlogDetailComponent blog={blog} />
     );
 };
 
