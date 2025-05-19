@@ -29,7 +29,8 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
             setName(user.name);
             setEmail(user.email);
             setGender(user.gender);
-            setNationality(user.nationality);;
+            const country = countries.find((c) => c.label === user.nationality || c.value === user.nationality);
+            setNationality(country ? country.value : '');
             setAvatar(user.avatar);
         }
     }, [user]);
@@ -103,7 +104,6 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
                 overflow: 'hidden',
                 marginTop: '20px'
             }}>
-                {/* Hiển thị ảnh đại diện */}
                 <img
                     src={avatar}
                     alt={user?.name}
@@ -114,8 +114,6 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
                         borderRadius: '10px'
                     }}
                 />
-
-                {/* Input file ẩn */}
                 <input
                     type="file"
                     accept="image/*"
@@ -123,8 +121,6 @@ const ProfileModal = ({ open, onClose }: ProfileModalProps) => {
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
                 />
-
-                {/* Icon chỉnh sửa */}
                 <IconButton onClick={handleEditAvatar} sx={{
                     position: 'absolute',
                     bottom: '10px',

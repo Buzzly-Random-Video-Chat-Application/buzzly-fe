@@ -26,7 +26,6 @@ import VerifyEmail from '@pages/auth/verify-email';
 import NotFoundPage from './NotFoundPage';
 import LiveGuest from '@pages/client/live/guest';
 import LiveHost from '@pages/client/live/host';
-import LiveSettings from '@pages/client/live/live-settings';
 
 const Routing = () => {
   return (
@@ -47,9 +46,6 @@ const Routing = () => {
       <Route path={ROUTES.LIVE_GUEST} element={<LiveGuest />} />
       <Route element={<ProtectedRoute allowedRoles={['user']} />}>
         <Route path={ROUTES.LIVE_HOST} element={<LiveHost />} />
-      </Route>
-      <Route element={<ProtectedRoute allowedRoles={['user']} />}>
-        <Route path={ROUTES.LIVE_SETTINGS} element={<LiveSettings />} />
       </Route>
       <Route path={ROUTES.BLOGS} element={<Blogs />} />
       <Route path={ROUTES.ABOUT} element={<About />} />

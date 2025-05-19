@@ -31,7 +31,7 @@ const LiveBanner = () => {
                     mb: 4,
                 }}
                 startIcon={<img src={icons.tv} alt="tv" style={{ width: '15px', height: '15px' }} />}
-                onClick={() => window.location.href = '/live/live-settings'}
+                onClick={() => window.location.href = '/live/host'}
             >
                 Start Live
             </Button>

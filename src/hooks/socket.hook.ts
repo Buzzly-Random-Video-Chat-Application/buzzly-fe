@@ -1,37 +1,23 @@
 import { createContext, useContext } from 'react';
 import { Socket } from 'socket.io-client';
-import { TYPE } from '@enums/video-chat';
+import { TYPE } from '@enums/livestream';
 
 interface SocketContextType {
   socket: Socket;
   isConnected: boolean;
-  onlineCount: number;
   // Livestream listeners
   onGuestJoined: (handler: (data: { guestUserId: string; guestSocketId: string }) => void) => void;
   onGuestLeft: (handler: (data: { guestUserId: string; guestSocketId: string }) => void) => void;
   onReceiveMessage: (handler: (data: { message: string; type: TYPE; senderId: string }) => void) => void;
   onHostIceReply: (handler: (data: { candidate: RTCIceCandidateInit; from: string }) => void) => void;
+  onGuestIceReply: (handler: (data: { candidate: RTCIceCandidateInit; from: string }) => void) => void;
   onHostSdpReply: (handler: (data: { sdp: RTCSessionDescriptionInit; from: string }) => void) => void;
+  onGuestSdpReply: (handler: (data: { sdp: RTCSessionDescriptionInit; from: string }) => void) => void;
   onEndLivestream: (handler: () => void) => void;
-  onNextLivestream: (handler: () => void) => void;
+  onNextLivestream: (handler: (data: { newLivestreamId: string }) => void) => void;
   onStartedLivestream: (handler: (data: { livestreamId: string }) => void) => void;
-  // Random chat listeners
-  onRcIceReply: (handler: (data: { candidate: RTCIceCandidateInit; from: string }) => void) => void;
-  onRcSdpReply: (handler: (data: { sdp: RTCSessionDescriptionInit; from: string }) => void) => void;
-  onRcGetMessage: (handler: (input: string, type: TYPE) => void) => void;
-  onRcEndChat: (handler: () => void) => void;
-  onRcNextChat: (handler: () => void) => void;
-  onRcRemoteSocket: (handler: (data: { socketId: string; userId: string }) => void) => void;
-  onRcRoomId: (handler: (roomId: string) => void) => void;
-  onRcDisconnected: (handler: () => void) => void;
   onError: (handler: (msg: string) => void) => void;
   // Emit functions
-  emitRcStart: (selectedGender: string, selectedCountry: string, callback: (role: TYPE) => void) => void; // Changed string to TYPE
-  emitRcIceSend: (candidate: RTCIceCandidateInit, to: string) => void;
-  emitRcSdpSend: (sdp: RTCSessionDescriptionInit, to: string) => void;
-  emitRcSendMessage: (input: string, type: TYPE, roomId: string) => void;
-  emitRcEndChat: (roomId: string) => void;
-  emitRcNextChat: (roomId: string) => void;
   emitLtStart: (
     livestreamName: string,
     livestreamGreeting: string,

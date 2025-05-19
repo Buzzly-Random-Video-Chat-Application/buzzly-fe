@@ -1,214 +1,51 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import CustomButton from '@components/ui/Button';
 import { Box, MenuItem, Select, TextField, Typography } from '@mui/material';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import CustomButton from '@components/ui/Button';
 import PopupModal from '@components/PopupModal';
-import { useAppSelector } from '@stores/store';
-import { useNavigate } from 'react-router-dom';
-import { useSocket } from '@hooks/socket.hook';
-import toast from 'react-hot-toast';
 
 interface Device {
     deviceId: string;
     label: string;
 }
 
-const LiveSettings = () => {
-    const { user } = useAppSelector((state) => state.user);
-    const { socket, isConnected, onStartedLivestream, onError } = useSocket();
-    const [livestreamName, setLivestreamName] = useState(`${user?.name}'s Livestream`);
-    const [greeting, setGreeting] = useState("Nice to meet you! You're watching my livestream!");
-    const [announcement, setAnnouncement] = useState("Welcome to my livestream! Let's have fun!");
-    const [videoDevices, setVideoDevices] = useState<Device[]>([]);
-    const [audioDevices, setAudioDevices] = useState<Device[]>([]);
-    const [selectedVideo, setSelectedVideo] = useState<string>('');
-    const [selectedMicrophone, setSelectedMicrophone] = useState<string>('');
-    const [openModal, setOpenModal] = useState(false);
-    const [stream, setStream] = useState<MediaStream | null>(null);
-    const [isDevicesLoaded, setIsDevicesLoaded] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const navigate = useNavigate();
+interface LiveSettingsProps {
+    livestreamName: string;
+    setLivestreamName: (value: string) => void;
+    greeting: string;
+    setGreeting: (value: string) => void;
+    announcement: string;
+    setAnnouncement: (value: string) => void;
+    videoDevices: Device[];
+    audioDevices: Device[];
+    selectedVideo: string;
+    setSelectedVideo: (value: string) => void;
+    selectedMicrophone: string;
+    setSelectedMicrophone: (value: string) => void;
+    openModal: boolean;
+    setOpenModal: (value: boolean) => void;
+    videoRef: React.RefObject<HTMLVideoElement>;
+    handleStartLive: () => void;
+    requestPermissions: () => void;
+}
 
-    const validate = useCallback(() => {
-        if (!livestreamName.trim()) {
-            toast.error('Please enter a livestream name');
-            return false;
-        }
-        if (!greeting.trim()) {
-            toast.error('Please enter a greeting message');
-            return false;
-        }
-        if (!announcement.trim()) {
-            toast.error('Please enter an announcement message');
-            return false;
-        }
-        if (!selectedVideo) {
-            toast.error('Please select a video device');
-            return false;
-        }
-        if (!selectedMicrophone) {
-            toast.error('Please select a microphone device');
-            return false;
-        }
-        return true;
-    }, [livestreamName, greeting, announcement, selectedVideo, selectedMicrophone]);
-
-    const startCamera = useCallback(
-        async (videoDeviceId?: string, audioDeviceId?: string) => {
-            try {
-                const constraints = {
-                    video: videoDeviceId ? { deviceId: { exact: videoDeviceId } } : true,
-                    audio: audioDeviceId ? { deviceId: { exact: audioDeviceId } } : true,
-                };
-                const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-                setStream(mediaStream);
-                if (videoRef.current) {
-                    videoRef.current.srcObject = mediaStream;
-                    videoRef.current.play();
-                }
-            } catch (error) {
-                console.error('Error starting camera:', error);
-                setOpenModal(true);
-            }
-        },
-        []
-    );
-
-    const fetchDevices = useCallback(async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const videoDevices = devices
-                .filter((device) => device.kind === 'videoinput')
-                .map((device) => ({
-                    deviceId: device.deviceId,
-                    label: device.label || `Camera ${device.deviceId.slice(0, 5)}`,
-                }));
-            const audioDevices = devices
-                .filter((device) => device.kind === 'audioinput')
-                .map((device) => ({
-                    deviceId: device.deviceId,
-                    label: device.label || `Microphone ${device.deviceId.slice(0, 5)}`,
-                }));
-
-            setVideoDevices(videoDevices);
-            setAudioDevices(audioDevices);
-
-            if (videoDevices.length > 0) {
-                setSelectedVideo((prev) => prev || videoDevices[0].deviceId);
-            }
-            if (audioDevices.length > 0) {
-                setSelectedMicrophone((prev) => prev || audioDevices[0].deviceId);
-            }
-
-            stream.getTracks().forEach((track) => track.stop());
-            setIsDevicesLoaded(true);
-        } catch (error) {
-            console.error('Error fetching devices:', error);
-            setOpenModal(true);
-        }
-    }, []);
-
-    const checkMediaPermissions = useCallback(async () => {
-        try {
-            const cameraPermission = await navigator.permissions.query({ name: 'camera' as PermissionName });
-            const microphonePermission = await navigator.permissions.query({ name: 'microphone' as PermissionName });
-
-            if (cameraPermission.state === 'denied' || microphonePermission.state === 'denied') {
-                setOpenModal(true);
-            } else if (cameraPermission.state === 'granted' && microphonePermission.state === 'granted') {
-                await fetchDevices();
-            } else {
-                setOpenModal(true);
-            }
-        } catch (error) {
-            console.error('Error checking permissions:', error);
-            setOpenModal(true);
-        }
-    }, [fetchDevices]);
-
-    const requestPermissions = useCallback(() => {
-        setOpenModal(false);
-        navigator.mediaDevices
-            .getUserMedia({ video: true, audio: true })
-            .then(() => {
-                fetchDevices();
-            })
-            .catch((error) => {
-                console.error('Error accessing media devices:', error);
-                setOpenModal(true);
-            });
-    }, [fetchDevices]);
-
-    const handleStartLive = useCallback(() => {
-        if (!isDevicesLoaded) {
-            toast.error('Devices are still loading, please wait');
-            return;
-        }
-        if (!validate()) return;
-
-        if (socket && isConnected) {
-            socket.emit(
-                'lt_start',
-                {
-                    livestreamName,
-                    livestreamGreeting: greeting,
-                    livestreamAnnouncement: announcement,
-                },
-                (livestreamId: string | null) => {
-                    if (livestreamId) {
-                        console.log('Livestream started:', livestreamId);
-                        navigate(`/live/host?livestreamId=${livestreamId}`, {
-                            state: { selectedVideo, selectedMicrophone },
-                        });
-                    } else {
-                        console.error('Failed to start livestream');
-                        toast.error('Failed to start livestream');
-                    }
-                }
-            );
-        } else {
-            console.error('Socket not connected');
-            toast.error('Socket not connected');
-        }
-    }, [livestreamName, greeting, announcement, isDevicesLoaded, socket, isConnected, navigate, selectedMicrophone, selectedVideo]);
-
-    // Register socket event handlers
-    useEffect(() => {
-        if (socket) {
-            onStartedLivestream(({ livestreamId }) => {
-                console.log('Livestream started:', livestreamId);
-                navigate(`/live/host?livestreamId=${livestreamId}`, {
-                    state: { selectedVideo, selectedMicrophone },
-                });
-            });
-
-            onError((msg) => {
-                console.error('Socket error:', msg);
-                toast.error(msg);
-            });
-        }
-    }, [socket, onStartedLivestream, onError, navigate, selectedVideo, selectedMicrophone]);
-
-    useEffect(() => {
-        if (isDevicesLoaded && selectedVideo && selectedMicrophone) {
-            startCamera(selectedVideo, selectedMicrophone);
-        }
-    }, [isDevicesLoaded, selectedVideo, selectedMicrophone, startCamera]);
-
-    useEffect(() => {
-        checkMediaPermissions();
-    }, [checkMediaPermissions]);
-
-    useEffect(() => {
-        return () => {
-            if (stream) {
-                stream.getTracks().forEach((track) => track.stop());
-                setStream(null);
-            }
-        };
-    }, [stream]);
-
+const LiveSettings = ({
+    livestreamName,
+    setLivestreamName,
+    greeting,
+    setGreeting,
+    announcement,
+    setAnnouncement,
+    videoDevices,
+    audioDevices,
+    selectedVideo,
+    setSelectedVideo,
+    selectedMicrophone,
+    setSelectedMicrophone,
+    openModal,
+    setOpenModal,
+    videoRef,
+    handleStartLive,
+    requestPermissions,
+}: LiveSettingsProps) => {
     return (
         <Box
             sx={{

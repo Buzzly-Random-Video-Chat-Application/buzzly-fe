@@ -1,7 +1,9 @@
-import { countries } from "@constants/country";
+import { countries } from '@constants/country';
 
 export const getUserFlag = (user: IUser | null) => {
-  return `https://flagcdn.com/${countries.find((country) => country.label === user?.nationality)?.value.toLowerCase()}.svg`
+  return `https://flagcdn.com/${countries
+    .find((country) => country.value === user?.nationality)
+    ?.value.toLowerCase()}.svg`;
 };
 
 export const getUserById = (users: IUser[] | undefined, userId: string): IUser | undefined => {
@@ -16,4 +18,4 @@ export const getUserByEmail = (users: IUser[] | undefined, email: string): IUser
     return undefined;
   }
   return users.find((user) => user.email === email);
-}
+};

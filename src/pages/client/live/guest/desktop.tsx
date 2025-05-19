@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import LiveGuestSection from './desktop/LiveGuestSection';
 import Trending from '../desktop/Trending';
 import LiveContent from '../desktop/LiveContent';
+import { TYPE } from '@enums/livestream';
 
 interface Message {
     id: string;
@@ -23,7 +24,7 @@ interface Guest {
 
 const LiveGuestDesktop = () => {
     const { user } = useAppSelector((state) => state.user);
-    const { socket, isConnected, onReceiveMessage, onHostIceReply, onHostSdpReply, onEndLivestream, onError } = useSocket();
+    const { socket, isConnected, emitLtJoin, emitLtSendMessage, emitLtGuestIceSend, emitLtGuestSdpSend, onReceiveMessage, onHostIceReply, onHostSdpReply, onEndLivestream, onError } = useSocket();
     const location = useLocation();
     const navigate = useNavigate();
     const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
@@ -37,56 +38,45 @@ const LiveGuestDesktop = () => {
     // Kiểm tra livestreamId
     useEffect(() => {
         if (!livestreamId) {
-            toast.error('Invalid livestream ID');
+            toast.error('ID livestream không hợp lệ');
             navigate('/live');
         }
     }, [livestreamId, navigate]);
 
-    // Initialize WebRTC and join livestream when socket is connected
+    // Khởi tạo WebRTC và tham gia livestream khi socket kết nối
     useEffect(() => {
         if (!livestreamId || !socket || !isConnected) {
-            console.log('Guest: Waiting for socket connection', { livestreamId, socket: !!socket, isConnected });
+            console.log('Guest: Đang chờ kết nối socket', { livestreamId, socket: !!socket, isConnected });
             return;
         }
 
-        console.log('Guest: Initializing WebRTC for livestream', livestreamId);
+        console.log('Guest: Khởi tạo WebRTC cho livestream', livestreamId);
 
-        // Initialize WebRTC peer connection
+        // Khởi tạo WebRTC peer connection
         const pc = new RTCPeerConnection({
             iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
         });
         peerConnectionRef.current = pc;
 
-        // Handle incoming tracks from the host
-        pc.ontrack = (event) => {
-            console.log('Guest: Received track from host', event.streams.length, event.streams[0].id);
-            const remoteStream = event.streams[0];
-            setStream(remoteStream);
-        };
-
-        // Send ICE candidates to the host
+        // Gửi ICE candidate đến host
         pc.onicecandidate = (event) => {
             if (event.candidate && socket) {
-                console.log('Guest: Sending ICE candidate to host', event.candidate);
-                socket.emit('lt_ice:reply', {
-                    livestreamId,
-                    candidate: event.candidate.toJSON(),
-                    to: 'host',
-                });
+                console.log('Guest: Gửi ICE candidate đến host', event.candidate);
+                emitLtGuestIceSend(livestreamId, event.candidate.toJSON(), 'host');
             }
         };
 
-        // Join the livestream with timeout
+        // Tham gia livestream với timeout
         const joinLivestream = (): Promise<{ success: boolean; message: string }> =>
             new Promise((resolve, reject) => {
-                console.log('Guest: Sending lt_join', livestreamId);
+                console.log('Guest: Gửi join:livestream', livestreamId);
                 const timeout = setTimeout(() => {
-                    console.error('Guest: Join livestream timed out');
-                    reject(new Error('Join livestream timed out'));
+                    console.error('Guest: Tham gia livestream timeout');
+                    reject(new Error('Tham gia livestream timeout'));
                 }, 10000);
 
-                socket.emit('lt_join', { livestreamId }, (response: { success: boolean; message: string }) => {
-                    console.log('Guest: Received lt_join response', response);
+                emitLtJoin(livestreamId, (response: { success: boolean; message: string }) => {
+                    console.log('Guest: Nhận phản hồi join:livestream', response);
                     clearTimeout(timeout);
                     resolve(response);
                 });
@@ -95,55 +85,51 @@ const LiveGuestDesktop = () => {
         setIsJoining(true);
         joinLivestream()
             .then((response) => {
-                console.log('Guest: Join livestream response', response);
+                console.log('Guest: Phản hồi tham gia livestream', response);
                 if (!response.success) {
-                    console.error('Guest: Failed to join livestream', response.message);
+                    console.error('Guest: Tham gia livestream thất bại', response.message);
                     toast.error(response.message);
                     navigate('/live');
                 }
             })
             .catch((error) => {
-                console.error('Guest: Error joining livestream', error.message);
+                console.error('Guest: Lỗi khi tham gia livestream', error.message);
                 toast.error(error.message);
                 navigate('/live');
             })
             .finally(() => {
-                console.log('Guest: Join process completed');
-                toast.success('Joined livestream successfully');
+                console.log('Guest: Quá trình tham gia hoàn tất');
+                toast.success('Tham gia livestream thành công');
                 setIsJoining(false);
             });
 
-        // Register socket event handlers
+        // Đăng ký các socket event handler
         onHostSdpReply(({ sdp, from }) => {
-            console.log('Guest: Received SDP from host', { from, sdp });
+            console.log('Guest: Nhận SDP từ host', { from, sdp });
             if (from === 'host' && pc.signalingState !== 'closed') {
                 pc.setRemoteDescription(new RTCSessionDescription(sdp))
                     .then(() => {
-                        console.log('Guest: Set remote SDP successfully');
+                        console.log('Guest: Đặt remote SDP thành công');
                         if (sdp.type === 'offer') {
                             return pc.createAnswer().then((answer) => {
-                                console.log('Guest: Created SDP answer', answer);
+                                console.log('Guest: Tạo SDP answer', answer);
                                 pc.setLocalDescription(answer);
-                                socket.emit('lt_sdp:reply', {
-                                    livestreamId,
-                                    sdp: answer,
-                                    to: 'host',
-                                });
-                                console.log('Guest: Sent SDP answer to host');
+                                emitLtGuestSdpSend(livestreamId, answer, 'host');
+                                console.log('Guest: Gửi SDP answer đến host');
                             });
                         }
                     })
                     .catch((error) => {
-                        console.error('Guest: Error handling SDP from host', error);
+                        console.error('Guest: Lỗi khi xử lý SDP từ host', error);
                     });
             }
         });
 
         onHostIceReply(({ candidate, from }) => {
-            console.log('Guest: Received ICE candidate from host', { from, candidate });
+            console.log('Guest: Nhận ICE candidate từ host', { from, candidate });
             if (from === 'host' && pc.signalingState !== 'closed') {
                 pc.addIceCandidate(new RTCIceCandidate(candidate)).catch((error) => {
-                    console.error('Guest: Error adding ICE candidate from host', error);
+                    console.error('Guest: Lỗi khi thêm ICE candidate từ host', error);
                 });
             }
         });
@@ -161,17 +147,23 @@ const LiveGuestDesktop = () => {
         });
 
         onEndLivestream(() => {
-            toast.success('Livestream ended by host');
+            toast.success('Livestream đã kết thúc bởi host');
             navigate('/live');
         });
 
         onError((msg) => {
-            console.error('Socket error:', msg);
+            console.error('Lỗi socket:', msg);
             toast.error(msg);
             navigate('/live');
         });
 
-        // Cleanup
+        // Xử lý track từ host
+        pc.ontrack = (event) => {
+            console.log('Guest: Nhận track từ host thành công');
+            setStream(event.streams[0]);
+        };
+
+        // Dọn dẹp
         return () => {
             if (pc) {
                 pc.close();
@@ -184,34 +176,34 @@ const LiveGuestDesktop = () => {
         };
     }, [livestreamId, socket, isConnected]);
 
-    // Handle sending messages
+    // Xử lý gửi tin nhắn
     const handleSendMessage = (message: string) => {
         if (socket && livestreamId && isConnected) {
-            socket.emit('lt_send-message', { livestreamId, message, type: 'guest' });
+            emitLtSendMessage(livestreamId, message, TYPE.GUEST);
         } else {
-            toast.error('Cannot send message: Socket not connected');
+            toast.error('Không thể gửi tin nhắn: Socket chưa kết nối');
         }
     };
 
-    // Handle navigating to the next livestream
+    // Xử lý chuyển sang livestream tiếp theo
     const handleNextLive = () => {
         if (socket && livestreamId && isConnected) {
-            socket.emit('lt_next-livestream', { livestreamId }, (nextLivestreamId: string | null) => {
-                if (nextLivestreamId) {
-                    navigate(`/live/guest?livestreamId=${nextLivestreamId}`);
+            socket.emit('next:livestream', { livestreamId }, (newLivestreamId: string | null) => {
+                if (newLivestreamId) {
+                    navigate(`/live/guest?livestreamId=${newLivestreamId}`);
                 } else {
-                    toast.error('No more livestreams available');
+                    toast.error('Không còn livestream nào khả dụng');
                 }
             });
         } else {
-            toast.error('Cannot switch livestream: Socket not connected');
+            toast.error('Không thể chuyển livestream: Socket chưa kết nối');
         }
     };
 
     // Hiển thị thông báo khi socket đang kết nối
     useEffect(() => {
         if (!isConnected && socket) {
-            toast.loading('Connecting to server...', { id: 'socket-connecting' });
+            toast.loading('Đang kết nối đến server...', { id: 'socket-connecting' });
         } else {
             toast.dismiss('socket-connecting');
         }

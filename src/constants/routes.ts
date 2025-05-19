@@ -4,12 +4,11 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
   VERIFY_EMAIL: '/verify-email',
-  
+
   HOME: '/',
   PROFILE: '/profile',
   VIDEO_CHAT: '/video-chat',
   LIVE: '/live',
-  LIVE_SETTINGS: '/live/live-settings',
   LIVE_HOST: '/live/host',
   LIVE_GUEST: '/live/guest',
   BLOGS: '/blogs',

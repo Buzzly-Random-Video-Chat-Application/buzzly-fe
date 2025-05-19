@@ -50,8 +50,8 @@ const CountryModal = ({ open, onClose, onCountrySelect, onStartVideoChat }: Coun
             }}>
                 Select the country you want to pair with
             </Typography>
-            {countries.map((country, index) =>
-                country.label !== user?.nationality && (
+            {countries.map((country: { label: string; value: string }, index: number) =>
+                country.value !== user?.nationality && (
                     <RadioButton
                         key={index}
                         name={country.label}
