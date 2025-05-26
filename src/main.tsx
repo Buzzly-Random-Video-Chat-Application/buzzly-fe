@@ -12,7 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import { ReviewProvider } from './providers/review.provider';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from "@vercel/analytics/react"
-import { SocketProvider } from '@providers/socket.provider';
+// import { SocketProvider } from '@providers/socket.provider';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -22,11 +22,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <BrowserRouter>
             <CssBaseline>
               <ReviewProvider>
-                <SocketProvider>
-                  <App />
-                  <SpeedInsights />
-                  <Analytics />
-                </SocketProvider>
+                {/* <SocketProvider> */}
+                <App />
+                <SpeedInsights />
+                <Analytics />
+                {/* </SocketProvider> */}
               </ReviewProvider>
             </CssBaseline>
           </BrowserRouter>
