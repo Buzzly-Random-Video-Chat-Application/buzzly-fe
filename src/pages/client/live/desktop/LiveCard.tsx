@@ -1,16 +1,13 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { RemoveRedEyeRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '@apis/userApi';
+import { getUserFlag } from '@utils/userUtils';
 
-interface LiveCardProps {
-    viewers: number;
-    username: string;
-    country: string;
-    image: string;
-}
-
-const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
+const LiveCard = ({ livestream }: { livestream: ILivestream }) => {
     const navigate = useNavigate();
+    const { data: user } = useGetUserQuery(livestream?.host.userId);
+
     return (
         <Box sx={{
             position: 'relative',
@@ -20,10 +17,10 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
             minWidth: '200px',
             aspectRatio: '2 / 3',
             cursor: 'pointer',
-        }} onClick={() => navigate('/live/guest?livestreamRoomId=123456')}>
+        }} onClick={() => navigate(`/live/guest?livestreamId=${livestream.id}`)}>
             <Box
                 component="img"
-                src={image}
+                src={user?.result.avatar}
                 sx={{
                     width: '100%',
                     height: '100%',
@@ -48,7 +45,7 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                 }}
             >
                 <RemoveRedEyeRounded sx={{ color: 'white', fontSize: '12px !important' }} />
-                <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>{viewers}</Typography>
+                <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>100</Typography>
             </Box>
             <Box
                 sx={{
@@ -61,7 +58,7 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                 }}
             >
                 <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>
-                    Live of {username}
+                    Live of {user?.result.name}
                 </Typography>
                 <Box
                     sx={{
@@ -72,7 +69,7 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                     }}
                 >
                     <Avatar
-                        src={image}
+                        src={user?.result.avatar}
                         sx={{ width: '24px', height: '24px', objectFit: 'cover' }}
                     />
                     <Box
@@ -84,10 +81,10 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                         }}
                     >
                         <Typography sx={{ fontSize: '12px !important', fontWeight: 600 }}>
-                            {username}
+                            {user?.result.name}
                         </Typography>
                         <img
-                            src={country}
+                            src={getUserFlag(user?.result ?? null)}
                             alt="country flag"
                             style={{ width: '12px', height: '12px' }}
                         />

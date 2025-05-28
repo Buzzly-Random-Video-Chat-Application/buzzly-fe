@@ -1,8 +1,9 @@
 import { MicOffRounded, MicRounded, MusicNoteRounded, MusicOffRounded, SettingsRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import PopupModal from '@components/PopupModal';
 import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 
 interface LiveScreenHostSectionProps {
     stream: MediaStream | null;
@@ -10,39 +11,57 @@ interface LiveScreenHostSectionProps {
     onEndLive: () => void;
 }
 
+const VideoBox = memo(({ stream, user }: { stream: MediaStream | null; user: IUser | undefined }) => {
+    return (
+        <Box
+            sx={{
+                width: '100%',
+                height: '85%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                bgcolor: 'dark.500',
+                borderRadius: '10px',
+                overflow: 'hidden',
+            }}
+        >
+            {stream ? (
+                <video
+                    ref={(video) => {
+                        if (video) {
+                            video.srcObject = stream;
+                        }
+                    }}
+                    autoPlay
+                    playsInline
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                    }}
+                />
+            ) : (
+                <Box
+                    component={'img'}
+                    src={user?.avatar}
+                    alt="Placeholder"
+                    sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        borderRadius: '10px',
+                    }}
+                />
+            )}
+        </Box>
+    );
+});
+
 const LiveScreenHostSection = ({ stream, user, onEndLive }: LiveScreenHostSectionProps) => {
     const [micOn, setMicOn] = useState(true);
     const [musicOn, setMusicOn] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const videoElement = videoRef.current;
-        if (!videoElement || !stream) {
-            return;
-        }
-
-        // Set the stream as srcObject
-        videoElement.srcObject = stream;
-
-        // Attempt to play the video
-        const playPromise = videoElement.play();
-        if (playPromise !== undefined) {
-            playPromise.catch((error) => {
-                console.error('Error playing video:', error);
-            });
-        }
-
-        // Cleanup: Reset srcObject when stream changes or component unmounts
-        return () => {
-            if (videoElement) {
-                videoElement.srcObject = null;
-                // Pause the video to prevent AbortError
-                videoElement.pause();
-            }
-        };
-    }, [stream]);
 
     const handleMicClick = () => {
         if (stream) {
@@ -75,43 +94,7 @@ const LiveScreenHostSection = ({ stream, user, onEndLive }: LiveScreenHostSectio
                 flexDirection: 'column',
             }}
         >
-            <Box
-                sx={{
-                    width: '100%',
-                    height: '85%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    bgcolor: 'dark.500',
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                }}
-            >
-                {stream ? (
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        muted
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
-                        }}
-                    />
-                ) : (
-                    <Box
-                        component={'img'}
-                        src={user?.avatar}
-                        alt="Placeholder"
-                        sx={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
-                            borderRadius: '10px',
-                        }}
-                    />
-                )}
-            </Box>
+            <VideoBox stream={stream} user={user} />
             <Box
                 sx={{
                     display: 'flex',

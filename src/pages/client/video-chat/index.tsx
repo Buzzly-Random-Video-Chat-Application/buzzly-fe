@@ -28,7 +28,7 @@ const VideoChat = () => {
     const [strangerUserId, setStrangerUserId] = useState<string | null>(null);
     const [roomId, setRoomId] = useState<string | null>(null);
     const [userType, setUserType] = useState<'p1' | 'p2' | null>(null);
-    const [messages, setMessages] = useState<IMessage[]>([]);
+    const [messages, setMessages] = useState<IVideoChatMessage[]>([]);
 
     const { openReviewDialog } = useReview();
 
@@ -49,7 +49,7 @@ const VideoChat = () => {
 
         pc.oniceconnectionstatechange = () => {
             if (pc.iceConnectionState === 'disconnected') {
-                socket.emit('disconnect');
+                socket.emit('video-chat:disconnect');
             }
         };
 
@@ -61,7 +61,7 @@ const VideoChat = () => {
 
         pc.onicecandidate = (event) => {
             if (event.candidate) {
-                socket.emit('rc_ice:send', { candidate: event.candidate, to: remoteId });
+                socket.emit('video-chat:ice:send', { candidate: event.candidate, to: remoteId });
             }
         };
 
@@ -72,7 +72,7 @@ const VideoChat = () => {
         if (userType === 'p1') {
             const offer = await pc.createOffer();
             await pc.setLocalDescription(offer);
-            socket.emit('rc_sdp:send', { sdp: offer, to: remoteId });
+            socket.emit('video-chat:sdp:send', { sdp: offer, to: remoteId });
         }
     }, [userType]);
 
@@ -81,13 +81,16 @@ const VideoChat = () => {
             path: '/v1/socket',
             query: { userId: user?.id },
         });
+
         socketRef.current = newSocket;
+
+        newSocket.emit('video-chat:connect');
 
         newSocket.on('connect', () => {
             console.log('Socket connected:', newSocket.id);
         });
 
-        newSocket.on('disconnected', () => {
+        newSocket.on('video-chat:disconnected', () => {
             console.log('Socket disconnected');
         });
 
@@ -101,13 +104,13 @@ const VideoChat = () => {
     // 2. Xử lý roomId
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('rc_roomid', (id: string) => {
+            socketRef.current.on('video-chat:send-room', (id: string) => {
                 setRoomId(id);
             });
         }
     }, []);
 
-    // 3. Xử lý rc_remote-socket và thiết lập WebRTC
+    // 3. Xử lý video-chat:joined và thiết lập WebRTC
     useEffect(() => {
         if (socketRef.current) {
             const handleRemoteSocket = async ({ socketId, userId }: { socketId: string; userId: string }) => {
@@ -120,10 +123,10 @@ const VideoChat = () => {
                     }
                 }
             };
-            socketRef.current.on('rc_remote-socket', handleRemoteSocket);
+            socketRef.current.on('video-chat:joined', handleRemoteSocket);
 
             return () => {
-                socketRef.current?.off('rc_remote-socket', handleRemoteSocket);
+                socketRef.current?.off('video-chat:joined', handleRemoteSocket);
             };
         }
     }, [setupWebRTC, remoteSocketId]);
@@ -131,7 +134,7 @@ const VideoChat = () => {
     // 4. Xử lý ICE candidate
     useEffect(() => {
         if (socketRef.current && remoteSocketId) {
-            socketRef.current.on('rc_ice:reply', ({ candidate, from }) => {
+            socketRef.current.on('video-chat:ice:reply', ({ candidate, from }) => {
                 if (peerConnectionRef.current && from === remoteSocketId) {
                     peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate)).catch((err) =>
                         console.error('Error adding ICE candidate:', err)
@@ -144,14 +147,14 @@ const VideoChat = () => {
     // 5. Xử lý SDP
     useEffect(() => {
         if (socketRef.current && remoteSocketId) {
-            socketRef.current.on('rc_sdp:reply', async ({ sdp, from }) => {
+            socketRef.current.on('video-chat:sdp:reply', async ({ sdp, from }) => {
                 if (peerConnectionRef.current && from === remoteSocketId) {
                     try {
                         await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
                         if (sdp.type === 'offer') {
                             const answer = await peerConnectionRef.current.createAnswer();
                             await peerConnectionRef.current.setLocalDescription(answer);
-                            socketRef.current?.emit('rc_sdp:send', { sdp: answer, to: remoteSocketId });
+                            socketRef.current?.emit('video-chat:sdp:send', { sdp: answer, to: remoteSocketId });
                         }
                     } catch (err) {
                         console.error('Error setting remote SDP:', err);
@@ -164,19 +167,15 @@ const VideoChat = () => {
     // 6. Xử lý tin nhắn từ server
     useEffect(() => {
         if (socketRef.current) {
-            const handleMessage = (text: string, sender: string) => {
-                setMessages((prev) => [
-                    ...prev,
-                    { text, sender: sender === userType ? 'You' : 'Stranger' },
-                ]);
+            const handleMessage = (text: string, senderType: string) => {
+                setMessages((prev) => [...prev, { text, sender: senderType === userType ? 'You' : 'Stranger' }]);
             };
-            socketRef.current.on('rc_get-message', handleMessage);
-
+            socketRef.current.on('video-chat:get-message', handleMessage);
             return () => {
-                socketRef.current?.off('rc_get-message', handleMessage);
+                socketRef.current?.off('video-chat:get-message', handleMessage);
             };
         }
-    }, [userType]);
+    }, [userType, roomId]);
 
     // 7. Xử lý ngắt kết nối
     useEffect(() => {
@@ -195,16 +194,16 @@ const VideoChat = () => {
     // 8. Xử lý lỗi từ server
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('rc_error', (msg: string) => {
+            socketRef.current.on('video-chat:error', (msg: string) => {
                 console.error('Server error:', msg);
             });
         }
     }, []);
 
-    // 9. Xử lý sự kiện rc_end-chat (khi một người nhấn ESC)
+    // 9. Xử lý sự kiện video-chat:end-chat (khi một người nhấn ESC)
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('rc_end-chat', () => {
+            socketRef.current.on('video-chat:end-chat', () => {
                 setStartVideoChat(false);
                 setStrangerStream(null);
                 setRemoteSocketId(null);
@@ -220,10 +219,10 @@ const VideoChat = () => {
         }
     }, [stream, openReviewDialog]);
 
-    // 10. Xử lý sự kiện rc_next-chat (khi một người nhấn Next)
+    // 10. Xử lý sự kiện video-chat:next-chat (khi một người nhấn Next)
     useEffect(() => {
         if (socketRef.current) {
-            socketRef.current.on('rc_next-chat', () => {
+            socketRef.current.on('video-chat:next-chat', () => {
                 setStrangerStream(null);
                 setRemoteSocketId(null);
                 setStrangerUserId(null);
@@ -233,18 +232,25 @@ const VideoChat = () => {
                 peerConnectionRef.current?.close();
                 peerConnectionRef.current = null;
 
-                socketRef.current?.emit('rc_start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
+                socketRef.current?.emit('video-chat:start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
                     setUserType(type);
                 });
             });
         }
     }, [selectedGender, selectedCountry]);
 
-
+    // 11. Xử lý sự kiện video-chat-online
+    useEffect(() => {
+        if (socketRef.current) {
+            socketRef.current.on('video-chat-online', (count: number) => {
+                console.log('Video chat online:', count);
+            });
+        }
+    }, []);
 
     const handleStartVideoChat = useCallback(() => {
         setStartVideoChat(true);
-        socketRef.current?.emit('rc_start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
+        socketRef.current?.emit('video-chat:start', { selectedGender, selectedCountry }, (type: 'p1' | 'p2') => {
             setUserType(type);
         });
     }, [selectedGender, selectedCountry]);
@@ -269,8 +275,8 @@ const VideoChat = () => {
     useEffect(() => {
         const checkMediaPermissions = async () => {
             try {
-                const cameraPermission = await navigator.permissions.query({ name: 'camera' });
-                const microphonePermission = await navigator.permissions.query({ name: 'microphone' });
+                const cameraPermission = await navigator.permissions.query({ name: 'camera' as PermissionName });
+                const microphonePermission = await navigator.permissions.query({ name: 'microphone' as PermissionName });
 
                 if (cameraPermission.state === 'denied' || microphonePermission.state === 'denied') {
                     setOpenModal(true);
@@ -288,14 +294,6 @@ const VideoChat = () => {
         checkMediaPermissions();
     }, [startMedia]);
 
-    useEffect(() => {
-        return () => {
-            if (stream) {
-                stream.getTracks().forEach((track) => track.stop());
-            }
-        };
-    }, [stream]);
-
     const handleCountrySelect = useCallback((country: string) => {
         setSelectedCountry(country);
     }, []);
@@ -305,11 +303,11 @@ const VideoChat = () => {
     }, []);
 
     const handleEndVideoChat = useCallback(() => {
-        socketRef.current?.emit('rc_end-chat', roomId);
+        socketRef.current?.emit('video-chat:end-chat', roomId);
     }, [roomId]);
 
     const handleNextVideoChat = useCallback(() => {
-        socketRef.current?.emit('rc_next-chat', roomId);
+        socketRef.current?.emit('video-chat:next-chat', roomId);
     }, [roomId]);
 
     const requestPermissions = useCallback(() => {
@@ -318,11 +316,50 @@ const VideoChat = () => {
     }, [startMedia]);
 
     const sendMessage = useCallback((message: string) => {
-        if (socketRef.current && roomId && userType && message.trim()) {
-            socketRef.current.emit('rc_send-message', message, userType, roomId);
+        if (!socketRef.current) {
+            return;
+        }
+
+        if (!roomId) {
+            return;
+        }
+
+        if (!userType) {
+            return;
+        }
+
+        if (!message.trim()) {
+            return;
+        }
+
+        try {
             setMessages((prev) => [...prev, { text: message, sender: 'You' }]);
+            socketRef.current.emit('video-chat:send-message', message, userType, roomId);
+        } catch (error) {
+            console.error('Error sending message:', error);
         }
     }, [roomId, userType]);
+
+    useEffect(() => {
+        if (socketRef.current) {
+            const handleError = (error: string) => {
+                console.error('Socket error:', error);
+            };
+            socketRef.current.on('video-chat:error', handleError);
+
+            return () => {
+                socketRef.current?.off('video-chat:error', handleError);
+            };
+        }
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            if (stream) {
+                stream.getTracks().forEach((track) => track.stop());
+            }
+        };
+    }, [stream]);
 
     return (
         <Box

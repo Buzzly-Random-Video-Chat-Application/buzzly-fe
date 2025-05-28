@@ -3,7 +3,7 @@ import LiveBanner from "./mobile/LiveBanner"
 import LiveContent from "./mobile/LiveContent"
 import Trending from "./mobile/Trending"
 
-const LiveMobile = () => {
+const LiveMobile = ({ livestreams }: { livestreams: ILivestreamListResponse | undefined }) => {
   return (
     <Box sx={{
       display: 'flex',
@@ -15,8 +15,8 @@ const LiveMobile = () => {
       gap: 5,
     }}>
       <LiveBanner />
-      <Trending />
-      <LiveContent />
+      <Trending livestreams={livestreams} />
+      <LiveContent livestreams={livestreams} />
     </Box>
   )
 }

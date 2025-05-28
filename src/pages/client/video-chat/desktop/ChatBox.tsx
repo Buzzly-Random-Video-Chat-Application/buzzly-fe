@@ -5,7 +5,7 @@ import { Send } from '@mui/icons-material';
 
 interface ChatBoxProps {
     sendMessage: (message: string) => void;
-    messages: IMessage[];
+    messages: IVideoChatMessage[];
     strangerInfo: IUser | undefined;
 }
 

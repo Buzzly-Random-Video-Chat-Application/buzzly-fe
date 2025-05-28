@@ -8,27 +8,30 @@ import { reviewApi } from '@apis/reviewApi';
 import { blogApi } from '@apis/blogApi';
 import { feedbackApi } from '@apis/feedbackApi';
 import { statisticApi } from '@apis/statisticApi';
+import { livestreamApi } from '@apis/livestreamApi';
 
 const store = configureStore({
-    reducer: {
-        user: userSlice,
-        [authApi.reducerPath]: authApi.reducer,
-        [userApi.reducerPath]: userApi.reducer,
-        [reviewApi.reducerPath]: reviewApi.reducer,
-        [blogApi.reducerPath]: blogApi.reducer,
-        [feedbackApi.reducerPath]: feedbackApi.reducer,
-        [statisticApi.reducerPath]: statisticApi.reducer,
-    },  
-    middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(
-            authApi.middleware,
-            userApi.middleware,
-            reviewApi.middleware,
-            blogApi.middleware,
-            feedbackApi.middleware,
-            statisticApi.middleware,
-        );
-    }
+  reducer: {
+    user: userSlice,
+    [authApi.reducerPath]: authApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    [reviewApi.reducerPath]: reviewApi.reducer,
+    [blogApi.reducerPath]: blogApi.reducer,
+    [feedbackApi.reducerPath]: feedbackApi.reducer,
+    [statisticApi.reducerPath]: statisticApi.reducer,
+    [livestreamApi.reducerPath]: livestreamApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      authApi.middleware,
+      userApi.middleware,
+      reviewApi.middleware,
+      blogApi.middleware,
+      feedbackApi.middleware,
+      statisticApi.middleware,
+      livestreamApi.middleware,
+    );
+  },
 });
 
 setupListeners(store.dispatch);

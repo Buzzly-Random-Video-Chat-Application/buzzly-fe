@@ -1,14 +1,13 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { RemoveRedEyeRounded } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '@apis/userApi';
+import { getUserFlag } from '@utils/userUtils';
 
-interface LiveCardProps {
-    viewers: number;
-    username: string;
-    country: string;
-    image: string;
-}
+const LiveCard = ({ livestream }: { livestream: ILivestream }) => {
+    const navigate = useNavigate();
+    const { data: user } = useGetUserQuery(livestream?.host.userId);
 
-const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
     return (
         <Box sx={{
             position: 'relative',
@@ -19,8 +18,8 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
             width: '100%',
             transition: 'all 0.5s',
             cursor: 'pointer',
-        }}>
-            <Box component={'img'} src={image} sx={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} />
+        }} onClick={() => navigate(`/live/guest?livestreamId=${livestream.id}`)}>
+            <Box component={'img'} src={user?.result.avatar} sx={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} />
             <Box sx={{
                 position: 'absolute',
                 top: '10px',
@@ -36,7 +35,7 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                 borderRadius: '30px',
             }}>
                 <RemoveRedEyeRounded sx={{ color: 'white', fontSize: '8px' }} />
-                <Box sx={{ fontSize: '8px' }}>{viewers}</Box>
+                <Box sx={{ fontSize: '8px' }}>100</Box>
             </Box>
             <Box sx={{
                 position: 'absolute',
@@ -46,22 +45,22 @@ const LiveCard = ({ viewers, username, country, image }: LiveCardProps) => {
                 flexDirection: 'column',
                 color: 'white.50',
             }}>
-                <Typography sx={{ fontSize: '8px !important', fontWeight: 600 }}>Live of {username}</Typography>
+                <Typography sx={{ fontSize: '8px !important', fontWeight: 600 }}>Live of {user?.result.name}</Typography>
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
                     gap: '5px',
                     alignItems: 'center',
                 }}>
-                    <Avatar src={image} sx={{ width: '20px', height: '20px', objectFit: 'cover' }} />
+                    <Avatar src={user?.result.avatar} sx={{ width: '20px', height: '20px', objectFit: 'cover' }} />
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
                         gap: '2px',
                         alignItems: 'flex-start',
                     }}>
-                        <Typography sx={{ fontSize: '8px !important', fontWeight: 600 }}>{username}</Typography>
-                        <img src={country} alt="country flag" style={{ width: '8px', height: '8px' }} />
+                        <Typography sx={{ fontSize: '8px !important', fontWeight: 600 }}>{user?.result.name}</Typography>
+                        <img src={getUserFlag(user?.result ?? null)} alt="country flag" style={{ width: '8px', height: '8px' }} />
                     </Box>
                 </Box>
             </Box>

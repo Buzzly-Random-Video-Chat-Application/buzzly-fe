@@ -1,11 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import { images } from '@assets/index';
+import { memo } from 'react';
 
 interface UserTwoBoxProps {
     strangerStream: MediaStream | null;
 }
 
-const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
+const UserTwoBox = memo(({ strangerStream }: UserTwoBoxProps) => {
     return (
         <Box sx={{
             flex: 1,
@@ -112,6 +113,6 @@ const UserTwoBox = ({ strangerStream }: UserTwoBoxProps) => {
             )}
         </Box>
     );
-};
+});
 
 export default UserTwoBox;

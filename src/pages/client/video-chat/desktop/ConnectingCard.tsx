@@ -3,17 +3,12 @@ import { useEffect, useState } from 'react';
 import ChatBox from './ChatBox';
 import ConnectingContainer from './ConnectingContainer';
 
-interface IMessage {
-    text: string;
-    sender: string;
-}
-
 interface ConnectingCardProps {
     handleEndVideoChat: () => void;
     handleNextVideoChat: () => void;
     stream: MediaStream | null;
     strangerStream: MediaStream | null;
-    messages: IMessage[];
+    messages: IVideoChatMessage[];
     sendMessage: (message: string) => void;
     strangerInfo: IUser | undefined;
 }

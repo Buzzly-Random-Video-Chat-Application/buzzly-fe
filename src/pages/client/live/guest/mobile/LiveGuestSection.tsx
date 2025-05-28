@@ -6,9 +6,9 @@ import LiveScreenGuestSection from './LiveScreenGuestSection';
 
 interface LiveGuestSectionProps {
     stream: MediaStream | null;
-    messages: { id: string; sender: string; content: string; type: string }[];
+    messages: ILivestreamMessage[];
     viewerCount: number;
-    guests: { guestUserId: string; guestSocketId: string }[];
+    guests: ILivestreamGuest[];
     onSendMessage: (message: string) => void;
     onNextLive: () => void;
 }

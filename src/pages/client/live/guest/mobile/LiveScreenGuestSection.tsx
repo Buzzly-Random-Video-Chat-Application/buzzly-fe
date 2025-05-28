@@ -8,29 +8,15 @@ interface LiveScreenGuestSectionProps {
 }
 
 const LiveScreenGuestSection = ({ stream, onNextLive }: LiveScreenGuestSectionProps) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     useEffect(() => {
-        const videoElement = videoRef.current;
-        if (!videoElement || !stream) {
-            return;
-        }
-
-        videoElement.srcObject = stream;
-
-        const playPromise = videoElement.play();
-        if (playPromise !== undefined) {
-            playPromise.catch((error) => {
-                console.error('Error playing video:', error);
+        if (videoRef.current && stream) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.play().catch((e) => {
+                console.error('Error playing video:', e);
             });
         }
-
-        return () => {
-            if (videoElement) {
-                videoElement.srcObject = null;
-                videoElement.pause();
-            }
-        };
     }, [stream]);
 
     return (

@@ -4,7 +4,7 @@ import React from 'react';
 import { useAppSelector } from '@stores/store';
 
 interface ChatGuestSectionProps {
-    messages: { id: string; sender: string; content: string; type: string }[];
+    messages: ILivestreamMessage[];
     onSendMessage: (message: string) => void;
 }
 
@@ -35,9 +35,9 @@ const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) =>
                 }}
             >
                 {messages.map((msg) => (
-                    <Box key={msg.id} sx={{ color: 'white.50', fontSize: '12px' }}>
-                        <strong>{msg.sender}: </strong>
-                        {msg.content}
+                    <Box key={msg.livestreamId} sx={{ color: 'white.50', fontSize: '12px' }}>
+                        <strong>{msg.type}: </strong>
+                        {msg.message}
                     </Box>
                 ))}
             </Box>

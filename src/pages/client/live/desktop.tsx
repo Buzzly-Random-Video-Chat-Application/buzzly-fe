@@ -3,7 +3,7 @@ import LiveBanner from './desktop/LiveBanner';
 import LiveContent from './desktop/LiveContent';
 import Trending from './desktop/Trending';
 
-const LiveDesktop = () => {
+const LiveDesktop = ({ livestreams }: { livestreams: ILivestreamListResponse | undefined }) => {
     return (
         <Box
             sx={{
@@ -17,8 +17,8 @@ const LiveDesktop = () => {
             }}
         >
             <LiveBanner />
-            <Trending />
-            <LiveContent />
+            <Trending livestreams={livestreams} />
+            <LiveContent livestreams={livestreams} />
         </Box>
     );
 };

@@ -10,7 +10,6 @@ interface HostInfoProps {
 }
 
 const HostInfo = ({ hostName, country, countryFlag, rating, avatarSrc }: HostInfoProps) => {
-    console.log('Country flag:', countryFlag);
     return (
         <Box
             sx={{
