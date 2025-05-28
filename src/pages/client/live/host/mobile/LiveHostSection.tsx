@@ -8,9 +8,9 @@ import { getUserFlag } from '@utils/userUtils';
 
 interface LiveHostSectionProps {
     stream: MediaStream | null;
-    messages: { id: string; sender: string; content: string; type: string }[];
+    messages: ILivestreamMessage[];
     viewerCount: number;
-    guests: { guestUserId: string; guestSocketId: string }[];
+    guests: ILivestreamGuest[];
     onSendMessage: (message: string) => void;
     onEndLive: () => void;
 }
@@ -33,10 +33,11 @@ const LiveHostSection = ({ stream, messages, viewerCount, guests, onSendMessage,
                 flexDirection: 'column',
                 width: '100%',
                 gap: '8px',
+                padding: '8px'
             }}
         >
             <LiveScreenHostSection stream={stream} user={user} onEndLive={onEndLive} />
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '8px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <ViewerHostSection viewerCount={viewerCount} avatars={avatars} />
                 <Box
                     sx={{

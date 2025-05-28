@@ -8,7 +8,7 @@ import { getUserFlag } from '@utils/userUtils';
 
 interface LiveHostSectionProps {
     stream: MediaStream | null;
-    messages: { id: string; sender: string; content: string; type: string }[];
+    messages: ILivestreamMessage[];
     viewerCount: number;
     guests: { guestUserId: string; guestSocketId: string }[];
     onSendMessage: (message: string) => void;

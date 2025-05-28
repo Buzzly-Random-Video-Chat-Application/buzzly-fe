@@ -14,8 +14,3 @@ type IGuide = {
     title: string;
     description: string;
 }
-
-type IMessage = {
-    sender: string;
-    text: string;
-}

@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
+import { memo } from 'react';
 
 interface UserOneBoxProps {
     myStream: MediaStream | null;
 }
 
-const UserOneBox = ({ myStream }: UserOneBoxProps) => {
+const UserOneBox = memo(({ myStream }: UserOneBoxProps) => {
     return (
         <Box sx={{
             flex: 1,
@@ -48,6 +49,6 @@ const UserOneBox = ({ myStream }: UserOneBoxProps) => {
             )}
         </Box>
     );
-};
+});
 
 export default UserOneBox;

@@ -1,61 +1,28 @@
 import { Box, MenuItem, Select, TextField, Typography } from '@mui/material';
 import CustomButton from '@components/ui/Button';
 import PopupModal from '@components/PopupModal';
-import { useEffect, useRef } from 'react';
-
-interface Device {
-    deviceId: string;
-    label: string;
-}
 
 interface LiveSettingsProps {
-    livestreamName: string;
-    setLivestreamName: (value: string) => void;
-    greeting: string;
-    setGreeting: (value: string) => void;
-    announcement: string;
-    setAnnouncement: (value: string) => void;
-    videoDevices: Device[];
-    audioDevices: Device[];
-    selectedVideo: string;
-    setSelectedVideo: (value: string) => void;
-    selectedMicrophone: string;
-    setSelectedMicrophone: (value: string) => void;
+    formState: ILivestreamFormState;
+    setFormState: (value: Partial<ILivestreamFormState>) => void;
+    devices: ILivestreamDevices;
     openModal: boolean;
     setOpenModal: (value: boolean) => void;
+    stream: MediaStream | null;
     handleStartLive: () => void;
     requestPermissions: () => void;
-    stream: MediaStream | null;
 }
 
 const LiveSettings = ({
-    livestreamName,
-    setLivestreamName,
-    greeting,
-    setGreeting,
-    announcement,
-    setAnnouncement,
-    videoDevices,
-    audioDevices,
-    selectedVideo,
-    setSelectedVideo,
-    selectedMicrophone,
-    setSelectedMicrophone,
+    formState,
+    setFormState,
+    devices,
     openModal,
     setOpenModal,
+    stream,
     handleStartLive,
     requestPermissions,
-    stream,
 }: LiveSettingsProps) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    useEffect(() => {
-        console.log('LiveSettings: stream updated', stream);
-        if (videoRef.current && stream) {
-            videoRef.current.srcObject = stream;
-        }
-    }, [stream]);
-
     return (
         <Box
             sx={{
@@ -83,8 +50,11 @@ const LiveSettings = ({
             >
                 {stream ? (
                     <video
-                        ref={videoRef}
+                        ref={(video) => {
+                            if (video) video.srcObject = stream;
+                        }}
                         autoPlay
+                        playsInline
                         style={{
                             width: '100%',
                             height: '100%',
@@ -111,8 +81,8 @@ const LiveSettings = ({
                 fullWidth
                 type="text"
                 placeholder="Livestream name"
-                value={livestreamName}
-                onChange={(e) => setLivestreamName(e.target.value)}
+                value={formState.livestreamName}
+                onChange={(e) => setFormState({ livestreamName: e.target.value })}
                 sx={textFieldSx}
             />
 
@@ -121,8 +91,8 @@ const LiveSettings = ({
                 fullWidth
                 type="text"
                 placeholder="Greeting message"
-                value={greeting}
-                onChange={(e) => setGreeting(e.target.value)}
+                value={formState.livestreamGreeting}
+                onChange={(e) => setFormState({ livestreamGreeting: e.target.value })}
                 sx={textFieldSx}
             />
 
@@ -131,20 +101,20 @@ const LiveSettings = ({
                 fullWidth
                 type="text"
                 placeholder="Announcement message"
-                value={announcement}
-                onChange={(e) => setAnnouncement(e.target.value)}
+                value={formState.livestreamAnnouncement}
+                onChange={(e) => setFormState({ livestreamAnnouncement: e.target.value })}
                 sx={textFieldSx}
             />
 
             <Select
                 fullWidth
-                value={selectedVideo}
-                onChange={(e) => setSelectedVideo(e.target.value as string)}
+                value={formState.selectedVideo}
+                onChange={(e) => setFormState({ selectedVideo: e.target.value as string })}
                 displayEmpty
-                renderValue={(value) => (value ? videoDevices.find((d) => d.deviceId === value)?.label : 'Select Video')}
+                renderValue={(value) => (value ? devices.video.find((d) => d.deviceId === value)?.label : 'Select Video')}
                 sx={selectSx}
             >
-                {videoDevices.map((device) => (
+                {devices.video.map((device) => (
                     <MenuItem key={device.deviceId} value={device.deviceId}>
                         {device.label}
                     </MenuItem>
@@ -153,13 +123,13 @@ const LiveSettings = ({
 
             <Select
                 fullWidth
-                value={selectedMicrophone}
-                onChange={(e) => setSelectedMicrophone(e.target.value as string)}
+                value={formState.selectedMicrophone}
+                onChange={(e) => setFormState({ selectedMicrophone: e.target.value as string })}
                 displayEmpty
-                renderValue={(value) => (value ? audioDevices.find((d) => d.deviceId === value)?.label : 'Select Microphone')}
+                renderValue={(value) => (value ? devices.audio.find((d) => d.deviceId === value)?.label : 'Select Microphone')}
                 sx={selectSx}
             >
-                {audioDevices.map((device) => (
+                {devices.audio.map((device) => (
                     <MenuItem key={device.deviceId} value={device.deviceId}>
                         {device.label}
                     </MenuItem>

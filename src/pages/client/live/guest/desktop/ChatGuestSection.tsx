@@ -3,7 +3,7 @@ import { Box, IconButton, TextField } from '@mui/material';
 import React from 'react';
 
 interface ChatGuestSectionProps {
-    messages: { id: string; sender: string; content: string; type: string }[];
+    messages: ILivestreamMessage[];
     onSendMessage: (message: string) => void;
 }
 
@@ -33,9 +33,9 @@ const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) =>
                 }}
             >
                 {messages.map((msg) => (
-                    <Box key={msg.id} sx={{ color: 'white.50' }}>
-                        <strong>{msg.sender}: </strong>
-                        {msg.content}
+                    <Box key={msg.livestreamId} sx={{ color: 'white.50' }}>
+                        <strong>{msg.type}: </strong>
+                        {msg.message}
                     </Box>
                 ))}
             </Box>
