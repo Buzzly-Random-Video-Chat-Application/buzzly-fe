@@ -1,5 +1,6 @@
 import { Send } from '@mui/icons-material';
 import { Box, IconButton, TextField } from '@mui/material';
+import { useAppSelector } from '@stores/store';
 import React from 'react';
 
 interface ChatGuestSectionProps {
@@ -8,6 +9,7 @@ interface ChatGuestSectionProps {
 }
 
 const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) => {
+    const { user } = useAppSelector((state) => state.user);
     const [message, setMessage] = React.useState('');
 
     const handleSend = () => {
@@ -32,9 +34,9 @@ const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) =>
                     flex: 1,
                 }}
             >
-                {messages.map((msg) => (
-                    <Box key={msg.livestreamId} sx={{ color: 'white.50' }}>
-                        <strong>{msg.type}: </strong>
+                {messages.map((msg, index) => (
+                    <Box key={index} sx={{ color: 'white.50' }}>
+                        <strong>{msg.senderUsername} {msg.type === 'host' && `(${msg.type.charAt(0).toUpperCase() + msg.type.slice(1)})`}: </strong>
                         {msg.message}
                     </Box>
                 ))}
@@ -61,6 +63,7 @@ const ChatGuestSection = ({ messages, onSendMessage }: ChatGuestSectionProps) =>
                             handleSend();
                         }
                     }}
+                    disabled={!user}
                     sx={{
                         backgroundColor: 'white.50',
                         borderRadius: '4px',

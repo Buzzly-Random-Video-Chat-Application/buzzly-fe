@@ -9,7 +9,6 @@ interface ChatHostSectionProps {
 
 const ChatHostSection = ({ messages = [], onSendMessage }: ChatHostSectionProps) => {
     const [message, setMessage] = React.useState('');
-
     const handleSend = () => {
         if (message.trim()) {
             onSendMessage(message);
@@ -32,9 +31,9 @@ const ChatHostSection = ({ messages = [], onSendMessage }: ChatHostSectionProps)
                     flex: 1,
                 }}
             >
-                {messages.map((msg) => (
-                    <Box key={msg.livestreamId} sx={{ color: 'white.50' }}>
-                        <strong>({msg.type}): </strong>
+                {messages.map((msg, index) => (
+                    <Box key={index} sx={{ color: 'white.50' }}>
+                        <strong>{msg.senderUsername} {msg.type === 'host' && `(${msg.type.charAt(0).toUpperCase() + msg.type.slice(1)})`}: </strong>
                         {msg.message}
                     </Box>
                 ))}

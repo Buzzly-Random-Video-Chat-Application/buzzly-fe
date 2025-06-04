@@ -40,6 +40,14 @@ export const statisticApi = createApi({
             }),
             providesTags: ['Statistic'],
         }),
+
+        getLivestreamStatistics: builder.query<ILivestreamStatisticResponse, void>({
+            query: () => ({
+                url: '/livestreams',
+                method: 'GET',
+            }),
+            providesTags: ['Statistic'],
+        }),
     }),
 });
 
@@ -48,4 +56,5 @@ export const {
     useGetConnectionStatisticsQuery,
     useGetWeeklyConnectionStatisticsQuery,
     useGetReviewStatisticsQuery,
+    useGetLivestreamStatisticsQuery,
 } = statisticApi;

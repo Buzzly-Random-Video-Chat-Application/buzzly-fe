@@ -10,14 +10,13 @@ interface LiveHostSectionProps {
     stream: MediaStream | null;
     messages: ILivestreamMessage[];
     viewerCount: number;
-    guests: { guestUserId: string; guestSocketId: string }[];
+    avatars: string[];
     onSendMessage: (message: string) => void;
     onEndLive: () => void;
 }
 
-const LiveHostSection = ({ stream, messages, viewerCount, guests, onSendMessage, onEndLive }: LiveHostSectionProps) => {
+const LiveHostSection = ({ stream, messages, viewerCount, avatars, onSendMessage, onEndLive }: LiveHostSectionProps) => {
     const { user } = useAppSelector((state) => state.user);
-    const avatars = guests.map((_g, index) => `https://picsum.photos/200/200?random=${index + 1}`);
     const hostInfo = {
         hostName: user?.name || 'Host Name',
         country: 'Viet Nam',

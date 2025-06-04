@@ -38,7 +38,7 @@ type ILivestreamRequest = {
 };
 
 type ILivestreamMessage = {
-  livestreamId: string;
+  senderUsername: string;
   message: string;
   type: 'host' | 'guest';
 };

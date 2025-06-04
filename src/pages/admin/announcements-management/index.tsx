@@ -1,12 +1,12 @@
 import { Box } from '@mui/material'
 import AdminTopBar from '../../../components/AdminTopBar'
 
-const index = () => {
+const AnnouncementsManagement = () => {
     return (
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
             width: '100%',
             minHeight: '100vh',
@@ -19,4 +19,4 @@ const index = () => {
     )
 }
 
-export default index
+export default AnnouncementsManagement

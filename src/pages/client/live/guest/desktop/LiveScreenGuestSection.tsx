@@ -5,9 +5,10 @@ import { useEffect, useRef } from 'react';
 interface LiveScreenGuestSectionProps {
     stream: MediaStream | null;
     onNextLive: () => void;
+    onLeaveLive: () => void;
 }
 
-const LiveScreenGuestSection = ({ stream, onNextLive }: LiveScreenGuestSectionProps) => {
+const LiveScreenGuestSection = ({ stream, onNextLive, onLeaveLive }: LiveScreenGuestSectionProps) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     useEffect(() => {
@@ -57,46 +58,97 @@ const LiveScreenGuestSection = ({ stream, onNextLive }: LiveScreenGuestSectionPr
                     <Typography color="white.50">Waiting for host stream...</Typography>
                 )}
             </Box>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '20px',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '15%',
-                }}
-            >
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                height: '15%',
+            }}>
                 <Box
                     sx={{
                         display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'flex-end',
-                    }}
-                >
-                    <Typography fontWeight={700}>Next Live</Typography>
-                    <Typography>Press right key to view others</Typography>
-                </Box>
-                <Button
-                    sx={{
-                        backgroundColor: 'dark.500',
-                        borderRadius: '10px',
-                        width: '50px',
-                        height: '50px',
-                        display: 'flex',
-                        justifyContent: 'center',
+                        flexDirection: 'row',
+                        gap: '20px',
+                        justifyContent: 'flex-start',
                         alignItems: 'center',
-                        fontSize: '20px',
-                        fontWeight: 'bold',
-                        color: 'white.50',
+                        width: '100%',
+                        height: '15%',
                     }}
-                    onClick={onNextLive}
                 >
-                    <ArrowForwardRounded fontSize="large" />
-                </Button>
+                    <Button
+                        sx={{
+                            backgroundColor: 'dark.500',
+                            borderRadius: '10px',
+                            width: '50px',
+                            height: '50px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'white.50',
+                        }}
+                        onClick={onLeaveLive}
+                    >
+                        ESC
+                    </Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'flex-start',
+                        }}
+                    >
+                        <Typography fontWeight={700}>Leave Live</Typography>
+                        <Typography>Press left key to leave</Typography>
+                    </Box>
+                </Box>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '20px',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                        width: '100%',
+                        height: '15%',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'flex-end',
+                        }}
+                    >
+                        <Typography fontWeight={700}>Next Live</Typography>
+                        <Typography>Press right key to view others</Typography>
+                    </Box>
+                    <Button
+                        sx={{
+                            backgroundColor: 'dark.500',
+                            borderRadius: '10px',
+                            width: '50px',
+                            height: '50px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'white.50',
+                        }}
+                        onClick={onNextLive}
+                    >
+                        <ArrowForwardRounded fontSize="large" />
+                    </Button>
+                </Box>
             </Box>
+
         </Box>
     );
 };

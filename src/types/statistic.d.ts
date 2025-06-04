@@ -58,3 +58,17 @@ type IReviewStatisticResponse = {
         };
     };
 }
+
+type ILivestreamStatisticResponse = {
+    message: string;
+    results: {
+        total: {
+            quantity: number;
+            percentage: number;
+        };
+        live: {
+            quantity: number;
+            percentage: number;
+        };
+    };
+}

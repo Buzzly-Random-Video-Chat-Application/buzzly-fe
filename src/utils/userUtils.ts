@@ -19,3 +19,7 @@ export const getUserByEmail = (users: IUser[] | undefined, email: string): IUser
   }
   return users.find((user) => user.email === email);
 };
+
+export const getUserCountry = (user: IUser | null) => {
+  return countries.find((country) => country.value === user?.nationality)?.label || 'Unknown';
+};

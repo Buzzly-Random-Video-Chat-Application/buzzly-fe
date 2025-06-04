@@ -21,5 +21,7 @@ export const ROUTES = {
   USERS_MANAGEMENT: '/users-management',
   REVIEWS_MANAGEMENT: '/reviews-management',
   ANNOUNCEMENTS_MANAGEMENT: '/announcements-management',
+  LIVESTREAMS_MANAGEMENT: '/livestreams-management',
+  CONNECTIONS_MANAGEMENT: '/connections-management',
   SETTINGS: '/settings',
 };

@@ -3,28 +3,28 @@ import ViewerGuestSection from './ViewerGuestSection';
 import HostInfo from './HostInfo';
 import ChatGuestSection from './ChatGuestSection';
 import LiveScreenGuestSection from './LiveScreenGuestSection';
+import { getUserCountry, getUserFlag } from '@utils/userUtils';
 
 interface LiveGuestSectionProps {
     stream: MediaStream | null;
     messages: ILivestreamMessage[];
     viewerCount: number;
-    guests: ILivestreamGuest[];
+    avatars: string[];
     onSendMessage: (message: string) => void;
     onNextLive: () => void;
+    onLeaveLive: () => void;
+    hostUser: IUser | null;
 }
 
-const LiveGuestSection = ({ stream, messages, viewerCount, guests, onSendMessage, onNextLive }: LiveGuestSectionProps) => {
+const LiveGuestSection = ({ stream, messages, viewerCount, avatars, onSendMessage, onNextLive, onLeaveLive, hostUser }: LiveGuestSectionProps) => {
     // Mock host info (replace with API data later)
     const hostInfo = {
-        hostName: 'Host Name',
-        country: 'Viet Nam',
-        countryFlag: 'https://flagcdn.com/vn.svg',
-        rating: 1000,
-        avatarSrc: 'https://picsum.photos/200/200?random=6',
+        hostName: hostUser?.name || 'Unknown',
+        country: getUserCountry(hostUser),
+        countryFlag: getUserFlag(hostUser),
+        rating: 100,
+        avatarSrc: hostUser?.avatar || 'https://res.cloudinary.com/dj8tkuzxz/image/upload/avatar_default_vzd9hu.png',
     };
-
-    // Convert guest avatars (use guest user data if available)
-    const avatars = guests.map((_guest, index) => `https://picsum.photos/200/200?random=${index + 1}`);
 
     return (
         <Box
@@ -37,7 +37,7 @@ const LiveGuestSection = ({ stream, messages, viewerCount, guests, onSendMessage
                 gap: '10px',
             }}
         >
-            <LiveScreenGuestSection stream={stream} onNextLive={onNextLive} />
+            <LiveScreenGuestSection stream={stream} onNextLive={onNextLive} onLeaveLive={onLeaveLive} />
             <Box
                 sx={{
                     width: '30%',
