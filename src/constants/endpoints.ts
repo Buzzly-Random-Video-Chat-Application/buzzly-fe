@@ -8,3 +8,4 @@ export const BLOG_ENDPOINT = `${API_BASE_URL}/blogs`;
 export const FEEDBACK_ENDPOINT = `${API_BASE_URL}/feedbacks`;
 export const STATISTICS_ENDPOINT = `${API_BASE_URL}/statistics`;
 export const LIVESTREAM_ENDPOINT = `${API_BASE_URL}/livestreams`;
+export const CONNECTION_ENDPOINT = `${API_BASE_URL}/connections`;

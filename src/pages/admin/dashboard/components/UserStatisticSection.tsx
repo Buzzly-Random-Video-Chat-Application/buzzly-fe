@@ -1,7 +1,7 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Button from '@components/ui/Button';
 import { ZoomOutRounded } from '@mui/icons-material';
-import { getUserFlag } from '@utils/userUtils';
+import { getUserCountry, getUserFlag } from '@utils/userUtils';
 import { UppercaseFirstLetter } from '@utils/textUtils';
 import { useNavigate } from 'react-router-dom';
 
@@ -59,7 +59,7 @@ const UserStatisticSection = ({ users }: UserStatisticSectionProps) => {
                                     <TableCell>{UppercaseFirstLetter(user.role)}</TableCell>
                                     <TableCell>{UppercaseFirstLetter(user.gender)}</TableCell>
                                     <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <img src={getUserFlag(user)} style={{ width: '20px', height: '13px' }} /> {user.nationality}
+                                        <img src={getUserFlag(user)} style={{ width: '20px', height: '13px' }} /> {getUserCountry(user)}
                                     </TableCell>
                                     <TableCell>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

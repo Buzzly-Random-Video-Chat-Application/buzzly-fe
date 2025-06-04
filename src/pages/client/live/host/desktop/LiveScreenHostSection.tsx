@@ -1,8 +1,6 @@
 import { MicOffRounded, MicRounded, MusicNoteRounded, MusicOffRounded, SettingsRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useState } from 'react';
-import PopupModal from '@components/PopupModal';
-import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
 
 interface LiveScreenHostSectionProps {
@@ -60,8 +58,6 @@ const VideoBox = memo(({ stream, user }: { stream: MediaStream | null; user: IUs
 const LiveScreenHostSection = ({ stream, user, onEndLive }: LiveScreenHostSectionProps) => {
     const [micOn, setMicOn] = useState(true);
     const [musicOn, setMusicOn] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const navigate = useNavigate();
 
     const handleMicClick = () => {
         if (stream) {
@@ -75,12 +71,6 @@ const LiveScreenHostSection = ({ stream, user, onEndLive }: LiveScreenHostSectio
     const handleMusicClick = () => {
         setMusicOn(!musicOn);
         // Tích hợp nhạc nền sau này
-    };
-
-    const handleEndLive = () => {
-        setOpenModal(false);
-        onEndLive();
-        navigate('/live');
     };
 
     return (
@@ -185,21 +175,12 @@ const LiveScreenHostSection = ({ stream, user, onEndLive }: LiveScreenHostSectio
                             textTransform: 'none',
                             padding: '0 20px',
                         }}
-                        onClick={() => setOpenModal(true)}
+                        onClick={onEndLive}
                     >
                         <Typography fontWeight={600}>End Live</Typography>
                     </Button>
                 </Box>
             </Box>
-
-            <PopupModal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                stage="warning"
-                title="End Live Stream"
-                message="Are you sure you want to end the live stream? This action cannot be undone."
-                onConfirm={handleEndLive}
-            />
         </Box>
     );
 };

@@ -9,6 +9,7 @@ import { blogApi } from '@apis/blogApi';
 import { feedbackApi } from '@apis/feedbackApi';
 import { statisticApi } from '@apis/statisticApi';
 import { livestreamApi } from '@apis/livestreamApi';
+import { connectionApi } from '@apis/connectionApi';
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     [feedbackApi.reducerPath]: feedbackApi.reducer,
     [statisticApi.reducerPath]: statisticApi.reducer,
     [livestreamApi.reducerPath]: livestreamApi.reducer,
+    [connectionApi.reducerPath]: connectionApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
@@ -30,6 +32,7 @@ const store = configureStore({
       feedbackApi.middleware,
       statisticApi.middleware,
       livestreamApi.middleware,
+      connectionApi.middleware,
     );
   },
 });

@@ -21,19 +21,17 @@ import {
     ListItemIcon,
     TableBody,
 } from '@mui/material';
-import { Search, MoreVert, Transgender, Visibility, Edit, Delete } from '@mui/icons-material';
+import { Search, MoreVert, Visibility, Edit, Delete } from '@mui/icons-material';
 import CustomTableHead, { CustomTableHeadItemProps } from '@components/TableHead';
-import { GroupRounded, Man2Rounded, Woman2Rounded } from '@mui/icons-material';
-import { UppercaseFirstLetter } from '@utils/textUtils';
-import { getUserCountry, getUserFlag } from '@utils/index';
-import ActionModal from './ActionModal';
+import { LiveTvRounded, ConnectedTvRounded } from '@mui/icons-material'
 import PopupModal from '@components/PopupModal';
-import { useDeleteUserMutation } from '@apis/userApi';
+import { useGetUsersQuery } from '@apis/userApi';
 import toast from 'react-hot-toast';
 import { DELETE_USER_SUCCESS_MESSAGE, DELETE_USER_ERROR_MESSAGE } from '@constants/messages';
+import { useDeleteLivestreamMutation } from '@apis/livestreamApi';
 
-interface UsersTableProps {
-    users: IUser[] | undefined;
+interface LivestreamsTableProps {
+    livestreams: ILivestream[] | undefined;
 }
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -80,43 +78,42 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-const UsersTable = ({ users = [] }: UsersTableProps) => {
+const LivestreamsTable = ({ livestreams = [] }: LivestreamsTableProps) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState<CustomTableHeadItemProps>({
-        icon: <GroupRounded />,
-        title: 'All',
-    });
+    const filterOptions: CustomTableHeadItemProps[] = [
+        { icon: <LiveTvRounded />, title: 'All Livestreams' },
+        { icon: <ConnectedTvRounded />, title: 'Current Livestreams' },
+    ];
+    const [selectedFilter, setSelectedFilter] = useState<CustomTableHeadItemProps>(filterOptions[0]);
     const [page, setPage] = useState(1);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [modalAction, setModalAction] = useState<'view' | 'edit' | null>(null);
-    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [selectedLivestreamId, setSelectedLivestreamId] = useState<string | null>(null);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [deleteUser] = useDeleteUserMutation();
+    const [deleteLivestream] = useDeleteLivestreamMutation();
 
-    const rowsPerPage = 5;
+    const { data: users } = useGetUsersQuery({
+        page: 1,
+        limit: 1000,
+    });
 
-    const filterOptions: CustomTableHeadItemProps[] = [
-        { icon: <GroupRounded />, title: 'All' },
-        { icon: <Man2Rounded />, title: 'Male' },
-        { icon: <Woman2Rounded />, title: 'Female' },
-        { icon: <Transgender />, title: 'Other' },
-    ];
+    const rowsPerPage = 10;
 
-    const filteredUsers = users
-        .filter((user) => {
-            if (selectedFilter.title === 'All') return true;
-            return user.gender.toLowerCase() === selectedFilter.title.toLowerCase();
+    const filteredLivestreams = livestreams
+        .filter((livestream) => {
+            if (selectedFilter.title === 'All Livestreams') return true;
+            return livestream.isLive !== (selectedFilter.title.toLowerCase() === 'Current Livestreams');
         })
-        .filter((user) => {
+        .filter((livestream) => {
             const searchLower = searchTerm.toLowerCase();
             return (
-                user.name.toLowerCase().includes(searchLower) ||
-                user.email.toLowerCase().includes(searchLower)
+                livestream.livestreamName.toLowerCase().includes(searchLower) ||
+                livestream.livestreamGreeting.toLowerCase().includes(searchLower) ||
+                livestream.livestreamAnnouncement.toLowerCase().includes(searchLower)
             );
         });
 
-    const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
-    const paginatedUsers = filteredUsers.slice(
+    const totalPages = Math.ceil(filteredLivestreams.length / rowsPerPage);
+    const paginatedLivestreams = filteredLivestreams.slice(
         (page - 1) * rowsPerPage,
         page * rowsPerPage
     );
@@ -125,25 +122,9 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
         setPage(value);
     };
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, userId: string) => {
-        setAnchorEl(event.currentTarget);
-        setSelectedUserId(userId);
-    };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
-        setSelectedUserId(null);
-        setModalAction(null);
-    };
-
-    const handleView = () => {
-        setModalAction('view');
-        setAnchorEl(null);
-    };
-
-    const handleEdit = () => {
-        setModalAction('edit');
-        setAnchorEl(null);
+        setSelectedLivestreamId(null);
     };
 
     const handleDelete = () => {
@@ -152,13 +133,13 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
     };
 
     const handleDeleteConfirm = async () => {
-        if (!selectedUserId) {
-            toast.error('No user selected');
+        if (!selectedLivestreamId) {
+            toast.error('No livestream selected');
             return;
         }
 
         try {
-            await deleteUser(selectedUserId).unwrap();
+            await deleteLivestream(selectedLivestreamId).unwrap();
             toast.success(DELETE_USER_SUCCESS_MESSAGE);
             setOpenDeleteModal(false);
             handleMenuClose();
@@ -172,17 +153,6 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
         setOpenDeleteModal(false);
         handleMenuClose();
     };
-
-    const selectedUser = users.find((user) => user.id === selectedUserId) || null;
-
-    // Đảm bảo user có hashTags và preferredLanguage hợp lệ trước khi truyền vào ActionModal
-    const normalizedSelectedUser = selectedUser
-        ? {
-            ...selectedUser,
-            hashTags: Array.isArray(selectedUser.hashTags) ? selectedUser.hashTags : [],
-            preferredLanguage: Array.isArray(selectedUser.preferredLanguage) ? selectedUser.preferredLanguage : [],
-        }
-        : null;
 
     return (
         <Box sx={{ width: '100%', mt: 4 }}>
@@ -238,26 +208,28 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                 <Table>
                     <TableHead>
                         <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                            <TableCell sx={{ fontWeight: 600, width: '10%' }}>ID</TableCell>
-                            <TableCell sx={{ fontWeight: 600, minWidth: '150px' }}>Name</TableCell>
-                            <TableCell sx={{ fontWeight: 600, minWidth: '200px' }}>Email</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: '10%' }}>Gender</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: '10%' }}>Nationality</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: '10%' }}>Role</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: '10%' }}>Status</TableCell>
-                            <TableCell sx={{ fontWeight: 600, width: '5%' }}>Actions</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>ID</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Host</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Livestream Name</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Greeting</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Announcement</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Streaming Status</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Created At</TableCell>
+                            <TableCell sx={{ fontWeight: 600, width: 'fit-content' }}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {paginatedUsers.length > 0 ? (
-                            paginatedUsers.map((user, index) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell>
+                        {paginatedLivestreams.length > 0 ? (
+                            paginatedLivestreams.map((livestream, index) => (
+                                <TableRow key={livestream.id}>
+                                    {/* ID */}
+                                    <TableCell sx={{ width: 'fit-content' }}>{index + 1}</TableCell>
+                                    {/* Host */}
+                                    <TableCell sx={{ width: 'fit-content' }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Avatar
-                                                src={user.avatar || ''}
-                                                alt={user.name}
+                                                src={users?.results.find((user) => user.id === livestream.host.userId)?.avatar || ''}
+                                                alt={livestream.livestreamName}
                                                 sx={{ width: 32, height: 32 }}
                                             />
                                             <Typography
@@ -268,39 +240,57 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                                                     textOverflow: 'ellipsis',
                                                 }}
                                             >
-                                                {user.name}
+                                                {users?.results.find((user) => user.id === livestream.host.userId)?.name}
                                             </Typography>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{UppercaseFirstLetter(user.gender)}</TableCell>
-                                    <TableCell>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <img src={getUserFlag(user)} style={{ width: '20px', height: '13px' }} /> {getUserCountry(user)}
-                                        </Box>
-                                    </TableCell>
-                                    <TableCell>{UppercaseFirstLetter(user.role)}</TableCell>
-                                    <TableCell>
+                                    {/* Livestream Name */}
+                                    <TableCell sx={{ width: 'fit-content' }}>{livestream.livestreamName}</TableCell>
+                                    {/* Livestream Greeting */}
+                                    <TableCell sx={{ width: 'fit-content' }}>{livestream.livestreamGreeting}</TableCell>
+                                    {/* Livestream Announcement */}
+                                    <TableCell sx={{ width: 'fit-content' }}>{livestream.livestreamAnnouncement}</TableCell>
+                                    {/* Streaming Status */}
+                                    <TableCell sx={{ width: 'fit-content' }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             <Box
                                                 sx={{
                                                     width: 10,
                                                     height: 10,
                                                     borderRadius: '50%',
-                                                    bgcolor: user.isOnline ? '#4caf50' : '#bdbdbd',
+                                                    bgcolor: livestream.isLive ? '#4caf50' : '#bdbdbd',
                                                 }}
                                             />
                                             <Typography variant="body2">
-                                                {user.isOnline ? 'Online' : 'Offline'}
+                                                {livestream.isLive ? 'Online' : 'Offline'}
                                             </Typography>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>
+                                    {/* Created At */}
+                                    <TableCell sx={{ width: 'fit-content' }}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                maxWidth: '100px',
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                            }}
+                                        >
+                                            {new Date(livestream.createdAt).toLocaleDateString('en-US', {
+                                                month: 'long',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            })}
+                                        </Typography>
+                                    </TableCell>
+                                    {/* Actions */}
+                                    <TableCell sx={{ width: 'fit-content' }}>
                                         <IconButton
                                             aria-controls={anchorEl ? 'user-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={anchorEl ? 'true' : undefined}
-                                            onClick={(event) => handleMenuOpen(event, user.id)}
+                                            onClick={() => { }}
                                         >
                                             <MoreVert />
                                         </IconButton>
@@ -311,7 +301,7 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                             <TableRow>
                                 <TableCell colSpan={8} sx={{ textAlign: 'center', py: 4 }}>
                                     <Typography variant="body2" color="textSecondary">
-                                        No user found.
+                                        No livestream found.
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -331,13 +321,13 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleView}>
+                <MenuItem onClick={() => { }}>
                     <ListItemIcon>
                         <Visibility fontSize="small" />
                     </ListItemIcon>
                     <Typography variant="inherit">View</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleEdit}>
+                <MenuItem onClick={() => { }}>
                     <ListItemIcon>
                         <Edit fontSize="small" />
                     </ListItemIcon>
@@ -350,20 +340,12 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
                     <Typography variant="inherit">Delete</Typography>
                 </MenuItem>
             </StyledMenu>
-
-            <ActionModal
-                open={!!modalAction}
-                onClose={handleMenuClose}
-                action={modalAction || 'view'}
-                user={normalizedSelectedUser}
-            />
-
             <PopupModal
                 open={openDeleteModal}
                 onClose={handleDeleteCancel}
                 stage="delete"
-                title="Delete User"
-                message="Are you sure you want to delete this user? This action cannot be undone."
+                title="Delete Livestream"
+                message="Are you sure you want to delete this livestream? This action cannot be undone."
                 onConfirm={handleDeleteConfirm}
             />
 
@@ -395,4 +377,4 @@ const UsersTable = ({ users = [] }: UsersTableProps) => {
     );
 };
 
-export default UsersTable;
+export default LivestreamsTable;

@@ -8,11 +8,17 @@ import ChartSection from "./components/ChartSection";
 import AdminTopBar from "../../../components/AdminTopBar";
 import { useGetBlogsQuery } from "@apis/blogApi";
 import BlogStatisticSection from "./components/BlogsStatisticSection";
+import { useGetConnectionsQuery } from "@apis/connectionApi";
+import { useGetLivestreamsQuery } from "@apis/livestreamApi";
+import ConnectionStatisticSection from "./components/ConnectionStatisticSection";
+import LivestreamStatisticSection from "./components/LivestreamStatisticSection";
 
 const Dashboard = () => {
     const { data: reviews } = useGetReviewsQuery({})
     const { data: users } = useGetUsersQuery({})
     const { data: blogs } = useGetBlogsQuery({})
+    const { data: connections } = useGetConnectionsQuery({})
+    const { data: livestreams } = useGetLivestreamsQuery({})
 
     return (
         <Box sx={{
@@ -30,6 +36,8 @@ const Dashboard = () => {
             <ReviewsStatisticSection reviews={reviews?.results || []} users={users?.results} />
             <UserStatisticSection users={users?.results || []} />
             <BlogStatisticSection blogs={blogs?.results || []} />
+            <ConnectionStatisticSection connections={connections?.results || []} />
+            <LivestreamStatisticSection livestreams={livestreams?.results || []} />
         </Box>
     )
 }

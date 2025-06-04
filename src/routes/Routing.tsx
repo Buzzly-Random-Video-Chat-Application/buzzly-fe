@@ -26,6 +26,8 @@ import VerifyEmail from '@pages/auth/verify-email';
 import NotFoundPage from './NotFoundPage';
 import LiveGuest from '@pages/client/live/guest';
 import LiveHost from '@pages/client/live/host';
+import LivestreamsManagement from '@pages/admin/livestreams-management';
+import ConnectionsManagement from '@pages/admin/connections-management';
 
 const Routing = () => {
   return (
@@ -71,7 +73,12 @@ const Routing = () => {
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path={ROUTES.ANNOUNCEMENTS_MANAGEMENT} element={<AnnouncementsManagement />} />
       </Route>
-
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.LIVESTREAMS_MANAGEMENT} element={<LivestreamsManagement />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.CONNECTIONS_MANAGEMENT} element={<ConnectionsManagement />} />
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
