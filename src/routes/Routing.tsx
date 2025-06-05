@@ -14,6 +14,9 @@ import Dashboard from '@pages/admin/dashboard';
 import BlogsManagement from '@pages/admin/blogs-management';
 import UserManagement from '@pages/admin/users-management';
 import FeedbacksManagament from '@pages/admin/reviews-management';
+import LivestreamsManagement from '@pages/admin/livestreams-management';
+import ConnectionsManagement from '@pages/admin/connections-management';
+import FeedbacksManagement from '@pages/admin/feedbacks-management';
 import AnnouncementsManagement from '@pages/admin/announcements-management';
 import Settings from '@pages/admin/settings';
 
@@ -26,8 +29,6 @@ import VerifyEmail from '@pages/auth/verify-email';
 import NotFoundPage from './NotFoundPage';
 import LiveGuest from '@pages/client/live/guest';
 import LiveHost from '@pages/client/live/host';
-import LivestreamsManagement from '@pages/admin/livestreams-management';
-import ConnectionsManagement from '@pages/admin/connections-management';
 
 const Routing = () => {
   return (
@@ -69,6 +70,9 @@ const Routing = () => {
       </Route>
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path={ROUTES.SETTINGS} element={<Settings />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path={ROUTES.FEEDBACKS_MANAGEMENT} element={<FeedbacksManagement />} />
       </Route>
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path={ROUTES.ANNOUNCEMENTS_MANAGEMENT} element={<AnnouncementsManagement />} />

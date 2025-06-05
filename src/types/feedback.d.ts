@@ -31,6 +31,7 @@ type IFeedbackRequest = {
 }
 
 type IFeedbackListRequest = {
+    isProcessed?: boolean;
     sortBy?: string;
     limit?: number;
     page?: number;
