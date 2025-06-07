@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Box, Drawer, IconButton, List, Typography, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { EditNotificationsRounded, Stars, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, LiveTvRounded, VideoCameraFrontRounded } from '@mui/icons-material';
+import { EditNotificationsRounded, Stars, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, LiveTvRounded, VideoCameraFrontRounded, AttachEmailRounded } from '@mui/icons-material';
 import { ROUTES } from '../constants/routes';
 import {
     GridViewRounded,
@@ -109,6 +109,12 @@ const Sidebar = () => {
             icon: <VideoCameraFrontRounded />,
             title: 'Connections Management',
             href: ROUTES.CONNECTIONS_MANAGEMENT,
+        },
+        {
+            type: 'feedbacks-management',
+            icon: <AttachEmailRounded />,
+            title: 'Feedbacks Management',
+            href: ROUTES.FEEDBACKS_MANAGEMENT,
         },
         {
             type: 'announcements-management',

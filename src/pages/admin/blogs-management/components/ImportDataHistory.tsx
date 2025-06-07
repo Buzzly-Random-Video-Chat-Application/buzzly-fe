@@ -12,42 +12,10 @@ import {
     Avatar,
 } from '@mui/material';
 import { Download } from '@mui/icons-material';
-
-// Giả định interface cho lịch sử nhập liệu
-interface ImportHistory {
-    id: string;
-    fileName: string;
-    fileUrl: string;
-    entryDate: string;
-    author: {
-        name: string;
-        avatar?: string;
-    };
-}
-
-// Dữ liệu giả (thay bằng API thực tế)
-const mockHistory: ImportHistory[] = [
-    {
-        id: '1',
-        fileName: 'blogs_2023_01.csv',
-        fileUrl: 'http://example.com/files/blogs_2023_01.csv',
-        entryDate: '2023-01-01T10:00:00Z',
-        author: { name: 'John Doe', avatar: '' },
-    },
-    {
-        id: '2',
-        fileName: 'blogs_2023_02.csv',
-        fileUrl: 'http://example.com/files/blogs_2023_02.csv',
-        entryDate: '2023-02-01T12:00:00Z',
-        author: { name: 'Jane Smith', avatar: '' },
-    },
-];
+import { useGetImportsQuery } from '@apis/importApi';
 
 const ImportDataHistory = () => {
-    // Thay mockHistory bằng API thực tế, ví dụ:
-    // const { data: history } = useGetImportHistoryQuery({});
-    const history = mockHistory;
-
+    const { data: history } = useGetImportsQuery({});
     return (
         <Box sx={{ width: '100%', mt: 4 }}>
             <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0' }}>
@@ -62,9 +30,9 @@ const ImportDataHistory = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {history.length > 0 ? (
-                            history.map((record) => (
-                                <TableRow key={record.id}>
+                        {history?.results && history.results.length > 0 ? (
+                            history.results.map((record: IImport, index) => (
+                                <TableRow key={index}>
                                     <TableCell sx={{ width: 'fit-content' }}>
                                         <Typography
                                             variant="body2"
@@ -74,7 +42,7 @@ const ImportDataHistory = () => {
                                                 textOverflow: 'ellipsis',
                                             }}
                                         >
-                                            {record.id}
+                                            {index + 1}
                                         </Typography>
                                     </TableCell>
                                     <TableCell sx={{ flex: 1 }}>

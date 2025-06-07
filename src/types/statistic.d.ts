@@ -72,3 +72,21 @@ type ILivestreamStatisticResponse = {
         };
     };
 }
+
+type IFeedbackStatisticResponse = {
+    message: string;
+    results: {
+        total: {
+            quantity: number;
+            percentage: number;
+        };
+        resolved: {
+            quantity: number;
+            percentage: number;
+        };
+        processing: {
+            quantity: number;
+            percentage: number;
+        };
+    };
+}

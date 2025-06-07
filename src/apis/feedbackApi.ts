@@ -19,10 +19,10 @@ export const feedbackApi = createApi({
         }),
 
         getFeedbacks: builder.query<IFeedbackListResponse, IFeedbackListRequest>({
-            query: ({ sortBy, limit, page }) => ({
+            query: ({ isProcessed, sortBy, limit, page }) => ({
                 url: '/',
                 method: 'GET',
-                params: { sortBy, limit, page },
+                params: { isProcessed, sortBy, limit, page },
             }),
             providesTags: ['Feedback'],
         }),

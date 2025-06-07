@@ -23,5 +23,6 @@ export const ROUTES = {
   ANNOUNCEMENTS_MANAGEMENT: '/announcements-management',
   LIVESTREAMS_MANAGEMENT: '/livestreams-management',
   CONNECTIONS_MANAGEMENT: '/connections-management',
+  FEEDBACKS_MANAGEMENT: '/feedbacks-management',
   SETTINGS: '/settings',
 };

@@ -38,3 +38,29 @@ type IBlogRequest = {
     limit?: number;
     page?: number;
 }
+
+type IImportBlogsResponse = {
+    message: string;
+    results: {
+        success: boolean;
+        error?: string;
+        blog?: IBlog;
+    }[];
+}
+
+type IMainInformationRow = {
+    title: string;
+    label: string;
+    description: string;
+    image_url: string;
+    image_title: string;
+    intro_content: string;
+    isPinned: string | boolean;
+}
+
+type IContentDetailsRow = {
+    blog_title: string;
+    section_title: string;
+    paragraph: string;
+    list_item: string;
+}

@@ -48,6 +48,14 @@ export const statisticApi = createApi({
             }),
             providesTags: ['Statistic'],
         }),
+
+        getFeedbackStatistics: builder.query<IFeedbackStatisticResponse, void>({
+            query: () => ({
+                url: '/feedbacks',
+                method: 'GET',
+            }),
+            providesTags: ['Statistic'],
+        }),
     }),
 });
 
@@ -57,4 +65,5 @@ export const {
     useGetWeeklyConnectionStatisticsQuery,
     useGetReviewStatisticsQuery,
     useGetLivestreamStatisticsQuery,
+    useGetFeedbackStatisticsQuery,
 } = statisticApi;

@@ -10,6 +10,7 @@ import { feedbackApi } from '@apis/feedbackApi';
 import { statisticApi } from '@apis/statisticApi';
 import { livestreamApi } from '@apis/livestreamApi';
 import { connectionApi } from '@apis/connectionApi';
+import { importApi } from '@apis/importApi';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     [statisticApi.reducerPath]: statisticApi.reducer,
     [livestreamApi.reducerPath]: livestreamApi.reducer,
     [connectionApi.reducerPath]: connectionApi.reducer,
+    [importApi.reducerPath]: importApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
@@ -33,6 +35,7 @@ const store = configureStore({
       statisticApi.middleware,
       livestreamApi.middleware,
       connectionApi.middleware,
+      importApi.middleware,
     );
   },
 });
