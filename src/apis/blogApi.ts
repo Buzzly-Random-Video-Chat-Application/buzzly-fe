@@ -59,7 +59,18 @@ export const blogApi = createApi({
                 method: 'GET',
             }),
             providesTags: (_result, _error, blogId) => [{ type: 'Blog', id: blogId }],
-        })
+        }),
+
+        importBlogs: builder.mutation<IBlogResponse, FormData>({
+            query: (formData) => ({
+                url: '/import',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }),
+        }),
     }),
 });
 
@@ -69,4 +80,5 @@ export const {
     useUpdateBlogMutation,
     useDeleteBlogMutation,
     useGetBlogQuery,
+    useImportBlogsMutation,
 } = blogApi;

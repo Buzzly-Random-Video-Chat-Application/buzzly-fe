@@ -29,6 +29,7 @@ import VerifyEmail from '@pages/auth/verify-email';
 import NotFoundPage from './NotFoundPage';
 import LiveGuest from '@pages/client/live/guest';
 import LiveHost from '@pages/client/live/host';
+import RoleBasedRedirect from './RoleBasedRedirect';
 
 const Routing = () => {
   return (
@@ -41,9 +42,10 @@ const Routing = () => {
       <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
 
       {/* Public */}
-
       {/* Client */}
-      <Route path={ROUTES.HOME} element={<Home />} />
+      <Route element={<RoleBasedRedirect />}>
+        <Route path={ROUTES.HOME} element={<Home />} />
+      </Route>
       <Route path={ROUTES.VIDEO_CHAT} element={<VideoChat />} />
       <Route path={ROUTES.LIVE} element={<Live />} />
       <Route path={ROUTES.LIVE_GUEST} element={<LiveGuest />} />
